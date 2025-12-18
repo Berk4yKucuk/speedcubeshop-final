@@ -1,1 +1,0 @@
-export { default } from "file:///C:/Users/Havu%C3%A7/Desktop/web_final/speedcubeshop-final/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
