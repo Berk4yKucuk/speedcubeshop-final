@@ -1,0 +1,4 @@
+{
+  // Nuxt'ın otomatik oluşturduğu tipleri projeye dahil et
+  "extends": "./.nuxt/tsconfig.json"
+}

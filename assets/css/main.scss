@@ -1,0 +1,29 @@
+/* assets/css/main.scss */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+
+:root {
+  // Görselden alınan renkler
+  --scs-bg-dark: #121212;      // Ana arka plan (Simsiyah)
+  --scs-header-bg: #181818;    // Header arka planı (Bir tık açık siyah)
+  --scs-orange: #ff9800;       // Turuncu
+  --scs-white: #ffffff;
+  --scs-gray-text: #b0b0b0;    // Pasif yazılar
+  --scs-input-bg: #ffffff;     // Arama kutusu içi
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Rubik', sans-serif;
+  background-color: var(--scs-bg-dark); /* Sayfa artık siyah */
+  color: var(--scs-white);
+}
+
+.container {
+  max-width: 1300px; /* Görseldeki gibi geniş */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+a { text-decoration: none; color: inherit; transition: color 0.2s; }
+ul { list-style: none; padding: 0; margin: 0; }
