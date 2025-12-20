@@ -10,7 +10,21 @@
 import { computed, defineAsyncComponent } from 'vue';
 
 // 1. İkon İsimlerini Tanımla
-type IconName = 'cart' | 'user' | 'heart' | 'chevron-down' | 'search' | 'facebook' | 'twitter' | 'instagram' | 'youtube' | 'tiktok' | 'discord' | 'reddit';
+type IconName = 
+                | 'cart' 
+                | 'user' 
+                | 'heart' 
+                | 'chevron-down' 
+                | 'chevron-left' 
+                | 'chevron-right'
+                | 'search' 
+                | 'facebook' 
+                | 'twitter' 
+                | 'instagram' 
+                | 'youtube' 
+                | 'tiktok' 
+                | 'discord' 
+                | 'reddit';
 
 interface Props {
   name: IconName;

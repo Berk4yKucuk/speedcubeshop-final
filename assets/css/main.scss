@@ -3,7 +3,6 @@
 
 :root {
   // Görselden alınan renkler
-  --scs-bg-dark: #121212;      // Ana arka plan (Simsiyah)
   --scs-header-bg: #181818;    // Header arka planı (Bir tık açık siyah)
   --scs-orange: #ff9800;       // Turuncu
   --scs-white: #ffffff;
@@ -15,7 +14,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Rubik', sans-serif;
-  background-color: var(--scs-bg-dark); /* Sayfa artık siyah */
   color: var(--scs-white);
 }
 

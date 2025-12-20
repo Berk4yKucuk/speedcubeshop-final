@@ -14,7 +14,7 @@
 .layout-default {
   display: flex;
   flex-direction: column;
-  min-height: 600vh; /* Sayfa yüksekliği en az ekran kadar olsun */
+  min-height: 200vh; /* Sayfa yüksekliği en az ekran kadar olsun */
 }
 
 .page-content {

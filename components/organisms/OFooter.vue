@@ -17,11 +17,21 @@
         </div>
 
       </div>
-
-      <div class="footer-bottom">
+      <div class="footer-bottom"> 
         <p class="copyright">© 2009-2025 SpeedCubeShop, Inc.</p>
-        
-        
+      </div>
+      <div class="footer-bottom">
+        <p class="payment-icons">
+          <img src="https://speedcubeshop.com/cdn/shop/files/visa-2024_x32.webp?v=1759475969" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/mastercard-2024_x32.webp?v=1759475971" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/american-express-2024_x32.webp?v=1759475972" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/amazon-2024_x32.webp?v=1759475973" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/apple-pay-2024_x32.webp?v=1759475974" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/Discover-2024_x32.webp?v=1759475975" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/paypal-2024_x32.webp?v=1759475976" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/stripe-2024_x32.webp?v=1759475977" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/google-pay-2024_x32.webp?v=1759475978" alt="Payment Methods" class="payment-img" />
+        </p>
       </div>
 
     </div>
@@ -105,7 +115,7 @@ const infoLinks = [
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 25px;
+  padding-top: 2px;
   /* İsteğe bağlı üst çizgi */
   /* border-top: 1px solid #333; */ 
   
@@ -117,56 +127,16 @@ const infoLinks = [
 
   .payment-icons {
     display: flex;
-    align-items: center;
+    align-items: left;
     
     .payment-img {
-      height: 25px;
-      opacity: 0.8;
+      max-height: 6%;
+      max-width: 6%;
+      margin-left: 5px;
       display: block;
     }
   }
 }
 
-/* --- RESPONSIVE AYARLAR --- */
 
-/* Tablet */
-@media (max-width: 1024px) {
-  .footer-container {
-    padding: 0 40px; /* Tablette kenar boşluğunu biraz azalt */
-  }
-  
-  .footer-grid {
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 50px;
-  }
-  
-  .newsletter-column {
-    grid-column: span 3; 
-    max-width: 500px;
-  }
-}
-
-/* Mobil */
-@media (max-width: 600px) {
-  .footer-container {
-    padding: 0 20px; /* Mobilde daha az boşluk */
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    text-align: left;
-    gap: 40px;
-  }
-
-  .newsletter-column {
-    grid-column: span 1;
-    max-width: 100%;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
-  }
-}
 </style>

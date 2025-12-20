@@ -1,0 +1,4402 @@
+
+==================================================
+DOSYA YOLU: .\app.vue
+==================================================
+
+<template>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+</template>
+
+
+==================================================
+DOSYA YOLU: .\nuxt.config.ts
+==================================================
+
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  compatibilityDate: '2024-11-01',
+  devtools: { enabled: true },
+  
+  // Pinia Modülü
+  modules: ['@pinia/nuxt'],
+
+  // Global CSS (Henüz dosya yok ama ayarı hazır olsun)
+  css: ['~/assets/css/main.scss'],
+
+  // Atomik Yapı Tanımları (Hocanın istediği yapı)
+  components: [
+    { path: '~/components/organisms', prefix: 'O' },
+    { path: '~/components/molecules', prefix: 'M' },
+    { path: '~/components/atoms', prefix: 'A' },
+    '~/components'
+  ],
+
+  // TypeScript Ayarları
+  typescript: {
+    strict: true,
+    typeCheck: true
+  }
+})
+
+==================================================
+DOSYA YOLU: .\package.json
+==================================================
+
+{
+  "name": "speedcubeshop-final",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "nuxt": "^3.15.0",
+    "sass": "^1.83.0",
+    "vue": "^3.5.26",
+    "vue-router": "latest",
+    "vue-tsc": "^3.1.8"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.9.0",
+    "firebase": "^11.1.0",
+    "pinia": "^2.3.0",
+    "vue3-carousel": "^0.17.0"
+  }
+}
+
+
+==================================================
+DOSYA YOLU: .\tsconfig.json
+==================================================
+
+{
+  // Nuxt'ın otomatik oluşturduğu tipleri projeye dahil et
+  "extends": "./.nuxt/tsconfig.json"
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\components.d.ts
+==================================================
+
+
+import type { DefineComponent, SlotsType } from 'vue'
+type IslandComponent<T extends DefineComponent> = T & DefineComponent<{}, {refresh: () => Promise<void>}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, SlotsType<{ fallback: { error: unknown } }>>
+type HydrationStrategies = {
+  hydrateOnVisible?: IntersectionObserverInit | true
+  hydrateOnIdle?: number | true
+  hydrateOnInteraction?: keyof HTMLElementEventMap | Array<keyof HTMLElementEventMap> | true
+  hydrateOnMediaQuery?: string
+  hydrateAfter?: number
+  hydrateWhen?: boolean
+  hydrateNever?: true
+}
+type LazyComponent<T> = (T & DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }>)
+interface _GlobalComponents {
+      'OBrandSlider': typeof import("../components/organisms/OBrandSlider.vue")['default']
+    'OFooter': typeof import("../components/organisms/OFooter.vue")['default']
+    'OHeroSection': typeof import("../components/organisms/OHeroSection.vue")['default']
+    'OHomeProducts': typeof import("../components/organisms/OHomeProducts.vue")['default']
+    'OMarketingSection': typeof import("../components/organisms/OMarketingSection.vue")['default']
+    'ONavbar': typeof import("../components/organisms/ONavbar.vue")['default']
+    'MBannerCard': typeof import("../components/molecules/MBannerCard.vue")['default']
+    'MCurrencySelector': typeof import("../components/molecules/MCurrencySelector.vue")['default']
+    'MFooterColumn': typeof import("../components/molecules/MFooterColumn.vue")['default']
+    'MMarketingBlock': typeof import("../components/molecules/MMarketingBlock.vue")['default']
+    'MNewsletter': typeof import("../components/molecules/MNewsletter.vue")['default']
+    'MProductCard': typeof import("../components/molecules/MProductCard.vue")['default']
+    'MSearchBar': typeof import("../components/molecules/MSearchBar.vue")['default']
+    'MSplitBanner': typeof import("../components/molecules/MSplitBanner.vue")['default']
+    'ABaseRating': typeof import("../components/atoms/ABaseRating.vue")['default']
+    'ABaseBadge': typeof import("../components/atoms/BaseBadge.vue")['default']
+    'ABaseButton': typeof import("../components/atoms/BaseButton.vue")['default']
+    'ABaseIcon': typeof import("../components/atoms/BaseIcon.vue")['default']
+    'ABaseInput': typeof import("../components/atoms/BaseInput.vue")['default']
+    'IconsIconCart': typeof import("../components/icons/IconCart.vue")['default']
+    'IconsIconChevronDown': typeof import("../components/icons/IconChevronDown.vue")['default']
+    'IconsIconChevronLeft': typeof import("../components/icons/IconChevronLeft.vue")['default']
+    'IconsIconChevronRight': typeof import("../components/icons/IconChevronRight.vue")['default']
+    'IconsIconDiscord': typeof import("../components/icons/IconDiscord.vue")['default']
+    'IconsIconFacebook': typeof import("../components/icons/IconFacebook.vue")['default']
+    'IconsIconHeart': typeof import("../components/icons/IconHeart.vue")['default']
+    'IconsIconInstagram': typeof import("../components/icons/IconInstagram.vue")['default']
+    'IconsIconReddit': typeof import("../components/icons/IconReddit.vue")['default']
+    'IconsIconSearch': typeof import("../components/icons/IconSearch.vue")['default']
+    'IconsIconTiktok': typeof import("../components/icons/IconTiktok.vue")['default']
+    'IconsIconTwitter': typeof import("../components/icons/IconTwitter.vue")['default']
+    'IconsIconUser': typeof import("../components/icons/IconUser.vue")['default']
+    'IconsIconYoutube': typeof import("../components/icons/IconYoutube.vue")['default']
+    'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
+    'NuxtLayout': typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
+    'NuxtErrorBoundary': typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
+    'ClientOnly': typeof import("../node_modules/nuxt/dist/app/components/client-only")['default']
+    'DevOnly': typeof import("../node_modules/nuxt/dist/app/components/dev-only")['default']
+    'ServerPlaceholder': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
+    'NuxtLink': typeof import("../node_modules/nuxt/dist/app/components/nuxt-link")['default']
+    'NuxtLoadingIndicator': typeof import("../node_modules/nuxt/dist/app/components/nuxt-loading-indicator")['default']
+    'NuxtTime': typeof import("../node_modules/nuxt/dist/app/components/nuxt-time.vue")['default']
+    'NuxtRouteAnnouncer': typeof import("../node_modules/nuxt/dist/app/components/nuxt-route-announcer")['default']
+    'NuxtImg': typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtImg']
+    'NuxtPicture': typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']
+    'NuxtPage': typeof import("../node_modules/nuxt/dist/pages/runtime/page")['default']
+    'NoScript': typeof import("../node_modules/nuxt/dist/head/runtime/components")['NoScript']
+    'Link': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Link']
+    'Base': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Base']
+    'Title': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Title']
+    'Meta': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Meta']
+    'Style': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Style']
+    'Head': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Head']
+    'Html': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
+    'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
+    'NuxtIsland': typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
+    'NuxtRouteAnnouncer': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
+      'LazyOBrandSlider': LazyComponent<typeof import("../components/organisms/OBrandSlider.vue")['default']>
+    'LazyOFooter': LazyComponent<typeof import("../components/organisms/OFooter.vue")['default']>
+    'LazyOHeroSection': LazyComponent<typeof import("../components/organisms/OHeroSection.vue")['default']>
+    'LazyOHomeProducts': LazyComponent<typeof import("../components/organisms/OHomeProducts.vue")['default']>
+    'LazyOMarketingSection': LazyComponent<typeof import("../components/organisms/OMarketingSection.vue")['default']>
+    'LazyONavbar': LazyComponent<typeof import("../components/organisms/ONavbar.vue")['default']>
+    'LazyMBannerCard': LazyComponent<typeof import("../components/molecules/MBannerCard.vue")['default']>
+    'LazyMCurrencySelector': LazyComponent<typeof import("../components/molecules/MCurrencySelector.vue")['default']>
+    'LazyMFooterColumn': LazyComponent<typeof import("../components/molecules/MFooterColumn.vue")['default']>
+    'LazyMMarketingBlock': LazyComponent<typeof import("../components/molecules/MMarketingBlock.vue")['default']>
+    'LazyMNewsletter': LazyComponent<typeof import("../components/molecules/MNewsletter.vue")['default']>
+    'LazyMProductCard': LazyComponent<typeof import("../components/molecules/MProductCard.vue")['default']>
+    'LazyMSearchBar': LazyComponent<typeof import("../components/molecules/MSearchBar.vue")['default']>
+    'LazyMSplitBanner': LazyComponent<typeof import("../components/molecules/MSplitBanner.vue")['default']>
+    'LazyABaseRating': LazyComponent<typeof import("../components/atoms/ABaseRating.vue")['default']>
+    'LazyABaseBadge': LazyComponent<typeof import("../components/atoms/BaseBadge.vue")['default']>
+    'LazyABaseButton': LazyComponent<typeof import("../components/atoms/BaseButton.vue")['default']>
+    'LazyABaseIcon': LazyComponent<typeof import("../components/atoms/BaseIcon.vue")['default']>
+    'LazyABaseInput': LazyComponent<typeof import("../components/atoms/BaseInput.vue")['default']>
+    'LazyIconsIconCart': LazyComponent<typeof import("../components/icons/IconCart.vue")['default']>
+    'LazyIconsIconChevronDown': LazyComponent<typeof import("../components/icons/IconChevronDown.vue")['default']>
+    'LazyIconsIconChevronLeft': LazyComponent<typeof import("../components/icons/IconChevronLeft.vue")['default']>
+    'LazyIconsIconChevronRight': LazyComponent<typeof import("../components/icons/IconChevronRight.vue")['default']>
+    'LazyIconsIconDiscord': LazyComponent<typeof import("../components/icons/IconDiscord.vue")['default']>
+    'LazyIconsIconFacebook': LazyComponent<typeof import("../components/icons/IconFacebook.vue")['default']>
+    'LazyIconsIconHeart': LazyComponent<typeof import("../components/icons/IconHeart.vue")['default']>
+    'LazyIconsIconInstagram': LazyComponent<typeof import("../components/icons/IconInstagram.vue")['default']>
+    'LazyIconsIconReddit': LazyComponent<typeof import("../components/icons/IconReddit.vue")['default']>
+    'LazyIconsIconSearch': LazyComponent<typeof import("../components/icons/IconSearch.vue")['default']>
+    'LazyIconsIconTiktok': LazyComponent<typeof import("../components/icons/IconTiktok.vue")['default']>
+    'LazyIconsIconTwitter': LazyComponent<typeof import("../components/icons/IconTwitter.vue")['default']>
+    'LazyIconsIconUser': LazyComponent<typeof import("../components/icons/IconUser.vue")['default']>
+    'LazyIconsIconYoutube': LazyComponent<typeof import("../components/icons/IconYoutube.vue")['default']>
+    'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
+    'LazyNuxtLayout': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
+    'LazyNuxtErrorBoundary': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>
+    'LazyClientOnly': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/client-only")['default']>
+    'LazyDevOnly': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/dev-only")['default']>
+    'LazyServerPlaceholder': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+    'LazyNuxtLink': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-link")['default']>
+    'LazyNuxtLoadingIndicator': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-loading-indicator")['default']>
+    'LazyNuxtTime': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-time.vue")['default']>
+    'LazyNuxtRouteAnnouncer': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-route-announcer")['default']>
+    'LazyNuxtImg': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtImg']>
+    'LazyNuxtPicture': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']>
+    'LazyNuxtPage': LazyComponent<typeof import("../node_modules/nuxt/dist/pages/runtime/page")['default']>
+    'LazyNoScript': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['NoScript']>
+    'LazyLink': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Link']>
+    'LazyBase': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Base']>
+    'LazyTitle': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Title']>
+    'LazyMeta': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Meta']>
+    'LazyStyle': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Style']>
+    'LazyHead': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Head']>
+    'LazyHtml': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']>
+    'LazyBody': LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']>
+    'LazyNuxtIsland': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']>
+    'LazyNuxtRouteAnnouncer': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+}
+
+declare module 'vue' {
+  export interface GlobalComponents extends _GlobalComponents { }
+}
+
+export const OBrandSlider: typeof import("../components/organisms/OBrandSlider.vue")['default']
+export const OFooter: typeof import("../components/organisms/OFooter.vue")['default']
+export const OHeroSection: typeof import("../components/organisms/OHeroSection.vue")['default']
+export const OHomeProducts: typeof import("../components/organisms/OHomeProducts.vue")['default']
+export const OMarketingSection: typeof import("../components/organisms/OMarketingSection.vue")['default']
+export const ONavbar: typeof import("../components/organisms/ONavbar.vue")['default']
+export const MBannerCard: typeof import("../components/molecules/MBannerCard.vue")['default']
+export const MCurrencySelector: typeof import("../components/molecules/MCurrencySelector.vue")['default']
+export const MFooterColumn: typeof import("../components/molecules/MFooterColumn.vue")['default']
+export const MMarketingBlock: typeof import("../components/molecules/MMarketingBlock.vue")['default']
+export const MNewsletter: typeof import("../components/molecules/MNewsletter.vue")['default']
+export const MProductCard: typeof import("../components/molecules/MProductCard.vue")['default']
+export const MSearchBar: typeof import("../components/molecules/MSearchBar.vue")['default']
+export const MSplitBanner: typeof import("../components/molecules/MSplitBanner.vue")['default']
+export const ABaseRating: typeof import("../components/atoms/ABaseRating.vue")['default']
+export const ABaseBadge: typeof import("../components/atoms/BaseBadge.vue")['default']
+export const ABaseButton: typeof import("../components/atoms/BaseButton.vue")['default']
+export const ABaseIcon: typeof import("../components/atoms/BaseIcon.vue")['default']
+export const ABaseInput: typeof import("../components/atoms/BaseInput.vue")['default']
+export const IconsIconCart: typeof import("../components/icons/IconCart.vue")['default']
+export const IconsIconChevronDown: typeof import("../components/icons/IconChevronDown.vue")['default']
+export const IconsIconChevronLeft: typeof import("../components/icons/IconChevronLeft.vue")['default']
+export const IconsIconChevronRight: typeof import("../components/icons/IconChevronRight.vue")['default']
+export const IconsIconDiscord: typeof import("../components/icons/IconDiscord.vue")['default']
+export const IconsIconFacebook: typeof import("../components/icons/IconFacebook.vue")['default']
+export const IconsIconHeart: typeof import("../components/icons/IconHeart.vue")['default']
+export const IconsIconInstagram: typeof import("../components/icons/IconInstagram.vue")['default']
+export const IconsIconReddit: typeof import("../components/icons/IconReddit.vue")['default']
+export const IconsIconSearch: typeof import("../components/icons/IconSearch.vue")['default']
+export const IconsIconTiktok: typeof import("../components/icons/IconTiktok.vue")['default']
+export const IconsIconTwitter: typeof import("../components/icons/IconTwitter.vue")['default']
+export const IconsIconUser: typeof import("../components/icons/IconUser.vue")['default']
+export const IconsIconYoutube: typeof import("../components/icons/IconYoutube.vue")['default']
+export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
+export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
+export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
+export const ClientOnly: typeof import("../node_modules/nuxt/dist/app/components/client-only")['default']
+export const DevOnly: typeof import("../node_modules/nuxt/dist/app/components/dev-only")['default']
+export const ServerPlaceholder: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
+export const NuxtLink: typeof import("../node_modules/nuxt/dist/app/components/nuxt-link")['default']
+export const NuxtLoadingIndicator: typeof import("../node_modules/nuxt/dist/app/components/nuxt-loading-indicator")['default']
+export const NuxtTime: typeof import("../node_modules/nuxt/dist/app/components/nuxt-time.vue")['default']
+export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/components/nuxt-route-announcer")['default']
+export const NuxtImg: typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtImg']
+export const NuxtPicture: typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']
+export const NuxtPage: typeof import("../node_modules/nuxt/dist/pages/runtime/page")['default']
+export const NoScript: typeof import("../node_modules/nuxt/dist/head/runtime/components")['NoScript']
+export const Link: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Link']
+export const Base: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Base']
+export const Title: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Title']
+export const Meta: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Meta']
+export const Style: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Style']
+export const Head: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Head']
+export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
+export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
+export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
+export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
+export const LazyOBrandSlider: LazyComponent<typeof import("../components/organisms/OBrandSlider.vue")['default']>
+export const LazyOFooter: LazyComponent<typeof import("../components/organisms/OFooter.vue")['default']>
+export const LazyOHeroSection: LazyComponent<typeof import("../components/organisms/OHeroSection.vue")['default']>
+export const LazyOHomeProducts: LazyComponent<typeof import("../components/organisms/OHomeProducts.vue")['default']>
+export const LazyOMarketingSection: LazyComponent<typeof import("../components/organisms/OMarketingSection.vue")['default']>
+export const LazyONavbar: LazyComponent<typeof import("../components/organisms/ONavbar.vue")['default']>
+export const LazyMBannerCard: LazyComponent<typeof import("../components/molecules/MBannerCard.vue")['default']>
+export const LazyMCurrencySelector: LazyComponent<typeof import("../components/molecules/MCurrencySelector.vue")['default']>
+export const LazyMFooterColumn: LazyComponent<typeof import("../components/molecules/MFooterColumn.vue")['default']>
+export const LazyMMarketingBlock: LazyComponent<typeof import("../components/molecules/MMarketingBlock.vue")['default']>
+export const LazyMNewsletter: LazyComponent<typeof import("../components/molecules/MNewsletter.vue")['default']>
+export const LazyMProductCard: LazyComponent<typeof import("../components/molecules/MProductCard.vue")['default']>
+export const LazyMSearchBar: LazyComponent<typeof import("../components/molecules/MSearchBar.vue")['default']>
+export const LazyMSplitBanner: LazyComponent<typeof import("../components/molecules/MSplitBanner.vue")['default']>
+export const LazyABaseRating: LazyComponent<typeof import("../components/atoms/ABaseRating.vue")['default']>
+export const LazyABaseBadge: LazyComponent<typeof import("../components/atoms/BaseBadge.vue")['default']>
+export const LazyABaseButton: LazyComponent<typeof import("../components/atoms/BaseButton.vue")['default']>
+export const LazyABaseIcon: LazyComponent<typeof import("../components/atoms/BaseIcon.vue")['default']>
+export const LazyABaseInput: LazyComponent<typeof import("../components/atoms/BaseInput.vue")['default']>
+export const LazyIconsIconCart: LazyComponent<typeof import("../components/icons/IconCart.vue")['default']>
+export const LazyIconsIconChevronDown: LazyComponent<typeof import("../components/icons/IconChevronDown.vue")['default']>
+export const LazyIconsIconChevronLeft: LazyComponent<typeof import("../components/icons/IconChevronLeft.vue")['default']>
+export const LazyIconsIconChevronRight: LazyComponent<typeof import("../components/icons/IconChevronRight.vue")['default']>
+export const LazyIconsIconDiscord: LazyComponent<typeof import("../components/icons/IconDiscord.vue")['default']>
+export const LazyIconsIconFacebook: LazyComponent<typeof import("../components/icons/IconFacebook.vue")['default']>
+export const LazyIconsIconHeart: LazyComponent<typeof import("../components/icons/IconHeart.vue")['default']>
+export const LazyIconsIconInstagram: LazyComponent<typeof import("../components/icons/IconInstagram.vue")['default']>
+export const LazyIconsIconReddit: LazyComponent<typeof import("../components/icons/IconReddit.vue")['default']>
+export const LazyIconsIconSearch: LazyComponent<typeof import("../components/icons/IconSearch.vue")['default']>
+export const LazyIconsIconTiktok: LazyComponent<typeof import("../components/icons/IconTiktok.vue")['default']>
+export const LazyIconsIconTwitter: LazyComponent<typeof import("../components/icons/IconTwitter.vue")['default']>
+export const LazyIconsIconUser: LazyComponent<typeof import("../components/icons/IconUser.vue")['default']>
+export const LazyIconsIconYoutube: LazyComponent<typeof import("../components/icons/IconYoutube.vue")['default']>
+export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
+export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
+export const LazyNuxtErrorBoundary: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>
+export const LazyClientOnly: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/client-only")['default']>
+export const LazyDevOnly: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/dev-only")['default']>
+export const LazyServerPlaceholder: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+export const LazyNuxtLink: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-link")['default']>
+export const LazyNuxtLoadingIndicator: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-loading-indicator")['default']>
+export const LazyNuxtTime: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-time.vue")['default']>
+export const LazyNuxtRouteAnnouncer: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-route-announcer")['default']>
+export const LazyNuxtImg: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtImg']>
+export const LazyNuxtPicture: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-stubs")['NuxtPicture']>
+export const LazyNuxtPage: LazyComponent<typeof import("../node_modules/nuxt/dist/pages/runtime/page")['default']>
+export const LazyNoScript: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['NoScript']>
+export const LazyLink: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Link']>
+export const LazyBase: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Base']>
+export const LazyTitle: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Title']>
+export const LazyMeta: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Meta']>
+export const LazyStyle: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Style']>
+export const LazyHead: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Head']>
+export const LazyHtml: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']>
+export const LazyBody: LazyComponent<typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']>
+export const LazyNuxtIsland: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']>
+export const LazyNuxtRouteAnnouncer: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+
+export const componentNames: string[]
+
+
+==================================================
+DOSYA YOLU: .\.nuxt\imports.d.ts
+==================================================
+
+export { useScriptTriggerConsent, useScriptEventPage, useScriptTriggerElement, useScript, useScriptGoogleAnalytics, useScriptPlausibleAnalytics, useScriptCrisp, useScriptClarity, useScriptCloudflareWebAnalytics, useScriptFathomAnalytics, useScriptMatomoAnalytics, useScriptGoogleTagManager, useScriptGoogleAdsense, useScriptSegment, useScriptMetaPixel, useScriptXPixel, useScriptIntercom, useScriptHotjar, useScriptStripe, useScriptLemonSqueezy, useScriptVimeoPlayer, useScriptYouTubePlayer, useScriptGoogleMaps, useScriptNpm, useScriptUmamiAnalytics, useScriptSnapchatPixel, useScriptRybbitAnalytics } from '#app/composables/script-stubs';
+export { isVue2, isVue3 } from 'vue-demi';
+export { defineNuxtLink } from '#app/components/nuxt-link';
+export { useNuxtApp, tryUseNuxtApp, defineNuxtPlugin, definePayloadPlugin, useRuntimeConfig, defineAppConfig } from '#app/nuxt';
+export { useAppConfig, updateAppConfig } from '#app/config';
+export { defineNuxtComponent } from '#app/composables/component';
+export { useAsyncData, useLazyAsyncData, useNuxtData, refreshNuxtData, clearNuxtData } from '#app/composables/asyncData';
+export { useHydration } from '#app/composables/hydrate';
+export { callOnce } from '#app/composables/once';
+export { useState, clearNuxtState } from '#app/composables/state';
+export { clearError, createError, isNuxtError, showError, useError } from '#app/composables/error';
+export { useFetch, useLazyFetch } from '#app/composables/fetch';
+export { useCookie, refreshCookie } from '#app/composables/cookie';
+export { onPrehydrate, prerenderRoutes, useRequestHeader, useRequestHeaders, useResponseHeader, useRequestEvent, useRequestFetch, setResponseStatus } from '#app/composables/ssr';
+export { onNuxtReady } from '#app/composables/ready';
+export { preloadComponents, prefetchComponents, preloadRouteComponents } from '#app/composables/preload';
+export { abortNavigation, addRouteMiddleware, defineNuxtRouteMiddleware, setPageLayout, navigateTo, useRoute, useRouter } from '#app/composables/router';
+export { isPrerendered, loadPayload, preloadPayload, definePayloadReducer, definePayloadReviver } from '#app/composables/payload';
+export { useLoadingIndicator } from '#app/composables/loading-indicator';
+export { getAppManifest, getRouteRules } from '#app/composables/manifest';
+export { reloadNuxtApp } from '#app/composables/chunk';
+export { useRequestURL } from '#app/composables/url';
+export { usePreviewMode } from '#app/composables/preview';
+export { useRouteAnnouncer } from '#app/composables/route-announcer';
+export { useRuntimeHook } from '#app/composables/runtime-hook';
+export { useHead, useHeadSafe, useServerHeadSafe, useServerHead, useSeoMeta, useServerSeoMeta, injectHead } from '#app/composables/head';
+export { onBeforeRouteLeave, onBeforeRouteUpdate, useLink } from 'vue-router';
+export { withCtx, withDirectives, withKeys, withMemo, withModifiers, withScopeId, onActivated, onBeforeMount, onBeforeUnmount, onBeforeUpdate, onDeactivated, onErrorCaptured, onMounted, onRenderTracked, onRenderTriggered, onServerPrefetch, onUnmounted, onUpdated, computed, customRef, isProxy, isReactive, isReadonly, isRef, markRaw, proxyRefs, reactive, readonly, ref, shallowReactive, shallowReadonly, shallowRef, toRaw, toRef, toRefs, triggerRef, unref, watch, watchEffect, watchPostEffect, watchSyncEffect, isShallow, effect, effectScope, getCurrentScope, onScopeDispose, defineComponent, defineAsyncComponent, resolveComponent, getCurrentInstance, h, inject, hasInjectionContext, nextTick, provide, mergeModels, toValue, useModel, useAttrs, useCssModule, useCssVars, useSlots, useTransitionState, useId, useTemplateRef, useShadowRoot, Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue';
+export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callback';
+export { setInterval } from '#app/compat/interval';
+export { useBrands } from '../composables/useBrands';
+export { useMenu } from '../composables/useMenu';
+export { useProducts } from '../composables/useProducts';
+export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
+export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
+export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';
+
+==================================================
+DOSYA YOLU: .\.nuxt\nitro.json
+==================================================
+
+{
+  "date": "2025-12-19T11:32:28.756Z",
+  "preset": "nitro-dev",
+  "framework": {
+    "name": "nuxt",
+    "version": "3.17.7"
+  },
+  "versions": {
+    "nitro": "2.12.4"
+  },
+  "dev": {
+    "pid": 17328,
+    "workerAddress": {
+      "socketPath": "\\\\.\\pipe\\nitro-worker-17328-2-1-1584.sock"
+    }
+  }
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\nuxt.d.ts
+==================================================
+
+/// <reference types="@pinia/nuxt" />
+/// <reference types="@nuxt/telemetry" />
+/// <reference types="@nuxt/devtools" />
+/// <reference path="types/builder-env.d.ts" />
+/// <reference types="nuxt" />
+/// <reference path="types/app-defaults.d.ts" />
+/// <reference path="types/plugins.d.ts" />
+/// <reference path="types/build.d.ts" />
+/// <reference path="types/schema.d.ts" />
+/// <reference path="types/app.config.d.ts" />
+/// <reference types="@pinia/nuxt" />
+/// <reference types="vue-router" />
+/// <reference path="types/middleware.d.ts" />
+/// <reference path="types/nitro-middleware.d.ts" />
+/// <reference path="types/layouts.d.ts" />
+/// <reference path="components.d.ts" />
+/// <reference path="imports.d.ts" />
+/// <reference path="types/imports.d.ts" />
+/// <reference path="schema/nuxt.schema.d.ts" />
+/// <reference path="types/nitro.d.ts" />
+
+export {}
+
+
+==================================================
+DOSYA YOLU: .\.nuxt\nuxt.json
+==================================================
+
+{
+  "_hash": "re5n9sRaclPXwyJvdnjYrllUm8uJdJYBY1UkTKrZuZ8",
+  "project": {
+    "rootDir": "C:/Users/Havuç/Desktop/web_final/speedcubeshop-final"
+  },
+  "versions": {
+    "nuxt": "3.17.7"
+  }
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\tsconfig.json
+==================================================
+
+{
+  "compilerOptions": {
+    "paths": {
+      "nitropack/types": [
+        "../node_modules/nitropack/types"
+      ],
+      "nitropack/runtime": [
+        "../node_modules/nitropack/runtime"
+      ],
+      "nitropack": [
+        "../node_modules/nitropack"
+      ],
+      "defu": [
+        "../node_modules/defu"
+      ],
+      "h3": [
+        "../node_modules/h3"
+      ],
+      "consola": [
+        "../node_modules/consola"
+      ],
+      "ofetch": [
+        "../node_modules/ofetch"
+      ],
+      "@unhead/vue": [
+        "../node_modules/@unhead/vue"
+      ],
+      "@nuxt/devtools": [
+        "../node_modules/@nuxt/devtools"
+      ],
+      "@vue/runtime-core": [
+        "../node_modules/@vue/runtime-core"
+      ],
+      "@vue/compiler-sfc": [
+        "../node_modules/@vue/compiler-sfc"
+      ],
+      "unplugin-vue-router/client": [
+        "../node_modules/unplugin-vue-router/client"
+      ],
+      "@nuxt/schema": [
+        "../node_modules/@nuxt/schema"
+      ],
+      "nuxt": [
+        "../node_modules/nuxt"
+      ],
+      "vite/client": [
+        "../node_modules/vite/client"
+      ],
+      "~": [
+        ".."
+      ],
+      "~/*": [
+        "../*"
+      ],
+      "@": [
+        ".."
+      ],
+      "@/*": [
+        "../*"
+      ],
+      "~~": [
+        ".."
+      ],
+      "~~/*": [
+        "../*"
+      ],
+      "@@": [
+        ".."
+      ],
+      "@@/*": [
+        "../*"
+      ],
+      "#shared": [
+        "../shared"
+      ],
+      "assets": [
+        "../assets"
+      ],
+      "assets/*": [
+        "../assets/*"
+      ],
+      "public": [
+        "../public"
+      ],
+      "#app": [
+        "../node_modules/nuxt/dist/app"
+      ],
+      "#app/*": [
+        "../node_modules/nuxt/dist/app/*"
+      ],
+      "vue-demi": [
+        "../node_modules/nuxt/dist/app/compat/vue-demi"
+      ],
+      "#vue-router": [
+        "../node_modules/vue-router"
+      ],
+      "#unhead/composables": [
+        "../node_modules/nuxt/dist/head/runtime/composables/v3"
+      ],
+      "#imports": [
+        "./imports"
+      ],
+      "#app-manifest": [
+        "./manifest/meta/dev"
+      ],
+      "#components": [
+        "./components"
+      ],
+      "#build": [
+        "."
+      ],
+      "#build/*": [
+        "./*"
+      ]
+    },
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": true,
+    "module": "preserve",
+    "noEmit": true,
+    "lib": [
+      "ESNext",
+      "dom",
+      "dom.iterable",
+      "webworker"
+    ],
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "types": [],
+    "moduleResolution": "Bundler",
+    "useDefineForClassFields": true,
+    "noImplicitThis": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "../**/*",
+    "../.config/nuxt.*",
+    "./nuxt.d.ts",
+    "../node_modules/@pinia/nuxt/runtime",
+    "../node_modules/@pinia/nuxt/dist/runtime",
+    "../node_modules/@nuxt/devtools/runtime",
+    "../node_modules/@nuxt/devtools/dist/runtime",
+    "../node_modules/@nuxt/telemetry/runtime",
+    "../node_modules/@nuxt/telemetry/dist/runtime",
+    ".."
+  ],
+  "exclude": [
+    "../dist",
+    "../.data",
+    "../node_modules",
+    "../node_modules/nuxt/node_modules",
+    "../node_modules/@pinia/nuxt/node_modules",
+    "../node_modules/@nuxt/devtools/node_modules",
+    "../node_modules/@nuxt/telemetry/node_modules",
+    "../node_modules/@pinia/nuxt/runtime/server",
+    "../node_modules/@pinia/nuxt/dist/runtime/server",
+    "../node_modules/@nuxt/devtools/runtime/server",
+    "../node_modules/@nuxt/devtools/dist/runtime/server",
+    "../node_modules/@nuxt/telemetry/runtime/server",
+    "../node_modules/@nuxt/telemetry/dist/runtime/server",
+    "dev"
+  ]
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\tsconfig.server.json
+==================================================
+
+{
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "paths": {
+      "#imports": [
+        "./types/nitro-imports"
+      ],
+      "~/*": [
+        "../*"
+      ],
+      "@/*": [
+        "../*"
+      ],
+      "~~/*": [
+        "../*"
+      ],
+      "@@/*": [
+        "../*"
+      ],
+      "nitropack/types": [
+        "../node_modules/nitropack/types"
+      ],
+      "nitropack/runtime": [
+        "../node_modules/nitropack/runtime"
+      ],
+      "nitropack": [
+        "../node_modules/nitropack"
+      ],
+      "defu": [
+        "../node_modules/defu"
+      ],
+      "h3": [
+        "../node_modules/h3"
+      ],
+      "consola": [
+        "../node_modules/consola"
+      ],
+      "ofetch": [
+        "../node_modules/ofetch"
+      ],
+      "@unhead/vue": [
+        "../node_modules/@unhead/vue"
+      ],
+      "@nuxt/devtools": [
+        "../node_modules/@nuxt/devtools"
+      ],
+      "@vue/runtime-core": [
+        "../node_modules/@vue/runtime-core"
+      ],
+      "@vue/compiler-sfc": [
+        "../node_modules/@vue/compiler-sfc"
+      ],
+      "unplugin-vue-router/client": [
+        "../node_modules/unplugin-vue-router/client"
+      ],
+      "@nuxt/schema": [
+        "../node_modules/@nuxt/schema"
+      ],
+      "nuxt": [
+        "../node_modules/nuxt"
+      ],
+      "vite/client": [
+        "../node_modules/vite/client"
+      ],
+      "#shared": [
+        "../shared"
+      ],
+      "assets": [
+        "../assets"
+      ],
+      "assets/*": [
+        "../assets/*"
+      ],
+      "public": [
+        "../public"
+      ],
+      "#build": [
+        "./"
+      ],
+      "#build/*": [
+        "./*"
+      ],
+      "#internal/nuxt/paths": [
+        "../node_modules/nuxt/dist/core/runtime/nitro/utils/paths"
+      ],
+      "#unhead/composables": [
+        "../node_modules/nuxt/dist/head/runtime/composables/v3"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "webworker",
+      "dom.iterable"
+    ]
+  },
+  "include": [
+    "./types/nitro-nuxt.d.ts",
+    "../node_modules/@pinia/nuxt/runtime/server",
+    "../node_modules/@nuxt/devtools/runtime/server",
+    "../node_modules/@nuxt/telemetry/runtime/server",
+    "./types/nitro.d.ts",
+    "../**/*",
+    "../server/**/*"
+  ],
+  "exclude": [
+    "../node_modules",
+    "../node_modules/nuxt/node_modules",
+    "../node_modules/@pinia/nuxt/node_modules",
+    "../node_modules/@nuxt/devtools/node_modules",
+    "../node_modules/@nuxt/telemetry/node_modules",
+    "../dist"
+  ]
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\manifest\latest.json
+==================================================
+
+{"id":"dev","timestamp":1766143943368}
+
+==================================================
+DOSYA YOLU: .\.nuxt\manifest\meta\3159040d-7792-4ee6-9b68-12f1f145e661.json
+==================================================
+
+{}
+
+==================================================
+DOSYA YOLU: .\.nuxt\manifest\meta\dev.json
+==================================================
+
+{"id":"dev","timestamp":1766143943368,"matcher":{"static":{},"wildcard":{},"dynamic":{}},"prerendered":[]}
+
+==================================================
+DOSYA YOLU: .\.nuxt\schema\nuxt.schema.d.ts
+==================================================
+
+export interface NuxtCustomSchema {
+
+}
+export type CustomAppConfig = Exclude<NuxtCustomSchema['appConfig'], undefined>
+type _CustomAppConfig = CustomAppConfig
+
+declare module '@nuxt/schema' {
+  interface NuxtConfig extends Omit<NuxtCustomSchema, 'appConfig'> {}
+  interface NuxtOptions extends Omit<NuxtCustomSchema, 'appConfig'> {}
+  interface CustomAppConfig extends _CustomAppConfig {}
+}
+
+declare module 'nuxt/schema' {
+  interface NuxtConfig extends Omit<NuxtCustomSchema, 'appConfig'> {}
+  interface NuxtOptions extends Omit<NuxtCustomSchema, 'appConfig'> {}
+  interface CustomAppConfig extends _CustomAppConfig {}
+}
+
+
+==================================================
+DOSYA YOLU: .\.nuxt\schema\nuxt.schema.json
+==================================================
+
+{
+  "id": "#"
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\app-defaults.d.ts
+==================================================
+
+
+declare module 'nuxt/app/defaults' {
+  type DefaultAsyncDataErrorValue = null
+  type DefaultAsyncDataValue = null
+  type DefaultErrorValue = null
+  type DedupeOption = boolean | 'cancel' | 'defer'
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\app.config.d.ts
+==================================================
+
+
+import type { CustomAppConfig } from 'nuxt/schema'
+import type { Defu } from 'defu'
+
+
+declare const inlineConfig = {
+  "nuxt": {}
+}
+type ResolvedAppConfig = Defu<typeof inlineConfig, []>
+type IsAny<T> = 0 extends 1 & T ? true : false
+
+type MergedAppConfig<Resolved extends Record<string, unknown>, Custom extends Record<string, unknown>> = {
+  [K in keyof (Resolved & Custom)]: K extends keyof Custom
+    ? unknown extends Custom[K]
+      ? Resolved[K]
+      : IsAny<Custom[K]> extends true
+        ? Resolved[K]
+        : Custom[K] extends Record<string, any>
+            ? Resolved[K] extends Record<string, any>
+              ? MergedAppConfig<Resolved[K], Custom[K]>
+              : Exclude<Custom[K], undefined>
+            : Exclude<Custom[K], undefined>
+    : Resolved[K]
+}
+
+declare module 'nuxt/schema' {
+  interface AppConfig extends MergedAppConfig<ResolvedAppConfig, CustomAppConfig> { }
+}
+declare module '@nuxt/schema' {
+  interface AppConfig extends MergedAppConfig<ResolvedAppConfig, CustomAppConfig> { }
+}
+
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\build.d.ts
+==================================================
+
+declare module "#build/app-component.mjs";
+declare module "#build/nitro.client.mjs";
+declare module "#build/plugins.client.mjs";
+declare module "#build/css.mjs";
+declare module "#build/fetch.mjs";
+declare module "#build/error-component.mjs";
+declare module "#build/global-polyfills.mjs";
+declare module "#build/layouts.mjs";
+declare module "#build/middleware.mjs";
+declare module "#build/nuxt.config.mjs";
+declare module "#build/paths.mjs";
+declare module "#build/root-component.mjs";
+declare module "#build/plugins.server.mjs";
+declare module "#build/test-component-wrapper.mjs";
+declare module "#build/devtools/settings.mjs";
+declare module "#build/runtime.vue-devtools-client.28SowJm_axLhKzu5eBoN0Fc2jA7R_EaSkCcYjDtnLzU.js";
+declare module "#build/routes.mjs";
+declare module "#build/pages.mjs";
+declare module "#build/router.options.mjs";
+declare module "#build/unhead-options.mjs";
+declare module "#build/unhead.config.mjs";
+declare module "#build/components.plugin.mjs";
+declare module "#build/component-names.mjs";
+declare module "#build/components.islands.mjs";
+declare module "#build/component-chunk.mjs";
+
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\builder-env.d.ts
+==================================================
+
+import "vite/client";
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\imports.d.ts
+==================================================
+
+// Generated by auto imports
+export {}
+declare global {
+  const abortNavigation: typeof import('../../node_modules/nuxt/dist/app/composables/router').abortNavigation
+  const acceptHMRUpdate: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').acceptHMRUpdate
+  const addRouteMiddleware: typeof import('../../node_modules/nuxt/dist/app/composables/router').addRouteMiddleware
+  const callOnce: typeof import('../../node_modules/nuxt/dist/app/composables/once').callOnce
+  const cancelIdleCallback: typeof import('../../node_modules/nuxt/dist/app/compat/idle-callback').cancelIdleCallback
+  const clearError: typeof import('../../node_modules/nuxt/dist/app/composables/error').clearError
+  const clearNuxtData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').clearNuxtData
+  const clearNuxtState: typeof import('../../node_modules/nuxt/dist/app/composables/state').clearNuxtState
+  const computed: typeof import('vue').computed
+  const createError: typeof import('../../node_modules/nuxt/dist/app/composables/error').createError
+  const customRef: typeof import('vue').customRef
+  const defineAppConfig: typeof import('../../node_modules/nuxt/dist/app/nuxt').defineAppConfig
+  const defineAsyncComponent: typeof import('vue').defineAsyncComponent
+  const defineComponent: typeof import('vue').defineComponent
+  const defineNuxtComponent: typeof import('../../node_modules/nuxt/dist/app/composables/component').defineNuxtComponent
+  const defineNuxtLink: typeof import('../../node_modules/nuxt/dist/app/components/nuxt-link').defineNuxtLink
+  const defineNuxtPlugin: typeof import('../../node_modules/nuxt/dist/app/nuxt').defineNuxtPlugin
+  const defineNuxtRouteMiddleware: typeof import('../../node_modules/nuxt/dist/app/composables/router').defineNuxtRouteMiddleware
+  const definePageMeta: typeof import('../../node_modules/nuxt/dist/pages/runtime/composables').definePageMeta
+  const definePayloadPlugin: typeof import('../../node_modules/nuxt/dist/app/nuxt').definePayloadPlugin
+  const definePayloadReducer: typeof import('../../node_modules/nuxt/dist/app/composables/payload').definePayloadReducer
+  const definePayloadReviver: typeof import('../../node_modules/nuxt/dist/app/composables/payload').definePayloadReviver
+  const defineStore: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').defineStore
+  const effect: typeof import('vue').effect
+  const effectScope: typeof import('vue').effectScope
+  const getAppManifest: typeof import('../../node_modules/nuxt/dist/app/composables/manifest').getAppManifest
+  const getCurrentInstance: typeof import('vue').getCurrentInstance
+  const getCurrentScope: typeof import('vue').getCurrentScope
+  const getRouteRules: typeof import('../../node_modules/nuxt/dist/app/composables/manifest').getRouteRules
+  const h: typeof import('vue').h
+  const hasInjectionContext: typeof import('vue').hasInjectionContext
+  const inject: typeof import('vue').inject
+  const injectHead: typeof import('../../node_modules/nuxt/dist/app/composables/head').injectHead
+  const isNuxtError: typeof import('../../node_modules/nuxt/dist/app/composables/error').isNuxtError
+  const isPrerendered: typeof import('../../node_modules/nuxt/dist/app/composables/payload').isPrerendered
+  const isProxy: typeof import('vue').isProxy
+  const isReactive: typeof import('vue').isReactive
+  const isReadonly: typeof import('vue').isReadonly
+  const isRef: typeof import('vue').isRef
+  const isShallow: typeof import('vue').isShallow
+  const isVue2: typeof import('../../node_modules/nuxt/dist/app/compat/vue-demi').isVue2
+  const isVue3: typeof import('../../node_modules/nuxt/dist/app/compat/vue-demi').isVue3
+  const loadPayload: typeof import('../../node_modules/nuxt/dist/app/composables/payload').loadPayload
+  const markRaw: typeof import('vue').markRaw
+  const mergeModels: typeof import('vue').mergeModels
+  const navigateTo: typeof import('../../node_modules/nuxt/dist/app/composables/router').navigateTo
+  const nextTick: typeof import('vue').nextTick
+  const onActivated: typeof import('vue').onActivated
+  const onBeforeMount: typeof import('vue').onBeforeMount
+  const onBeforeRouteLeave: typeof import('vue-router').onBeforeRouteLeave
+  const onBeforeRouteUpdate: typeof import('vue-router').onBeforeRouteUpdate
+  const onBeforeUnmount: typeof import('vue').onBeforeUnmount
+  const onBeforeUpdate: typeof import('vue').onBeforeUpdate
+  const onDeactivated: typeof import('vue').onDeactivated
+  const onErrorCaptured: typeof import('vue').onErrorCaptured
+  const onMounted: typeof import('vue').onMounted
+  const onNuxtReady: typeof import('../../node_modules/nuxt/dist/app/composables/ready').onNuxtReady
+  const onPrehydrate: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').onPrehydrate
+  const onRenderTracked: typeof import('vue').onRenderTracked
+  const onRenderTriggered: typeof import('vue').onRenderTriggered
+  const onScopeDispose: typeof import('vue').onScopeDispose
+  const onServerPrefetch: typeof import('vue').onServerPrefetch
+  const onUnmounted: typeof import('vue').onUnmounted
+  const onUpdated: typeof import('vue').onUpdated
+  const prefetchComponents: typeof import('../../node_modules/nuxt/dist/app/composables/preload').prefetchComponents
+  const preloadComponents: typeof import('../../node_modules/nuxt/dist/app/composables/preload').preloadComponents
+  const preloadPayload: typeof import('../../node_modules/nuxt/dist/app/composables/payload').preloadPayload
+  const preloadRouteComponents: typeof import('../../node_modules/nuxt/dist/app/composables/preload').preloadRouteComponents
+  const prerenderRoutes: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').prerenderRoutes
+  const provide: typeof import('vue').provide
+  const proxyRefs: typeof import('vue').proxyRefs
+  const reactive: typeof import('vue').reactive
+  const readonly: typeof import('vue').readonly
+  const ref: typeof import('vue').ref
+  const refreshCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie').refreshCookie
+  const refreshNuxtData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').refreshNuxtData
+  const reloadNuxtApp: typeof import('../../node_modules/nuxt/dist/app/composables/chunk').reloadNuxtApp
+  const requestIdleCallback: typeof import('../../node_modules/nuxt/dist/app/compat/idle-callback').requestIdleCallback
+  const resolveComponent: typeof import('vue').resolveComponent
+  const setInterval: typeof import('../../node_modules/nuxt/dist/app/compat/interval').setInterval
+  const setPageLayout: typeof import('../../node_modules/nuxt/dist/app/composables/router').setPageLayout
+  const setResponseStatus: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').setResponseStatus
+  const shallowReactive: typeof import('vue').shallowReactive
+  const shallowReadonly: typeof import('vue').shallowReadonly
+  const shallowRef: typeof import('vue').shallowRef
+  const showError: typeof import('../../node_modules/nuxt/dist/app/composables/error').showError
+  const storeToRefs: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').storeToRefs
+  const toRaw: typeof import('vue').toRaw
+  const toRef: typeof import('vue').toRef
+  const toRefs: typeof import('vue').toRefs
+  const toValue: typeof import('vue').toValue
+  const triggerRef: typeof import('vue').triggerRef
+  const tryUseNuxtApp: typeof import('../../node_modules/nuxt/dist/app/nuxt').tryUseNuxtApp
+  const unref: typeof import('vue').unref
+  const updateAppConfig: typeof import('../../node_modules/nuxt/dist/app/config').updateAppConfig
+  const useAppConfig: typeof import('../../node_modules/nuxt/dist/app/config').useAppConfig
+  const useAsyncData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useAsyncData
+  const useAttrs: typeof import('vue').useAttrs
+  const useBrands: typeof import('../../composables/useBrands').useBrands
+  const useCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie').useCookie
+  const useCssModule: typeof import('vue').useCssModule
+  const useCssVars: typeof import('vue').useCssVars
+  const useError: typeof import('../../node_modules/nuxt/dist/app/composables/error').useError
+  const useFetch: typeof import('../../node_modules/nuxt/dist/app/composables/fetch').useFetch
+  const useHead: typeof import('../../node_modules/nuxt/dist/app/composables/head').useHead
+  const useHeadSafe: typeof import('../../node_modules/nuxt/dist/app/composables/head').useHeadSafe
+  const useHydration: typeof import('../../node_modules/nuxt/dist/app/composables/hydrate').useHydration
+  const useId: typeof import('vue').useId
+  const useLazyAsyncData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useLazyAsyncData
+  const useLazyFetch: typeof import('../../node_modules/nuxt/dist/app/composables/fetch').useLazyFetch
+  const useLink: typeof import('vue-router').useLink
+  const useLoadingIndicator: typeof import('../../node_modules/nuxt/dist/app/composables/loading-indicator').useLoadingIndicator
+  const useMenu: typeof import('../../composables/useMenu').useMenu
+  const useModel: typeof import('vue').useModel
+  const useNuxtApp: typeof import('../../node_modules/nuxt/dist/app/nuxt').useNuxtApp
+  const useNuxtData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useNuxtData
+  const useNuxtDevTools: typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools').useNuxtDevTools
+  const usePinia: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').usePinia
+  const usePreviewMode: typeof import('../../node_modules/nuxt/dist/app/composables/preview').usePreviewMode
+  const useProducts: typeof import('../../composables/useProducts').useProducts
+  const useRequestEvent: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestEvent
+  const useRequestFetch: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestFetch
+  const useRequestHeader: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestHeader
+  const useRequestHeaders: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestHeaders
+  const useRequestURL: typeof import('../../node_modules/nuxt/dist/app/composables/url').useRequestURL
+  const useResponseHeader: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useResponseHeader
+  const useRoute: typeof import('../../node_modules/nuxt/dist/app/composables/router').useRoute
+  const useRouteAnnouncer: typeof import('../../node_modules/nuxt/dist/app/composables/route-announcer').useRouteAnnouncer
+  const useRouter: typeof import('../../node_modules/nuxt/dist/app/composables/router').useRouter
+  const useRuntimeConfig: typeof import('../../node_modules/nuxt/dist/app/nuxt').useRuntimeConfig
+  const useRuntimeHook: typeof import('../../node_modules/nuxt/dist/app/composables/runtime-hook').useRuntimeHook
+  const useScript: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScript
+  const useScriptClarity: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptClarity
+  const useScriptCloudflareWebAnalytics: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptCloudflareWebAnalytics
+  const useScriptCrisp: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptCrisp
+  const useScriptEventPage: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptEventPage
+  const useScriptFathomAnalytics: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptFathomAnalytics
+  const useScriptGoogleAdsense: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptGoogleAdsense
+  const useScriptGoogleAnalytics: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptGoogleAnalytics
+  const useScriptGoogleMaps: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptGoogleMaps
+  const useScriptGoogleTagManager: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptGoogleTagManager
+  const useScriptHotjar: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptHotjar
+  const useScriptIntercom: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptIntercom
+  const useScriptLemonSqueezy: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptLemonSqueezy
+  const useScriptMatomoAnalytics: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptMatomoAnalytics
+  const useScriptMetaPixel: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptMetaPixel
+  const useScriptNpm: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptNpm
+  const useScriptPlausibleAnalytics: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptPlausibleAnalytics
+  const useScriptRybbitAnalytics: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptRybbitAnalytics
+  const useScriptSegment: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptSegment
+  const useScriptSnapchatPixel: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptSnapchatPixel
+  const useScriptStripe: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptStripe
+  const useScriptTriggerConsent: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptTriggerConsent
+  const useScriptTriggerElement: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptTriggerElement
+  const useScriptUmamiAnalytics: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptUmamiAnalytics
+  const useScriptVimeoPlayer: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptVimeoPlayer
+  const useScriptXPixel: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptXPixel
+  const useScriptYouTubePlayer: typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs').useScriptYouTubePlayer
+  const useSeoMeta: typeof import('../../node_modules/nuxt/dist/app/composables/head').useSeoMeta
+  const useServerHead: typeof import('../../node_modules/nuxt/dist/app/composables/head').useServerHead
+  const useServerHeadSafe: typeof import('../../node_modules/nuxt/dist/app/composables/head').useServerHeadSafe
+  const useServerSeoMeta: typeof import('../../node_modules/nuxt/dist/app/composables/head').useServerSeoMeta
+  const useShadowRoot: typeof import('vue').useShadowRoot
+  const useSlots: typeof import('vue').useSlots
+  const useState: typeof import('../../node_modules/nuxt/dist/app/composables/state').useState
+  const useTemplateRef: typeof import('vue').useTemplateRef
+  const useTransitionState: typeof import('vue').useTransitionState
+  const watch: typeof import('vue').watch
+  const watchEffect: typeof import('vue').watchEffect
+  const watchPostEffect: typeof import('vue').watchPostEffect
+  const watchSyncEffect: typeof import('vue').watchSyncEffect
+  const withCtx: typeof import('vue').withCtx
+  const withDirectives: typeof import('vue').withDirectives
+  const withKeys: typeof import('vue').withKeys
+  const withMemo: typeof import('vue').withMemo
+  const withModifiers: typeof import('vue').withModifiers
+  const withScopeId: typeof import('vue').withScopeId
+}
+// for type re-export
+declare global {
+  // @ts-ignore
+  export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
+  import('vue')
+}
+// for vue template auto import
+import { UnwrapRef } from 'vue'
+declare module 'vue' {
+  interface ComponentCustomProperties {
+    readonly abortNavigation: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['abortNavigation']>
+    readonly acceptHMRUpdate: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['acceptHMRUpdate']>
+    readonly addRouteMiddleware: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['addRouteMiddleware']>
+    readonly callOnce: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/once')['callOnce']>
+    readonly cancelIdleCallback: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/compat/idle-callback')['cancelIdleCallback']>
+    readonly clearError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/error')['clearError']>
+    readonly clearNuxtData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['clearNuxtData']>
+    readonly clearNuxtState: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/state')['clearNuxtState']>
+    readonly computed: UnwrapRef<typeof import('vue')['computed']>
+    readonly createError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/error')['createError']>
+    readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
+    readonly defineAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['defineAppConfig']>
+    readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
+    readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly defineNuxtComponent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/component')['defineNuxtComponent']>
+    readonly defineNuxtLink: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/components/nuxt-link')['defineNuxtLink']>
+    readonly defineNuxtPlugin: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['defineNuxtPlugin']>
+    readonly defineNuxtRouteMiddleware: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['defineNuxtRouteMiddleware']>
+    readonly definePageMeta: UnwrapRef<typeof import('../../node_modules/nuxt/dist/pages/runtime/composables')['definePageMeta']>
+    readonly definePayloadPlugin: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['definePayloadPlugin']>
+    readonly definePayloadReducer: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/payload')['definePayloadReducer']>
+    readonly definePayloadReviver: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/payload')['definePayloadReviver']>
+    readonly defineStore: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['defineStore']>
+    readonly effect: UnwrapRef<typeof import('vue')['effect']>
+    readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly getAppManifest: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/manifest')['getAppManifest']>
+    readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
+    readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getRouteRules: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/manifest')['getRouteRules']>
+    readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly hasInjectionContext: UnwrapRef<typeof import('vue')['hasInjectionContext']>
+    readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly injectHead: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/head')['injectHead']>
+    readonly isNuxtError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/error')['isNuxtError']>
+    readonly isPrerendered: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/payload')['isPrerendered']>
+    readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
+    readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
+    readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
+    readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly isShallow: UnwrapRef<typeof import('vue')['isShallow']>
+    readonly isVue2: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/compat/vue-demi')['isVue2']>
+    readonly isVue3: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/compat/vue-demi')['isVue3']>
+    readonly loadPayload: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/payload')['loadPayload']>
+    readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly mergeModels: UnwrapRef<typeof import('vue')['mergeModels']>
+    readonly navigateTo: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['navigateTo']>
+    readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
+    readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
+    readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
+    readonly onBeforeRouteLeave: UnwrapRef<typeof import('vue-router')['onBeforeRouteLeave']>
+    readonly onBeforeRouteUpdate: UnwrapRef<typeof import('vue-router')['onBeforeRouteUpdate']>
+    readonly onBeforeUnmount: UnwrapRef<typeof import('vue')['onBeforeUnmount']>
+    readonly onBeforeUpdate: UnwrapRef<typeof import('vue')['onBeforeUpdate']>
+    readonly onDeactivated: UnwrapRef<typeof import('vue')['onDeactivated']>
+    readonly onErrorCaptured: UnwrapRef<typeof import('vue')['onErrorCaptured']>
+    readonly onMounted: UnwrapRef<typeof import('vue')['onMounted']>
+    readonly onNuxtReady: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ready')['onNuxtReady']>
+    readonly onPrehydrate: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['onPrehydrate']>
+    readonly onRenderTracked: UnwrapRef<typeof import('vue')['onRenderTracked']>
+    readonly onRenderTriggered: UnwrapRef<typeof import('vue')['onRenderTriggered']>
+    readonly onScopeDispose: UnwrapRef<typeof import('vue')['onScopeDispose']>
+    readonly onServerPrefetch: UnwrapRef<typeof import('vue')['onServerPrefetch']>
+    readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
+    readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
+    readonly prefetchComponents: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/preload')['prefetchComponents']>
+    readonly preloadComponents: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/preload')['preloadComponents']>
+    readonly preloadPayload: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/payload')['preloadPayload']>
+    readonly preloadRouteComponents: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/preload')['preloadRouteComponents']>
+    readonly prerenderRoutes: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['prerenderRoutes']>
+    readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly proxyRefs: UnwrapRef<typeof import('vue')['proxyRefs']>
+    readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
+    readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
+    readonly ref: UnwrapRef<typeof import('vue')['ref']>
+    readonly refreshCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['refreshCookie']>
+    readonly refreshNuxtData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['refreshNuxtData']>
+    readonly reloadNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/chunk')['reloadNuxtApp']>
+    readonly requestIdleCallback: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/compat/idle-callback')['requestIdleCallback']>
+    readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
+    readonly setInterval: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/compat/interval')['setInterval']>
+    readonly setPageLayout: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['setPageLayout']>
+    readonly setResponseStatus: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['setResponseStatus']>
+    readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
+    readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
+    readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly showError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/error')['showError']>
+    readonly storeToRefs: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['storeToRefs']>
+    readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
+    readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
+    readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
+    readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
+    readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
+    readonly tryUseNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['tryUseNuxtApp']>
+    readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly updateAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['updateAppConfig']>
+    readonly useAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['useAppConfig']>
+    readonly useAsyncData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']>
+    readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useBrands: UnwrapRef<typeof import('../../composables/useBrands')['useBrands']>
+    readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
+    readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
+    readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
+    readonly useError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/error')['useError']>
+    readonly useFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/fetch')['useFetch']>
+    readonly useHead: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/head')['useHead']>
+    readonly useHeadSafe: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/head')['useHeadSafe']>
+    readonly useHydration: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/hydrate')['useHydration']>
+    readonly useId: UnwrapRef<typeof import('vue')['useId']>
+    readonly useLazyAsyncData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useLazyAsyncData']>
+    readonly useLazyFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/fetch')['useLazyFetch']>
+    readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
+    readonly useLoadingIndicator: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/loading-indicator')['useLoadingIndicator']>
+    readonly useMenu: UnwrapRef<typeof import('../../composables/useMenu')['useMenu']>
+    readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
+    readonly useNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['useNuxtApp']>
+    readonly useNuxtData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']>
+    readonly useNuxtDevTools: UnwrapRef<typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>
+    readonly usePinia: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>
+    readonly usePreviewMode: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']>
+    readonly useProducts: UnwrapRef<typeof import('../../composables/useProducts')['useProducts']>
+    readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>
+    readonly useRequestFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestFetch']>
+    readonly useRequestHeader: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestHeader']>
+    readonly useRequestHeaders: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestHeaders']>
+    readonly useRequestURL: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/url')['useRequestURL']>
+    readonly useResponseHeader: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useResponseHeader']>
+    readonly useRoute: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['useRoute']>
+    readonly useRouteAnnouncer: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/route-announcer')['useRouteAnnouncer']>
+    readonly useRouter: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['useRouter']>
+    readonly useRuntimeConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['useRuntimeConfig']>
+    readonly useRuntimeHook: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/runtime-hook')['useRuntimeHook']>
+    readonly useScript: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScript']>
+    readonly useScriptClarity: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptClarity']>
+    readonly useScriptCloudflareWebAnalytics: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptCloudflareWebAnalytics']>
+    readonly useScriptCrisp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptCrisp']>
+    readonly useScriptEventPage: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptEventPage']>
+    readonly useScriptFathomAnalytics: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptFathomAnalytics']>
+    readonly useScriptGoogleAdsense: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptGoogleAdsense']>
+    readonly useScriptGoogleAnalytics: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptGoogleAnalytics']>
+    readonly useScriptGoogleMaps: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptGoogleMaps']>
+    readonly useScriptGoogleTagManager: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptGoogleTagManager']>
+    readonly useScriptHotjar: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptHotjar']>
+    readonly useScriptIntercom: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptIntercom']>
+    readonly useScriptLemonSqueezy: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptLemonSqueezy']>
+    readonly useScriptMatomoAnalytics: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptMatomoAnalytics']>
+    readonly useScriptMetaPixel: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptMetaPixel']>
+    readonly useScriptNpm: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptNpm']>
+    readonly useScriptPlausibleAnalytics: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptPlausibleAnalytics']>
+    readonly useScriptRybbitAnalytics: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptRybbitAnalytics']>
+    readonly useScriptSegment: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptSegment']>
+    readonly useScriptSnapchatPixel: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptSnapchatPixel']>
+    readonly useScriptStripe: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptStripe']>
+    readonly useScriptTriggerConsent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptTriggerConsent']>
+    readonly useScriptTriggerElement: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptTriggerElement']>
+    readonly useScriptUmamiAnalytics: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptUmamiAnalytics']>
+    readonly useScriptVimeoPlayer: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptVimeoPlayer']>
+    readonly useScriptXPixel: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptXPixel']>
+    readonly useScriptYouTubePlayer: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/script-stubs')['useScriptYouTubePlayer']>
+    readonly useSeoMeta: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/head')['useSeoMeta']>
+    readonly useServerHead: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/head')['useServerHead']>
+    readonly useServerHeadSafe: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/head')['useServerHeadSafe']>
+    readonly useServerSeoMeta: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/head')['useServerSeoMeta']>
+    readonly useShadowRoot: UnwrapRef<typeof import('vue')['useShadowRoot']>
+    readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useState: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/state')['useState']>
+    readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
+    readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>
+    readonly watch: UnwrapRef<typeof import('vue')['watch']>
+    readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
+    readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
+    readonly watchSyncEffect: UnwrapRef<typeof import('vue')['watchSyncEffect']>
+    readonly withCtx: UnwrapRef<typeof import('vue')['withCtx']>
+    readonly withDirectives: UnwrapRef<typeof import('vue')['withDirectives']>
+    readonly withKeys: UnwrapRef<typeof import('vue')['withKeys']>
+    readonly withMemo: UnwrapRef<typeof import('vue')['withMemo']>
+    readonly withModifiers: UnwrapRef<typeof import('vue')['withModifiers']>
+    readonly withScopeId: UnwrapRef<typeof import('vue')['withScopeId']>
+  }
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\layouts.d.ts
+==================================================
+
+import type { ComputedRef, MaybeRef } from 'vue'
+export type LayoutKey = "default"
+declare module 'nuxt/app' {
+  interface PageMeta {
+    layout?: MaybeRef<LayoutKey | false> | ComputedRef<LayoutKey | false>
+  }
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\middleware.d.ts
+==================================================
+
+import type { NavigationGuard } from 'vue-router'
+export type MiddlewareKey = never
+declare module 'nuxt/app' {
+  interface PageMeta {
+    middleware?: MiddlewareKey | NavigationGuard | Array<MiddlewareKey | NavigationGuard>
+  }
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\nitro-config.d.ts
+==================================================
+
+// Generated by nitro
+
+// App Config
+import type { Defu } from 'defu'
+
+
+
+type UserAppConfig = Defu<{}, []>
+
+declare module "nitropack/types" {
+  interface AppConfig extends UserAppConfig {}
+
+}
+export {}
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\nitro-imports.d.ts
+==================================================
+
+declare global {
+  const __buildAssetsURL: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/utils/paths').buildAssetsURL
+  const __publicAssetsURL: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/utils/paths').publicAssetsURL
+  const appendCorsHeaders: typeof import('../../node_modules/h3').appendCorsHeaders
+  const appendCorsPreflightHeaders: typeof import('../../node_modules/h3').appendCorsPreflightHeaders
+  const appendHeader: typeof import('../../node_modules/h3').appendHeader
+  const appendHeaders: typeof import('../../node_modules/h3').appendHeaders
+  const appendResponseHeader: typeof import('../../node_modules/h3').appendResponseHeader
+  const appendResponseHeaders: typeof import('../../node_modules/h3').appendResponseHeaders
+  const assertMethod: typeof import('../../node_modules/h3').assertMethod
+  const cachedEventHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache').cachedEventHandler
+  const cachedFunction: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache').cachedFunction
+  const callNodeListener: typeof import('../../node_modules/h3').callNodeListener
+  const clearResponseHeaders: typeof import('../../node_modules/h3').clearResponseHeaders
+  const clearSession: typeof import('../../node_modules/h3').clearSession
+  const createApp: typeof import('../../node_modules/h3').createApp
+  const createAppEventHandler: typeof import('../../node_modules/h3').createAppEventHandler
+  const createError: typeof import('../../node_modules/h3').createError
+  const createEvent: typeof import('../../node_modules/h3').createEvent
+  const createEventStream: typeof import('../../node_modules/h3').createEventStream
+  const createRouter: typeof import('../../node_modules/h3').createRouter
+  const defaultContentType: typeof import('../../node_modules/h3').defaultContentType
+  const defineAppConfig: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/utils/config').defineAppConfig
+  const defineCachedEventHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache').defineCachedEventHandler
+  const defineCachedFunction: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache').defineCachedFunction
+  const defineEventHandler: typeof import('../../node_modules/h3').defineEventHandler
+  const defineLazyEventHandler: typeof import('../../node_modules/h3').defineLazyEventHandler
+  const defineNitroErrorHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/error/utils').defineNitroErrorHandler
+  const defineNitroPlugin: typeof import('../../node_modules/nitropack/dist/runtime/internal/plugin').defineNitroPlugin
+  const defineNodeListener: typeof import('../../node_modules/h3').defineNodeListener
+  const defineNodeMiddleware: typeof import('../../node_modules/h3').defineNodeMiddleware
+  const defineRenderHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/renderer').defineRenderHandler
+  const defineRequestMiddleware: typeof import('../../node_modules/h3').defineRequestMiddleware
+  const defineResponseMiddleware: typeof import('../../node_modules/h3').defineResponseMiddleware
+  const defineRouteMeta: typeof import('../../node_modules/nitropack/dist/runtime/internal/meta').defineRouteMeta
+  const defineTask: typeof import('../../node_modules/nitropack/dist/runtime/internal/task').defineTask
+  const defineWebSocket: typeof import('../../node_modules/h3').defineWebSocket
+  const defineWebSocketHandler: typeof import('../../node_modules/h3').defineWebSocketHandler
+  const deleteCookie: typeof import('../../node_modules/h3').deleteCookie
+  const dynamicEventHandler: typeof import('../../node_modules/h3').dynamicEventHandler
+  const eventHandler: typeof import('../../node_modules/h3').eventHandler
+  const fetchWithEvent: typeof import('../../node_modules/h3').fetchWithEvent
+  const fromNodeMiddleware: typeof import('../../node_modules/h3').fromNodeMiddleware
+  const fromPlainHandler: typeof import('../../node_modules/h3').fromPlainHandler
+  const fromWebHandler: typeof import('../../node_modules/h3').fromWebHandler
+  const getCookie: typeof import('../../node_modules/h3').getCookie
+  const getHeader: typeof import('../../node_modules/h3').getHeader
+  const getHeaders: typeof import('../../node_modules/h3').getHeaders
+  const getMethod: typeof import('../../node_modules/h3').getMethod
+  const getProxyRequestHeaders: typeof import('../../node_modules/h3').getProxyRequestHeaders
+  const getQuery: typeof import('../../node_modules/h3').getQuery
+  const getRequestFingerprint: typeof import('../../node_modules/h3').getRequestFingerprint
+  const getRequestHeader: typeof import('../../node_modules/h3').getRequestHeader
+  const getRequestHeaders: typeof import('../../node_modules/h3').getRequestHeaders
+  const getRequestHost: typeof import('../../node_modules/h3').getRequestHost
+  const getRequestIP: typeof import('../../node_modules/h3').getRequestIP
+  const getRequestPath: typeof import('../../node_modules/h3').getRequestPath
+  const getRequestProtocol: typeof import('../../node_modules/h3').getRequestProtocol
+  const getRequestURL: typeof import('../../node_modules/h3').getRequestURL
+  const getRequestWebStream: typeof import('../../node_modules/h3').getRequestWebStream
+  const getResponseHeader: typeof import('../../node_modules/h3').getResponseHeader
+  const getResponseHeaders: typeof import('../../node_modules/h3').getResponseHeaders
+  const getResponseStatus: typeof import('../../node_modules/h3').getResponseStatus
+  const getResponseStatusText: typeof import('../../node_modules/h3').getResponseStatusText
+  const getRouteRules: typeof import('../../node_modules/nitropack/dist/runtime/internal/route-rules').getRouteRules
+  const getRouterParam: typeof import('../../node_modules/h3').getRouterParam
+  const getRouterParams: typeof import('../../node_modules/h3').getRouterParams
+  const getSession: typeof import('../../node_modules/h3').getSession
+  const getValidatedQuery: typeof import('../../node_modules/h3').getValidatedQuery
+  const getValidatedRouterParams: typeof import('../../node_modules/h3').getValidatedRouterParams
+  const handleCacheHeaders: typeof import('../../node_modules/h3').handleCacheHeaders
+  const handleCors: typeof import('../../node_modules/h3').handleCors
+  const isCorsOriginAllowed: typeof import('../../node_modules/h3').isCorsOriginAllowed
+  const isError: typeof import('../../node_modules/h3').isError
+  const isEvent: typeof import('../../node_modules/h3').isEvent
+  const isEventHandler: typeof import('../../node_modules/h3').isEventHandler
+  const isMethod: typeof import('../../node_modules/h3').isMethod
+  const isPreflightRequest: typeof import('../../node_modules/h3').isPreflightRequest
+  const isStream: typeof import('../../node_modules/h3').isStream
+  const isWebResponse: typeof import('../../node_modules/h3').isWebResponse
+  const lazyEventHandler: typeof import('../../node_modules/h3').lazyEventHandler
+  const nitroPlugin: typeof import('../../node_modules/nitropack/dist/runtime/internal/plugin').nitroPlugin
+  const parseCookies: typeof import('../../node_modules/h3').parseCookies
+  const promisifyNodeListener: typeof import('../../node_modules/h3').promisifyNodeListener
+  const proxyRequest: typeof import('../../node_modules/h3').proxyRequest
+  const readBody: typeof import('../../node_modules/h3').readBody
+  const readFormData: typeof import('../../node_modules/h3').readFormData
+  const readMultipartFormData: typeof import('../../node_modules/h3').readMultipartFormData
+  const readRawBody: typeof import('../../node_modules/h3').readRawBody
+  const readValidatedBody: typeof import('../../node_modules/h3').readValidatedBody
+  const removeResponseHeader: typeof import('../../node_modules/h3').removeResponseHeader
+  const runTask: typeof import('../../node_modules/nitropack/dist/runtime/internal/task').runTask
+  const sanitizeStatusCode: typeof import('../../node_modules/h3').sanitizeStatusCode
+  const sanitizeStatusMessage: typeof import('../../node_modules/h3').sanitizeStatusMessage
+  const sealSession: typeof import('../../node_modules/h3').sealSession
+  const send: typeof import('../../node_modules/h3').send
+  const sendError: typeof import('../../node_modules/h3').sendError
+  const sendIterable: typeof import('../../node_modules/h3').sendIterable
+  const sendNoContent: typeof import('../../node_modules/h3').sendNoContent
+  const sendProxy: typeof import('../../node_modules/h3').sendProxy
+  const sendRedirect: typeof import('../../node_modules/h3').sendRedirect
+  const sendStream: typeof import('../../node_modules/h3').sendStream
+  const sendWebResponse: typeof import('../../node_modules/h3').sendWebResponse
+  const serveStatic: typeof import('../../node_modules/h3').serveStatic
+  const setCookie: typeof import('../../node_modules/h3').setCookie
+  const setHeader: typeof import('../../node_modules/h3').setHeader
+  const setHeaders: typeof import('../../node_modules/h3').setHeaders
+  const setResponseHeader: typeof import('../../node_modules/h3').setResponseHeader
+  const setResponseHeaders: typeof import('../../node_modules/h3').setResponseHeaders
+  const setResponseStatus: typeof import('../../node_modules/h3').setResponseStatus
+  const splitCookiesString: typeof import('../../node_modules/h3').splitCookiesString
+  const toEventHandler: typeof import('../../node_modules/h3').toEventHandler
+  const toNodeListener: typeof import('../../node_modules/h3').toNodeListener
+  const toPlainHandler: typeof import('../../node_modules/h3').toPlainHandler
+  const toWebHandler: typeof import('../../node_modules/h3').toWebHandler
+  const toWebRequest: typeof import('../../node_modules/h3').toWebRequest
+  const unsealSession: typeof import('../../node_modules/h3').unsealSession
+  const updateSession: typeof import('../../node_modules/h3').updateSession
+  const useAppConfig: typeof import('../../node_modules/nitropack/dist/runtime/internal/config').useAppConfig
+  const useBase: typeof import('../../node_modules/h3').useBase
+  const useEvent: typeof import('../../node_modules/nitropack/dist/runtime/internal/context').useEvent
+  const useNitroApp: typeof import('../../node_modules/nitropack/dist/runtime/internal/app').useNitroApp
+  const useRuntimeConfig: typeof import('../../node_modules/nitropack/dist/runtime/internal/config').useRuntimeConfig
+  const useSession: typeof import('../../node_modules/h3').useSession
+  const useStorage: typeof import('../../node_modules/nitropack/dist/runtime/internal/storage').useStorage
+  const writeEarlyHints: typeof import('../../node_modules/h3').writeEarlyHints
+}
+export { useNitroApp } from 'nitropack/runtime/internal/app';
+export { useRuntimeConfig, useAppConfig } from 'nitropack/runtime/internal/config';
+export { defineNitroPlugin, nitroPlugin } from 'nitropack/runtime/internal/plugin';
+export { defineCachedFunction, defineCachedEventHandler, cachedFunction, cachedEventHandler } from 'nitropack/runtime/internal/cache';
+export { useStorage } from 'nitropack/runtime/internal/storage';
+export { defineRenderHandler } from 'nitropack/runtime/internal/renderer';
+export { defineRouteMeta } from 'nitropack/runtime/internal/meta';
+export { getRouteRules } from 'nitropack/runtime/internal/route-rules';
+export { useEvent } from 'nitropack/runtime/internal/context';
+export { defineTask, runTask } from 'nitropack/runtime/internal/task';
+export { defineNitroErrorHandler } from 'nitropack/runtime/internal/error/utils';
+export { appendCorsHeaders, appendCorsPreflightHeaders, appendHeader, appendHeaders, appendResponseHeader, appendResponseHeaders, assertMethod, callNodeListener, clearResponseHeaders, clearSession, createApp, createAppEventHandler, createError, createEvent, createEventStream, createRouter, defaultContentType, defineEventHandler, defineLazyEventHandler, defineNodeListener, defineNodeMiddleware, defineRequestMiddleware, defineResponseMiddleware, defineWebSocket, defineWebSocketHandler, deleteCookie, dynamicEventHandler, eventHandler, fetchWithEvent, fromNodeMiddleware, fromPlainHandler, fromWebHandler, getCookie, getHeader, getHeaders, getMethod, getProxyRequestHeaders, getQuery, getRequestFingerprint, getRequestHeader, getRequestHeaders, getRequestHost, getRequestIP, getRequestPath, getRequestProtocol, getRequestURL, getRequestWebStream, getResponseHeader, getResponseHeaders, getResponseStatus, getResponseStatusText, getRouterParam, getRouterParams, getSession, getValidatedQuery, getValidatedRouterParams, handleCacheHeaders, handleCors, isCorsOriginAllowed, isError, isEvent, isEventHandler, isMethod, isPreflightRequest, isStream, isWebResponse, lazyEventHandler, parseCookies, promisifyNodeListener, proxyRequest, readBody, readFormData, readMultipartFormData, readRawBody, readValidatedBody, removeResponseHeader, sanitizeStatusCode, sanitizeStatusMessage, sealSession, send, sendError, sendIterable, sendNoContent, sendProxy, sendRedirect, sendStream, sendWebResponse, serveStatic, setCookie, setHeader, setHeaders, setResponseHeader, setResponseHeaders, setResponseStatus, splitCookiesString, toEventHandler, toNodeListener, toPlainHandler, toWebHandler, toWebRequest, unsealSession, updateSession, useBase, useSession, writeEarlyHints } from 'h3';
+export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from 'C:/Users/Havuç/Desktop/web_final/speedcubeshop-final/node_modules/nuxt/dist/core/runtime/nitro/utils/paths';
+export { defineAppConfig } from 'C:/Users/Havuç/Desktop/web_final/speedcubeshop-final/node_modules/nuxt/dist/core/runtime/nitro/utils/config';
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\nitro-middleware.d.ts
+==================================================
+
+export type MiddlewareKey = never
+declare module 'nitropack' {
+  interface NitroRouteConfig {
+    appMiddleware?: MiddlewareKey | MiddlewareKey[] | Record<MiddlewareKey, boolean>
+  }
+}
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\nitro-nuxt.d.ts
+==================================================
+
+
+/// <reference path="nitro-middleware.d.ts" />
+/// <reference path="./schema.d.ts" />
+
+import type { RuntimeConfig } from 'nuxt/schema'
+import type { H3Event } from 'h3'
+import type { LogObject } from 'consola'
+import type { NuxtIslandContext, NuxtIslandResponse, NuxtRenderHTMLContext } from 'nuxt/app'
+
+declare module 'nitropack' {
+  interface NitroRuntimeConfigApp {
+    buildAssetsDir: string
+    cdnURL: string
+  }
+  interface NitroRuntimeConfig extends RuntimeConfig {}
+  interface NitroRouteConfig {
+    ssr?: boolean
+    noScripts?: boolean
+    /** @deprecated Use `noScripts` instead */
+    experimentalNoScripts?: boolean
+  }
+  interface NitroRouteRules {
+    ssr?: boolean
+    noScripts?: boolean
+    /** @deprecated Use `noScripts` instead */
+    experimentalNoScripts?: boolean
+    appMiddleware?: Record<string, boolean>
+  }
+  interface NitroRuntimeHooks {
+    'dev:ssr-logs': (ctx: { logs: LogObject[], path: string }) => void | Promise<void>
+    'render:html': (htmlContext: NuxtRenderHTMLContext, context: { event: H3Event }) => void | Promise<void>
+    'render:island': (islandResponse: NuxtIslandResponse, context: { event: H3Event, islandContext: NuxtIslandContext }) => void | Promise<void>
+  }
+}
+
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\nitro-routes.d.ts
+==================================================
+
+// Generated by nitro
+import type { Serialize, Simplify } from "nitropack/types";
+declare module "nitropack/types" {
+  type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T
+  interface InternalApi {
+    '/__nuxt_error': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/handlers/renderer').default>>>>
+    }
+    '/__nuxt_island/**': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/#internal/nuxt/island-renderer').default>>>>
+    }
+  }
+}
+export {}
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\nitro.d.ts
+==================================================
+
+/// <reference path="./nitro-routes.d.ts" />
+/// <reference path="./nitro-config.d.ts" />
+/// <reference path="./nitro-imports.d.ts" />
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\plugins.d.ts
+==================================================
+
+// Generated by Nuxt'
+import type { Plugin } from '#app'
+
+type Decorate<T extends Record<string, any>> = { [K in keyof T as K extends string ? `$${K}` : never]: T[K] }
+
+type InjectionType<A extends Plugin> = A extends {default: Plugin<infer T>} ? Decorate<T> : unknown
+
+type NuxtAppInjections = 
+  InjectionType<typeof import("../../node_modules/@pinia/nuxt/dist/runtime/payload-plugin.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/revive-payload.client.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/head/runtime/plugins/unhead.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/pages/runtime/plugins/router.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/browser-devtools-timing.client.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/navigation-repaint.client.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/check-outdated-build.client.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/revive-payload.server.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/chunk-reload.client.js")> &
+  InjectionType<typeof import("../../node_modules/@pinia/nuxt/dist/runtime/plugin.vue3.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/pages/runtime/plugins/prefetch.client.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/pages/runtime/plugins/check-if-page-unused.js")> &
+  InjectionType<typeof import("../../node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.server.js")> &
+  InjectionType<typeof import("../../node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.client.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/dev-server-logs.js")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/check-if-layout-used.js")>
+
+declare module '#app' {
+  interface NuxtApp extends NuxtAppInjections { }
+
+  interface NuxtAppLiterals {
+    pluginName: 'vue-devtools-client' | 'nuxt:revive-payload:client' | 'nuxt:head' | 'nuxt:router' | 'nuxt:browser-devtools-timing' | 'nuxt:revive-payload:server' | 'nuxt:chunk-reload' | 'pinia' | 'nuxt:global-components' | 'nuxt:prefetch' | 'nuxt:checkIfPageUnused' | 'nuxt:checkIfLayoutUsed'
+  }
+}
+
+declare module 'vue' {
+  interface ComponentCustomProperties extends NuxtAppInjections { }
+}
+
+export { }
+
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\schema.d.ts
+==================================================
+
+import { NuxtModule, RuntimeConfig } from '@nuxt/schema'
+declare module '@nuxt/schema' {
+  interface NuxtOptions {
+    /**
+     * Configuration for `@pinia/nuxt`
+     */
+    ["pinia"]: typeof import("@pinia/nuxt").default extends NuxtModule<infer O> ? O : Record<string, any>
+    /**
+     * Configuration for `@nuxt/devtools`
+     */
+    ["devtools"]: typeof import("@nuxt/devtools").default extends NuxtModule<infer O> ? O : Record<string, any>
+    /**
+     * Configuration for `@nuxt/telemetry`
+     */
+    ["telemetry"]: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? O : Record<string, any>
+  }
+  interface NuxtConfig {
+    /**
+     * Configuration for `@pinia/nuxt`
+     */
+    ["pinia"]?: typeof import("@pinia/nuxt").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    /**
+     * Configuration for `@nuxt/devtools`
+     */
+    ["devtools"]?: typeof import("@nuxt/devtools").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    /**
+     * Configuration for `@nuxt/telemetry`
+     */
+    ["telemetry"]?: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
+  }
+}
+declare module 'nuxt/schema' {
+  interface NuxtOptions {
+    /**
+     * Configuration for `@pinia/nuxt`
+     * @see https://www.npmjs.com/package/@pinia/nuxt
+     */
+    ["pinia"]: typeof import("@pinia/nuxt").default extends NuxtModule<infer O> ? O : Record<string, any>
+    /**
+     * Configuration for `@nuxt/devtools`
+     * @see https://www.npmjs.com/package/@nuxt/devtools
+     */
+    ["devtools"]: typeof import("@nuxt/devtools").default extends NuxtModule<infer O> ? O : Record<string, any>
+    /**
+     * Configuration for `@nuxt/telemetry`
+     * @see https://www.npmjs.com/package/@nuxt/telemetry
+     */
+    ["telemetry"]: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? O : Record<string, any>
+  }
+  interface NuxtConfig {
+    /**
+     * Configuration for `@pinia/nuxt`
+     * @see https://www.npmjs.com/package/@pinia/nuxt
+     */
+    ["pinia"]?: typeof import("@pinia/nuxt").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    /**
+     * Configuration for `@nuxt/devtools`
+     * @see https://www.npmjs.com/package/@nuxt/devtools
+     */
+    ["devtools"]?: typeof import("@nuxt/devtools").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    /**
+     * Configuration for `@nuxt/telemetry`
+     * @see https://www.npmjs.com/package/@nuxt/telemetry
+     */
+    ["telemetry"]?: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
+  }
+  interface RuntimeConfig {
+   app: {
+      buildId: string,
+
+      baseURL: string,
+
+      buildAssetsDir: string,
+
+      cdnURL: string,
+   },
+
+   nitro: {
+      envPrefix: string,
+   },
+  }
+  interface PublicRuntimeConfig {
+
+  }
+}
+declare module 'vue' {
+        interface ComponentCustomProperties {
+          $config: RuntimeConfig
+        }
+      }
+
+==================================================
+DOSYA YOLU: .\.nuxt\types\vue-shim.d.ts
+==================================================
+
+
+
+==================================================
+DOSYA YOLU: .\assets\css\main.scss
+==================================================
+
+/* assets/css/main.scss */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+
+:root {
+  // Görselden alınan renkler
+  --scs-header-bg: #181818;    // Header arka planı (Bir tık açık siyah)
+  --scs-orange: #ff9800;       // Turuncu
+  --scs-white: #ffffff;
+  --scs-gray-text: #b0b0b0;    // Pasif yazılar
+  --scs-input-bg: #ffffff;     // Arama kutusu içi
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Rubik', sans-serif;
+  color: var(--scs-white);
+}
+
+.container {
+  max-width: 1300px; /* Görseldeki gibi geniş */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+a { text-decoration: none; color: inherit; transition: color 0.2s; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+==================================================
+DOSYA YOLU: .\components\atoms\ABaseRating.vue
+==================================================
+
+<template>
+  <div class="rating-stars">
+    <span v-for="i in 5" :key="i" class="star" :class="{ filled: i <= Math.round(rating) }">
+      ★
+    </span>
+    <span v-if="count" class="rating-count">({{ count }} reviews)</span>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  rating: number; // 1 ile 5 arası
+  count?: number; // Yorum sayısı (opsiyonel)
+}>();
+</script>
+
+<style scoped lang="scss">
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  
+  .star {
+    color: #444; /* Boş yıldız rengi */
+    font-size: 1.1rem;
+    line-height: 1;
+    
+    &.filled {
+      color: #ffcc00; /* Dolu yıldız rengi (Altın sarısı) */
+    }
+  }
+
+  .rating-count {
+    font-size: 0.75rem;
+    color: #888;
+    margin-left: 5px;
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\atoms\BaseBadge.vue
+==================================================
+
+<template>
+  <span class="base-badge" :class="[`badge-${variant}`, { 'is-pill': pill }]">
+    <slot />
+  </span>
+</template>
+
+<script setup lang="ts">
+interface Props {
+  variant?: 'primary' | 'danger' | 'dark'; // Turuncu, Kırmızı, Siyah
+  pill?: boolean; // Yuvarlak mı olsun?
+}
+
+withDefaults(defineProps<Props>(), {
+  variant: 'primary',
+  pill: false
+});
+</script>
+
+<style scoped lang="scss">
+.base-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 4px;
+  line-height: 1;
+  color: white;
+
+  &.is-pill {
+    border-radius: 50%; /* Tam yuvarlak (Sepet sayısı için) */
+    min-width: 18px;
+    height: 18px;
+    padding: 0;
+  }
+
+  /* Renkler */
+  &.badge-primary { background-color: var(--scs-orange); color: black; }
+  &.badge-danger { background-color: #ef5350; }
+  &.badge-dark { background-color: #333; }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\atoms\BaseButton.vue
+==================================================
+
+<template>
+  <button
+    class="base-btn"
+    :class="[
+      `btn-${variant}`,
+      `btn-${size}`,
+      { 'btn-block': block, 'is-loading': loading }
+    ]"
+    :disabled="disabled || loading"
+  >
+    <span v-if="loading" class="spinner"></span>
+    
+    <span v-else>
+      <slot />
+    </span>
+  </button>
+</template>
+
+<script setup lang="ts">
+// TypeScript ile Kuralları Belirliyoruz (Hocanın İsteği)
+interface Props {
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger'; // Sadece bu renkler olabilir
+  size?: 'sm' | 'md' | 'lg';
+  block?: boolean;    // Tam genişlik olsun mu?
+  disabled?: boolean; // Tıklanabilir mi?
+  loading?: boolean;  // Yükleniyor mu?
+}
+
+// Varsayılan değerleri atıyoruz
+withDefaults(defineProps<Props>(), {
+  variant: 'primary',
+  size: 'md',
+  block: false,
+  disabled: false,
+  loading: false
+});
+</script>
+
+<style scoped lang="scss">
+.base-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  font-family: inherit;
+
+  // Boyutlar
+  &.btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+  &.btn-md { padding: 12px 24px; font-size: 1rem; }
+  &.btn-lg { padding: 16px 32px; font-size: 1.2rem; }
+
+  // Tam Genişlik
+  &.btn-block { width: 100%; display: flex; }
+
+  // Durumlar
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+  
+  // Varyasyonlar (Renkler)
+  &.btn-primary {
+    background-color: #4CAF50; // Yeşil (Satın alma rengi)
+    color: white;
+    &:hover:not(:disabled) { background-color: #43a047; }
+  }
+
+  &.btn-secondary {
+    background-color: #FF9800; // Turuncu (SpeedCubeShop teması)
+    color: white;
+    &:hover:not(:disabled) { background-color: #f57c00; }
+  }
+
+  &.btn-outline {
+    background-color: transparent;
+    border: 2px solid #ddd;
+    color: #333;
+    &:hover:not(:disabled) { border-color: #333; }
+  }
+
+  &.btn-danger {
+    background-color: #ef5350;
+    color: white;
+    &:hover:not(:disabled) { background-color: #e53935; }
+  }
+}
+
+/* Basit bir dönen çember (loading için) */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\atoms\BaseIcon.vue
+==================================================
+
+<template>
+  <component 
+    :is="iconComponent" 
+    class="base-icon"
+    :style="{ width: size + 'px', height: size + 'px' }"
+  />
+</template>
+
+<script setup lang="ts">
+import { computed, defineAsyncComponent } from 'vue';
+
+// 1. İkon İsimlerini Tanımla
+type IconName = 
+                | 'cart' 
+                | 'user' 
+                | 'heart' 
+                | 'chevron-down' 
+                | 'chevron-left' 
+                | 'chevron-right'
+                | 'search' 
+                | 'facebook' 
+                | 'twitter' 
+                | 'instagram' 
+                | 'youtube' 
+                | 'tiktok' 
+                | 'discord' 
+                | 'reddit';
+
+interface Props {
+  name: IconName;
+  size?: number | string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 20
+});
+
+// 2. Tüm ikon dosyalarını otomatik tanı (Vite Glob Import)
+// Bu yöntem SSR hatalarını önler.
+const icons = import.meta.glob('~/components/icons/*.vue');
+
+const iconComponent = computed(() => {
+  // 'cart' -> 'IconCart' formatına çevir
+  const pascalName = 'Icon' + props.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
+  
+  // Dosya yolunu bul
+  // Not: Nuxt alias'ı (~) bazen /components/... olarak çözümlenir, bu yüzden dinamik eşleştiriyoruz.
+  const filePath = Object.keys(icons).find(path => path.includes(`/${pascalName}.vue`));
+
+  if (filePath && icons[filePath]) {
+    // Bulunan dosyayı asenkron yükle
+    return defineAsyncComponent(icons[filePath] as any);
+  }
+  
+  // İkon bulunamazsa hata vermemesi için boş bir div döndürebiliriz
+  return 'div'; 
+});
+</script>
+
+<style scoped>
+.base-icon {
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  transition: color 0.2s ease;
+  /* SVG'lerin içindeki path'lerin rengi de inherit olsun */
+  fill: currentColor; 
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\atoms\BaseInput.vue
+==================================================
+
+<template>
+  <div class="input-wrapper" :class="{ 'has-error': error }">
+    <label v-if="label" class="input-label">{{ label }}</label>
+
+    <div class="input-container">
+      <input
+        :type="type"
+        :placeholder="placeholder"
+        :value="modelValue"
+        @input="updateValue"
+        class="base-input"
+        :disabled="disabled"
+      />
+    </div>
+
+    <span v-if="error" class="error-message">{{ error }}</span>
+  </div>
+</template>
+
+<script setup lang="ts">
+// TypeScript Props Tanımları
+interface Props {
+  modelValue: string | number; // v-model'den gelen değer
+  label?: string;              // Üstteki yazı (örn: "E-posta")
+  type?: 'text' | 'password' | 'email' | 'number';
+  placeholder?: string;
+  error?: string;              // Hata mesajı (örn: "Şifre çok kısa")
+  disabled?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  type: 'text',
+  modelValue: '',
+  disabled: false
+});
+
+// v-model'in çalışması için 'emit' kullanıyoruz
+const emit = defineEmits(['update:modelValue']);
+
+const updateValue = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  emit('update:modelValue', target.value);
+};
+</script>
+
+<style scoped lang="scss">
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  width: 100%;
+
+  .input-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+  }
+
+  .base-input {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box; // Padding taşmasın diye
+
+    &:focus {
+      border-color: #FF9800; // SpeedCubeShop Turuncusu
+    }
+
+    &:disabled {
+      background-color: #f5f5f5;
+      cursor: not-allowed;
+    }
+  }
+
+  .error-message {
+    color: #ef5350;
+    font-size: 0.8rem;
+    margin-top: 4px;
+  }
+
+  // Hata durumunda input çerçevesi kırmızı olsun
+  &.has-error .base-input {
+    border-color: #ef5350;
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconCart.vue
+==================================================
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-4h7a1 1 0 0 0 .96-.74L19.5 6H6.8l-.6-3H3v2h2l3.6 11.4A2 2 0 0 0 10 16h8v-2H9.8c-.5 0-.9-.3-1-.8z"/>
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconChevronDown.vue
+==================================================
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconChevronLeft.vue
+==================================================
+
+<template>
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    stroke-width="2" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+  >
+    <path d="M15 18l-6-6 6-6" />
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconChevronRight.vue
+==================================================
+
+<template>
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    stroke-width="2" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+  >
+    <path d="M9 18l6-6-6-6" />
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconDiscord.vue
+==================================================
+
+<template><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.086 2.157 2.419 0 1.334-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.086 2.157 2.419 0 1.334-.946 2.419-2.157 2.419z"/></svg></template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconFacebook.vue
+==================================================
+
+<template>
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconHeart.vue
+==================================================
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconInstagram.vue
+==================================================
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.225-.149-4.771-1.664-4.919-4.919-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.225 1.664-4.771 4.919-4.919 1.266-.058 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.363 2.622 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0z"/>
+    <path d="M12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4z"/>
+    <circle cx="18.406" cy="5.594" r="1.44"/>
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconReddit.vue
+==================================================
+
+<template><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg></template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconSearch.vue
+==================================================
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconTiktok.vue
+==================================================
+
+<template><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconTwitter.vue
+==================================================
+
+<template><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconUser.vue
+==================================================
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\icons\IconYoutube.vue
+==================================================
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.86-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/>
+  </svg>
+</template>
+
+==================================================
+DOSYA YOLU: .\components\molecules\MBannerCard.vue
+==================================================
+
+<template>
+  <div 
+    class="banner-card" 
+    :class="variant"
+    :style="backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : {}"
+  >
+    <div class="content">
+      <h3 v-if="subtitle" class="subtitle">{{ subtitle }}</h3>
+      <h2 class="title" v-html="title"></h2> <button class="action-btn">{{ buttonText }}</button>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  title: string;
+  subtitle?: string;
+  buttonText: string;
+  backgroundImage?: string; // Opsiyonel: Resim varsa koyar
+  variant?: 'dark' | 'light' | 'primary'; // Tema seçeneği
+}>();
+</script>
+
+<style scoped lang="scss">
+.banner-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  min-height: 250px;
+  
+  /* Varsayılan (Light) */
+  background-color: #f4f4f4;
+  color: #111;
+
+  .content {
+    position: relative;
+    z-index: 2;
+    max-width: 80%;
+  }
+
+  /* Koyu Tema (Dark) */
+  &.dark {
+    background-color: #111;
+    color: white;
+    .title { text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+  }
+
+  /* Primary Tema (Turuncu/Mavi vb.) */
+  &.primary {
+    background-color: #2962ff;
+    color: white;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    opacity: 0.9;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .action-btn {
+    padding: 12px 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: white;
+    color: black;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Dark modda buton rengi değişsin */
+  &.dark .action-btn {
+    background: var(--scs-orange); /* Turuncu */
+    color: white;
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\molecules\MCurrencySelector.vue
+==================================================
+
+<template>
+  <div class="currency-selector" v-click-outside="closeDropdown">
+    <button class="trigger-btn" @click="toggleDropdown">
+      <span class="flag-icon">{{ selected.flag }}</span>
+      <span class="currency-code">{{ selected.code }}</span>
+      <ABaseIcon 
+        name="chevron-down" 
+        size="10" 
+        class="arrow-icon" 
+        :style="{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }" 
+      />
+    </button>
+
+    <transition name="slide-fade">
+      <ul v-if="isOpen" class="dropdown-list">
+        <li 
+          v-for="currency in currencies" 
+          :key="currency.code"
+          class="dropdown-item"
+          @click="selectCurrency(currency)"
+        >
+          <span class="item-flag">{{ currency.flag }}</span>
+          <span class="item-code">{{ currency.code }}</span>
+        </li>
+      </ul>
+    </transition>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+
+// Basitçe dışarı tıklamayı algılamak için (VueUse yoksa manuel directive yerine basit blur kullanabiliriz ama şimdilik manuel toggle yeterli)
+// Not: Profesyonel projelerde 'vueuse/onClickOutside' kullanılır.
+
+const isOpen = ref(false);
+
+const currencies = [
+  { code: 'USD', flag: '🇺🇸' },
+  { code: 'CAD', flag: '🇨🇦' },
+  { code: 'AUD', flag: '🇦🇺' },
+  { code: 'EUR', flag: '🇪🇺' },
+  { code: 'GBP', flag: '🇬🇧' },
+];
+
+const selected = ref(currencies[0]);
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value;
+};
+
+const closeDropdown = () => {
+  isOpen.value = false;
+};
+
+const selectCurrency = (currency: any) => {
+  selected.value = currency;
+  isOpen.value = false;
+};
+
+// Basit bir "Click Outside" direktifi (Geçici çözüm)
+const vClickOutside = {
+  mounted(el: any, binding: any) {
+    el.clickOutsideEvent = (event: Event) => {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value();
+      }
+    };
+    document.body.addEventListener('click', el.clickOutsideEvent);
+  },
+  unmounted(el: any) {
+    document.body.removeEventListener('click', el.clickOutsideEvent);
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.currency-selector {
+  position: relative;
+  display: inline-block;
+  font-family: sans-serif;
+}
+
+.trigger-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff; /* Topbar koyu olacağı için yazı beyaz */
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .flag-icon { font-size: 1.2rem; }
+  .arrow-icon { transition: transform 0.2s; }
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0; /* Veya right: 0 */
+  margin-top: 5px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  list-style: none;
+  padding: 5px 0;
+  min-width: 120px;
+  z-index: 100;
+  border: 1px solid #eee;
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    &:hover {
+      background: #f5f5f5;
+      color: var(--scs-orange); /* Turuncu vurgu */
+    }
+
+    .item-flag { font-size: 1.2rem; }
+  }
+}
+
+/* Animasyon */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.2s ease;
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\molecules\MFooterColumn.vue
+==================================================
+
+<template>
+  <div class="footer-column">
+    <h4 class="column-title">{{ title }}</h4>
+    <ul class="link-list">
+      <li v-for="(link, index) in links" :key="index">
+        <NuxtLink :to="link.url" class="footer-link">{{ link.text }}</NuxtLink>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script setup lang="ts">
+interface LinkItem {
+  text: string;
+  url: string;
+}
+
+defineProps<{
+  title: string;
+  links: LinkItem[];
+}>();
+</script>
+
+<style scoped lang="scss">
+.footer-column {
+  .column-title {
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 6px;
+      width: fit-content; /* Çizgi sadece yazı kadar olsun diye */
+      
+      .footer-link {
+        color: #e0e0e0;
+        font-size: 0.7rem;
+        text-decoration: none;
+        font-weight: 400;
+        position: relative; /* Animasyon için referans noktası */
+        display: inline-block;
+        padding-bottom: 2px; /* Çizgi ile yazı arası boşluk */
+        transition: color 0.3s ease;
+
+        /* ANİMASYONLU ÇİZGİ (Sihir Burada) */
+        &::after {
+          content: '';
+          position: absolute;
+          width: 0; /* Başlangıçta genişlik 0 */
+          height: 1px; /* Çizgi kalınlığı */
+          bottom: 0;
+          left: 0;
+          background-color: var(--scs-orange); /* Turuncu Renk */
+          transition: width 0.3s ease-in-out; /* Kayma animasyonu */
+        }
+
+        &:hover {
+          color: var(--scs-orange); /* Yazı rengi değişsin */
+          
+          /* Hover olunca çizgi %100 genişliğe ulaşsın */
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\molecules\MMarketingBlock.vue
+==================================================
+
+<template>
+  <div class="marketing-block container" :class="{ 'reversed': isReversed }">
+    
+    <div class="content-area">
+      <h3 class="block-title">{{ title }}</h3>
+      <div class="separator"></div> <p class="block-desc">{{ description }}</p>
+      <button class="block-btn">{{ buttonText }}</button>
+    </div>
+
+    <div class="image-area">
+      <img :src="image" :alt="title" />
+    </div>
+
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  image: string;
+  title: string;
+  description: string;
+  buttonText: string;
+  isReversed?: boolean; // True ise Görsel Sola, Yazı Sağa geçer
+}>();
+</script>
+
+<style scoped lang="scss">
+.marketing-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Yarı yarıya böl */
+  gap: 60px; /* Görsel ile yazı arası boşluk */
+  align-items: center;
+  margin-bottom: 80px; /* Bloklar arası boşluk */
+
+  /* REVERSED MODU (Görsel Solda, Yazı Sağda) */
+  &.reversed {
+    .content-area { order: 2; } /* Yazıyı sona at */
+    .image-area { order: 1; }   /* Resmi başa al */
+  }
+
+  .content-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* İsteğe bağlı: Yazıları ortalamak istersen 'align-items: center; text-align: center;' yapabilirsin. 
+       Görselde genelde ortalı duruyor: */
+    align-items: center; 
+    text-align: center;
+
+    .block-title {
+      color: #ff9f00; /* İSTENEN: Turuncu Başlık */
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    /* Başlık altındaki ufak turuncu çizgi */
+    .separator {
+      width: 50px;
+      height: 3px;
+      background-color: #ff9f00;
+      margin-bottom: 20px;
+    }
+
+    .block-desc {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+      max-width: 90%;
+    }
+
+    .block-btn {
+      background: #111; /* İSTENEN: Siyah Buton */
+      color: white;
+      padding: 14px 30px;
+      border: none;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s ease; /* Yumuşak geçiş */
+
+      &:hover {
+        background: #4CAF50; /* İSTENEN: Yeşil Hover */
+        transform: translateY(-2px); /* Ufak bir zıplama efekti */
+      }
+    }
+  }
+
+  .image-area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 100%;
+      max-height: 400px; /* Çok uzamasını engelle */
+      object-fit: contain;
+    }
+  }
+}
+
+/* RESPONSIVE (Mobil/Tablet) */
+@media (max-width: 900px) {
+  .marketing-block {
+    grid-template-columns: 1fr; /* Alt alta diz */
+    gap: 30px;
+    margin-bottom: 60px;
+
+    &.reversed {
+      .content-area { order: 2; } /* Mobilde her zaman görsel üstte, yazı altta olsun */
+      .image-area { order: 1; }
+    }
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\molecules\MNewsletter.vue
+==================================================
+
+<template>
+  <div class="newsletter-molecule">
+    
+    <h3 class="section-title">STAY CONNECTED</h3>
+    
+    <div class="social-icons">
+      <a href="#" class="social-circle"><ABaseIcon name="facebook" size="18" /></a>
+      <a href="#" class="social-circle"><ABaseIcon name="twitter" size="18" /></a>
+      <a href="#" class="social-circle"><ABaseIcon name="instagram" size="18" /></a>
+      <a href="#" class="social-circle"><ABaseIcon name="youtube" size="18" /></a>
+      <a href="#" class="social-circle"><ABaseIcon name="tiktok" size="18" /></a>
+      <a href="#" class="social-circle"><ABaseIcon name="discord" size="18" /></a>
+      <a href="#" class="social-circle"><ABaseIcon name="reddit" size="18" /></a>
+    </div>
+
+    <h4 class="promo-text">GET SALES, NEW RELEASES, TIPS, AND NEWS</h4>
+    
+    <div class="input-group">
+      <input type="email" placeholder="Email Address" />
+      <button class="subscribe-btn">Subscribe</button>
+    </div>
+
+  </div>
+</template>
+
+<style scoped lang="scss">
+.newsletter-molecule {
+  
+  .section-title {
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+
+    .social-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background-color: white; /* Görseldeki gibi beyaz daire */
+      border-radius: 50%;
+      color: black; /* İkon rengi siyah */
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: translateY(-3px);
+        background-color: var(--scs-orange);
+      }
+    }
+  }
+
+  .promo-text {
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  .input-group {
+    display: flex;
+    gap: 0; /* Birleşik duruyorlar */
+
+    input {
+      flex: 1;
+      background: white;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 2px 0 0 2px;
+      outline: none;
+      color: #333;
+      font-size: 0.95rem;
+      
+      &::placeholder { color: #999; }
+    }
+
+    .subscribe-btn {
+      background: #e67e22; /* Görseldeki turuncu tonu */
+      color: black;
+      font-weight: 700;
+      border: none;
+      padding: 0 20px;
+      border-radius: 0 2px 2px 0;
+      cursor: pointer;
+      font-size: 0.95rem;
+
+      &:hover { background: #d35400; }
+    }
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\molecules\MProductCard.vue
+==================================================
+
+<template>
+  <div class="product-card">
+    
+    <div class="badges">
+      <div v-if="badge" class="badge-hot">🔥 {{ badge }}</div>
+      <div v-if="discount" class="badge-sale">-{{ discount }}%</div>
+    </div>
+
+    <div class="image-wrapper">
+      <img :src="image" :alt="title" class="product-img" />
+      <div class="hover-actions">
+        <button class="action-btn"><ABaseIcon name="heart" size="16" /></button>
+        <button class="action-btn"><ABaseIcon name="search" size="16" /></button>
+      </div>
+    </div>
+
+    <div class="product-info">
+      <ABaseRating :rating="rating" :count="reviewCount" />
+      
+      <h3 class="product-title">
+        <NuxtLink to="#">{{ title }}</NuxtLink>
+      </h3>
+      
+      <div class="price-box">
+        <span class="current-price">${{ price }}</span>
+        <span v-if="oldPrice" class="old-price">${{ oldPrice }}</span>
+      </div>
+    </div>
+
+    <button class="add-to-cart-btn">
+      {{ isPreOrder ? 'PRE ORDER' : 'ADD TO CART' }}
+    </button>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  title: string;
+  price: number;
+  oldPrice?: number;
+  image: string;
+  rating: number;
+  reviewCount: number;
+  badge?: string; // "HOT SELLER" vb.
+  discount?: number; // İndirim yüzdesi
+  isPreOrder?: boolean;
+}>();
+</script>
+
+<style scoped lang="scss">
+.product-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    
+    .hover-actions { opacity: 1; }
+  }
+}
+
+.badges {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .badge-hot {
+    background-color: white;
+    color: #ff5722;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .badge-sale {
+    background-color: #ff0000;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    width: fit-content;
+  }
+}
+
+.image-wrapper {
+  position: relative;
+  padding: 20px;
+  background: #f9f9f9;
+  text-align: center;
+  height: 200px; /* Görseller için sabit alan */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .product-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .hover-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    .action-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: none; background: white;
+      color: #333; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      &:hover { color: var(--scs-orange); }
+    }
+  }
+}
+
+.product-info {
+  padding: 15px;
+  flex: 1; /* Butonu aşağı itmek için */
+
+  .product-title {
+    font-size: 0.95rem;
+    margin: 10px 0;
+    line-height: 1.4;
+    a {
+      color: #333; text-decoration: none; font-weight: 600;
+      &:hover { color: var(--scs-orange); }
+    }
+  }
+
+  .price-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    .current-price { font-weight: 800; color: #111; font-size: 1.1rem; }
+    .old-price { text-decoration: line-through; color: #999; font-size: 0.9rem; }
+  }
+}
+
+.add-to-cart-btn {
+  width: calc(100% - 20px);
+  margin: 0 10px 15px 10px;
+  padding: 12px;
+  background-color: #4CAF50; /* Yeşil */
+  color: white;
+  border: none;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #43a047;
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\molecules\MSearchBar.vue
+==================================================
+
+<template>
+  <div class="search-bar-molecule">
+    <input 
+      v-model="searchQuery" 
+      type="text" 
+      placeholder="Search" 
+      class="search-input"
+      @keyup.enter="handleSearch"
+    />
+    <button class="search-btn" @click="handleSearch">
+      <ABaseIcon name="search" size="18" />
+    </button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const searchQuery = ref('');
+const emit = defineEmits(['search']);
+
+const handleSearch = () => {
+  if (searchQuery.value.trim()) {
+    emit('search', searchQuery.value);
+  }
+};
+</script>
+
+<style scoped lang="scss">
+.search-bar-molecule {
+  display: flex;
+  width: 100%;
+  height: 38px; /* Yükseklik küçültüldü (Daha zarif) */
+  border-radius: 4px;
+  overflow: hidden;
+
+  .search-input {
+    flex-grow: 1;
+    border: none;
+    padding: 0 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: 'Rubik', sans-serif;
+    outline: none;
+    color: #333;
+    background: white;
+    
+    &::placeholder { color: #999; font-weight: 500; }
+  }
+
+  .search-btn {
+    width: 40px; /* Buton da küçüldü */
+    border: none;
+    background-color: var(--scs-orange);
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+
+    &:hover { background-color: #f57c00; }
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\molecules\MSplitBanner.vue
+==================================================
+
+<template>
+  <div class="split-banner" :class="variant">
+    
+    <div class="content-side">
+      <h4 v-if="subtitle" class="subtitle">{{ subtitle }}</h4>
+      <h2 class="title" v-html="title"></h2>
+      <p v-if="description" class="description">{{ description }}</p>
+      <button class="action-btn">{{ buttonText }}</button>
+    </div>
+
+    <div class="image-side">
+      <img :src="image" :alt="title" class="product-image" />
+    </div>
+
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  title: string;
+  subtitle?: string;
+  description?: string;
+  buttonText: string;
+  image: string;
+  variant?: 'light' | 'dark'; // Açık veya Koyu tema seçeneği
+}>();
+</script>
+
+<style scoped lang="scss">
+.split-banner {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Alanı ikiye böl */
+  align-items: center; /* İçeriği dikeyde ortala */
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 450px; /* Heybetli bir yükseklik */
+
+  /* Temalar */
+  &.light { background-color: #f4f4f4; color: #111; }
+  &.dark { background-color: #111; color: white; }
+
+  .content-side {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Yazıları sola yasla */
+
+    .subtitle {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      font-weight: 700;
+      opacity: 0.8;
+      color: var(--scs-orange); /* Turuncu vurgu */
+    }
+
+    .title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .description {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      max-width: 90%;
+      opacity: 0.9;
+    }
+
+    .action-btn {
+      padding: 15px 35px;
+      font-weight: 800;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+
+      /* Tema bazlı buton renkleri */
+      .light & { background: #111; color: white; &:hover { background: var(--scs-orange); } }
+      .dark & { background: white; color: #111; &:hover { background: var(--scs-orange); color: white; } }
+    }
+  }
+
+  .image-side {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 30px;
+
+    .product-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain; /* Resmi bozmadan sığdır */
+      /* Ürünü öne çıkaran hafif bir gölge */
+      filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));
+      transition: transform 0.3s;
+    }
+  }
+
+  /* Hover Efekti: Ürün hafifçe büyüsün */
+  &:hover .product-image {
+    transform: scale(1.05);
+  }
+}
+
+/* RESPONSIVE AYARLAR (Mobil/Tablet) */
+@media (max-width: 900px) {
+  .split-banner {
+    grid-template-columns: 1fr; /* Mobilde alt alta */
+    text-align: center;
+    min-height: auto; 
+
+    .content-side {
+      padding: 40px 20px;
+      align-items: center; /* Yazıları ortala */
+      order: 2; /* Yazı görselin altına gelsin */
+    }
+
+    .image-side {
+      height: 350px; /* Mobilde görsel alanı yüksekliği */
+      order: 1; 
+      background: rgba(0,0,0,0.03); /* Görselin altına hafif bir fon */
+    }
+
+    .title { font-size: 2rem; }
+    .description { max-width: 100%; }
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\organisms\OBrandSlider.vue
+==================================================
+
+<template>
+  <section class="brand-slider-section">
+    <div class="container">
+      
+      <div class="divider-header">
+        <span class="line"></span>
+        <h4 class="brand-title">OFFICIAL RETAILER FOR TOP BRANDS</h4>
+        <span class="line"></span>
+      </div>
+
+      <div class="slider-wrapper">
+        
+        <button class="nav-btn prev" @click="scroll('left')">
+          <ABaseIcon name="chevron-down" style="transform: rotate(90deg);" />
+        </button>
+
+        <div class="brands-track" ref="scrollContainer">
+          <div 
+            v-for="(brand, index) in brands" 
+            :key="index" 
+            class="brand-item"
+          >
+            <span class="brand-name">{{ brand.name }}</span>
+          </div>
+        </div>
+
+        <button class="nav-btn next" @click="scroll('right')">
+          <ABaseIcon name="chevron-down" style="transform: rotate(-90deg);" />
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+
+// 8 Adet Marka (İleride 'logo' alanlarını dolduracağız)
+const brands = [
+  { name: "Rubik's", logo: '' },
+  { name: 'GAN', logo: '' },
+  { name: 'MoYu', logo: '' },
+  { name: 'DianSheng', logo: '' },
+  { name: 'QiYi', logo: '' },
+  { name: 'YJ', logo: '' },
+  { name: 'X-Man Design', logo: '' },
+  { name: 'YuXin', logo: '' },
+];
+
+const scrollContainer = ref<HTMLElement | null>(null);
+
+// TEK TEK KAYDIRMA FONKSİYONU
+const scroll = (direction: 'left' | 'right') => {
+  if (scrollContainer.value) {
+    // Bir kartın genişliği (150px) + boşluk (20px) = 170px
+    const itemWidth = 170; 
+    
+    scrollContainer.value.scrollBy({
+      left: direction === 'right' ? itemWidth : -itemWidth,
+      behavior: 'smooth'
+    });
+  }
+};
+</script>
+
+<style scoped lang="scss">
+.brand-slider-section {
+  padding: 40px 0;
+  background: white;
+  margin-top: none;
+  border-top: none;
+}
+
+.divider-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  
+  .line {
+    flex: 1;
+    height: 1px;
+    background-color: #eee;
+  }
+
+  .brand-title {
+    margin: 0 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #888;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+}
+
+.brands-track {
+  display: flex;
+  gap: 20px; /* Markalar arası boşluk */
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: 100%;
+  padding: 10px 5px;
+  
+  /* Scrollbar gizleme */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.brand-item {
+  /* Sabit genişlik veriyoruz ki "tek tek" kaydırma düzgün çalışsın */
+  min-width: 150px; 
+  height: 80px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #555;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: all 0.2s;
+  user-select: none; /* Yazı seçilmesin */
+  
+  &:hover {
+    border-color: var(--scs-orange);
+    color: var(--scs-orange);
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .brand-name {
+    padding: 0 10px;
+  }
+}
+
+.nav-btn {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0; /* Butonlar ezilmesin */
+  color: #666;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: var(--scs-orange);
+    border-color: var(--scs-orange);
+    color: white;
+  }
+}
+
+
+</style>
+
+==================================================
+DOSYA YOLU: .\components\organisms\OFooter.vue
+==================================================
+
+<template>
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <div class="footer-grid">
+        
+        <MFooterColumn title="ABOUT" :links="aboutLinks" />
+
+        <MFooterColumn title="SUPPORT" :links="supportLinks" />
+
+        <MFooterColumn title="LEARN" :links="learnLinks" />
+
+        <MFooterColumn title="INFORMATION" :links="infoLinks" />
+
+        <div class="newsletter-column">
+          <MNewsletter />
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© 2009-2025 SpeedCubeShop, Inc.</p>
+        
+        
+      </div>
+
+    </div>
+  </footer>
+</template>
+
+<script setup lang="ts">
+const aboutLinks = [
+  { text: 'Our Story', url: '#' },
+  { text: 'Reviews', url: '#' },
+  { text: 'Showroom', url: '#' },
+  { text: 'Gift Cards', url: '#' },
+  { text: 'Wallpapers & Logos', url: '#' },
+];
+
+const supportLinks = [
+  { text: 'Help Center', url: '#' },
+  { text: 'Contact Us', url: '#' },
+  { text: 'Order Editing', url: '#' },
+  { text: 'Wishlist', url: '#' },
+  { text: 'Rewards', url: '#' },
+];
+
+const learnLinks = [
+  { text: 'Getting Started', url: '#' },
+  { text: "Rubik's Cube Tutorial", url: '#' },
+  { text: 'Parents', url: '#' },
+  { text: 'Get Faster', url: '#' },
+  { text: 'Lubrication', url: '#' },
+  { text: 'Community', url: '#' },
+  { text: 'Blog Posts', url: '#' },
+];
+
+const infoLinks = [
+  { text: 'Return & Refund Policy', url: '#' },
+  { text: 'Shipping Policy', url: '#' },
+  { text: 'Privacy Policy', url: '#' },
+  { text: 'Privacy Choices', url: '#' },
+  { text: 'Terms of Service', url: '#' },
+  { text: 'Messaging Terms & Conditions', url: '#' },
+  { text: 'Messaging Service Privacy Policy', url: '#' },
+];
+</script>
+
+<style scoped lang="scss">
+.site-footer {
+  background-color: #181818;
+  /* DÜZELTME 1: Padding azaltıldı, içerik yukarı çekildi */
+  padding: 10px 0 40px 0; 
+  color: white;
+  margin-top: auto;
+  border-top: 1px solid #222;
+  width: 100%;
+}
+
+/* DÜZELTME 2: Ortalama ve Kenar Boşlukları (Navbar ile aynı mantık) */
+.footer-container {
+  max-width: 1050px; /* İçerik çok yayılmasın */
+  width: 100%;
+  margin: 0 auto; /* Tam ortala */
+  padding: 0 60px; /* Yanlardan nefes payı bırak */
+  box-sizing: border-box;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px; /* Kolonlar arası mesafe */
+  padding-bottom: 20px; /* Alt kısımla mesafe */
+}
+
+/* Newsletter alanı için özel ayar (Sağa yaslı dursun) */
+.newsletter-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* İçerikler sola yaslı */
+}
+
+/* ALT KISIM */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 25px;
+  /* İsteğe bağlı üst çizgi */
+  /* border-top: 1px solid #333; */ 
+  
+  .copyright {
+    color: #666;
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  .payment-icons {
+    display: flex;
+    align-items: center;
+    
+    .payment-img {
+      height: 25px;
+      opacity: 0.8;
+      display: block;
+    }
+  }
+}
+
+/* --- RESPONSIVE AYARLAR --- */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .footer-container {
+    padding: 0 40px; /* Tablette kenar boşluğunu biraz azalt */
+  }
+  
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 50px;
+  }
+  
+  .newsletter-column {
+    grid-column: span 3; 
+    max-width: 500px;
+  }
+}
+
+/* Mobil */
+@media (max-width: 600px) {
+  .footer-container {
+    padding: 0 20px; /* Mobilde daha az boşluk */
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: left;
+    gap: 40px;
+  }
+
+  .newsletter-column {
+    grid-column: span 1;
+    max-width: 100%;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\organisms\OHeroSection.vue
+==================================================
+
+<template>
+  <section class="hero-section container">
+    <div class="hero-wrapper">
+      
+      <MBannerCard
+        class="top-banner"
+        variant="dark"
+        title="CHRISTMAS DEALS<br>UP TO 50% OFF"
+        button-text="SHOP CHRISTMAS DEALS"
+        background-image="https://cdn.shopify.com/s/files/1/0951/1902/files/SCS_Holiday_2024_Homepage_Banner_Desktop.jpg?v=1731610000"
+      />
+
+      <MSplitBanner
+        variant="light"
+        subtitle="LIMITED EDITION SPEED CUBE"
+        title="GAN 16 AMYTH"
+        description="Discover GAN's newest flagship 3x3 in a limited amethyst finish. Complete with MagLev, core magnets, UV coating, and exclusive Amyth accessories. Once this run sells out, it's gone for good!"
+        button-text="SHOP GAN 16 AMYTH"
+        image="https://cdn.shopify.com/s/files/1/0951/1902/files/GAN_14_MagLev_3x3_UV_Coated_Primary_1_360x.png?v=1692135940"
+      />
+
+    </div>
+  </section>
+</template>
+
+<style scoped lang="scss">
+.hero-section {
+  margin-top: 30px;
+  /* Alt kısımla (Popular Cubes) çakışmaması için cömert bir boşluk */
+  margin-bottom: 80px; 
+}
+
+.hero-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* İki banner arasındaki dikey boşluk */
+
+  /* Üstteki banner'ın yüksekliğini belirleyelim */
+  .top-banner {
+    height: 350px; /* İsteğe göre artırılıp azaltılabilir */
+  }
+  
+  /* Alttaki split banner zaten kendi içinde min-height: 450px'e sahip */
+}
+
+/* RESPONSIVE AYARLAR */
+@media (max-width: 768px) {
+  .hero-section {
+    margin-bottom: 50px;
+  }
+  
+  .hero-wrapper {
+    gap: 20px;
+  }
+
+  .top-banner {
+    height: 250px; /* Mobilde üst banner daha kısa olsun */
+  }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\organisms\OHomeProducts.vue
+==================================================
+
+<template>
+  <section class="home-products-section container">
+    
+    <div class="section-header">
+      <h2 class="section-title">POPULAR SPEED CUBES</h2>
+      
+      <div class="tabs-wrapper">
+        <button 
+          v-for="tab in tabs" 
+          :key="tab"
+          class="tab-btn"
+          :class="{ active: activeTab === tab }"
+          @click="activeTab = tab"
+        >
+          {{ tab }}
+        </button>
+      </div>
+
+      <div class="nav-buttons">
+        <button @click="prev" class="nav-btn prev">
+          <ABaseIcon name="chevron-left" size="14" />
+        </button>
+        <button @click="next" class="nav-btn next">
+          <ABaseIcon name="chevron-right" size="14" />
+        </button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <Carousel 
+        ref="scroll"
+        :items-to-show="4" 
+        :wrap-around="false" 
+        :breakpoints="sliderBreakpoints"
+        class="product-carousel"
+      >
+        <Slide v-for="(product, index) in filteredProducts" :key="index">
+          <div class="carousel__item">
+            <MProductCard 
+              :title="product.title"
+              :price="product.price"
+              :old-price="product.oldPrice"
+              :rating="product.rating"
+              :review-count="product.reviewCount"
+              :image="product.image"
+              :badge="product.badge"
+              :discount="product.discount"
+            />
+          </div>
+        </Slide>
+
+        <template #addons>
+          <div v-if="filteredProducts.length === 0" class="no-products">
+            No products found in this category.
+          </div>
+        </template>
+      </Carousel>
+    </div>
+
+  </section>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
+import { Carousel, Slide } from 'vue3-carousel';
+import 'vue3-carousel/dist/carousel.css';
+
+// Verileri Composable'dan alıyoruz
+const { products, tabs } = useProducts();
+
+// --- STATE ---
+const activeTab = ref(tabs[0]); // İlk sekme (2x2)
+const scroll = ref<any>(null);  // <Carousel ref="scroll"> ile eşleşir
+
+// --- COMPUTED (Filtreleme) ---
+const filteredProducts = computed(() => {
+  return products.filter(product => product.category === activeTab.value);
+});
+
+// Sekme değişince slider'ı başa sar
+watch(activeTab, () => {
+  scroll.value?.slideTo(0);
+});
+
+// --- METODLAR ---
+// Bu fonksiyonlar template'deki @click="prev/next" butonlarına bağlı
+const next = () => scroll.value?.next();
+const prev = () => scroll.value?.prev();
+
+// --- SLIDER AYARLARI ---
+const sliderBreakpoints = {
+  300:  { itemsToShow: 1.2, snapAlign: 'center' as const },
+  600:  { itemsToShow: 2.5, snapAlign: 'start' as const },
+  900:  { itemsToShow: 3.2, snapAlign: 'start' as const },
+  1100: { itemsToShow: 4,   snapAlign: 'start' as const }
+};
+</script>
+
+<style scoped lang="scss">
+.home-products-section {
+  padding: 40px 0;
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* TABLAR */
+.tabs-wrapper {
+  display: flex;
+  gap: 10px;
+  background: #f5f5f5;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #666;
+  border-radius: 4px;
+  transition: all 0.2s;
+
+  &:hover { color: black; }
+  
+  &.active {
+    background: black;
+    color: white;
+  }
+}
+
+/* NAVIGASYON BUTONLARI */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: black;
+    background: black;
+    color: white;
+  }
+}
+
+/* SLIDER */
+.carousel__item {
+  padding: 0 10px; /* Kartlar arası boşluk */
+  width: 100%;
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\organisms\OMarketingSection.vue
+==================================================
+
+<template>
+  <section class="marketing-section-wrapper">
+    
+    <MMarketingBlock
+      title="NEW TO SPEEDCUBING?"
+      description="Use our Cube Finder to get a personalized recommendation in under 30 seconds."
+      button-text="START CUBE FINDER"
+      image="https://cdn.shopify.com/s/files/1/0951/1902/files/SCS_Logo_White_2020_400x.png?v=1614305634" 
+    />
+
+    <MMarketingBlock
+      is-reversed
+      title="HOME OF RECORD HOLDERS"
+      description="Max Park is a world champion, holds 98 world records, and achieved the 3x3 world record with a time of 3.13 seconds!"
+      button-text="SHOP MAX PARK PRO SERIES"
+      image="https://cdn.shopify.com/s/files/1/0951/1902/files/Max_Park_SCS_Image_600x.jpg?v=1614305600"
+    />
+
+    <MMarketingBlock
+      title="ENDORSED BY SOUP TIMMY"
+      description="'SpeedCubeShop is always experimenting and innovating to find ways to make the best experience for cubers!' - Soup Timmy"
+      button-text="SHOP SOUP TIMMY COLLECTION"
+      image="https://cdn.shopify.com/s/files/1/0951/1902/files/Soup_Timmy_SCS_Image_600x.jpg?v=1622230000"
+    />
+
+    <MMarketingBlock
+      is-reversed
+      title="ENDORSED BY J PERM"
+      description="'SpeedCubeShop's dedication to providing an amazing experience for cubers — from beginner to pro — is one of the many reasons I choose to support them.' - Dylan (J Perm)"
+      button-text="SHOP J PERM COLLECTION"
+      image="https://cdn.shopify.com/s/files/1/0951/1902/files/J_Perm_SCS_Image_600x.jpg?v=1614305600"
+    />
+
+  </section>
+</template>
+
+<style scoped>
+.marketing-section-wrapper {
+  padding: 60px 0;
+  background-color: white; /* İSTENEN: Beyaz arka plan */
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\components\organisms\ONavbar.vue
+==================================================
+
+<template>
+  <header class="site-header">
+    
+    <div class="main-header">
+      <div class="header-container">
+        
+        <div class="logo-block">
+          <NuxtLink to="/" class="logo-link">
+            <img src="~assets/navbar_logo.svg" alt="SpeedCubeShop" class="logo-img" />
+          </NuxtLink>
+        </div>
+
+        <div class="right-block">
+          
+          <div class="top-row">
+            <span class="free-shipping">CALCULATING <strong>FREE SHIPPING...</strong></span>
+            <div class="icon-group">
+              <a href="#" class="icon-link wishlist"><ABaseIcon name="heart" size="19" /></a>
+              <NuxtLink to="/login" class="icon-link account-link">
+                <ABaseIcon name="user" size="19" /><span>My Account</span>
+              </NuxtLink>
+            </div>
+          </div>
+
+          <div class="bottom-row">
+            <div class="search-wrapper">
+              <MSearchBar @search="handleSearch" />
+            </div>
+            
+            <div class="buttons-wrapper">
+              
+              <div class="currency-wrapper" ref="currencyWrapper">
+                <button class="currency-btn" @click="isCurrencyOpen = !isCurrencyOpen">
+                  <img :src="`https://flagcdn.com/w20/${selectedCurrency.flag}.png`" :alt="selectedCurrency.code" class="flag-img" />
+                  {{ selectedCurrency.code }} 
+                  <ABaseIcon name="chevron-down" size="12" :style="{ transform: isCurrencyOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: '0.2s' }" />
+                </button>
+
+                <ul v-if="isCurrencyOpen" class="currency-dropdown">
+                  <li 
+                    v-for="currency in currencies" 
+                    :key="currency.code" 
+                    class="dropdown-item"
+                    @click="selectCurrency(currency)"
+                  >
+                    <img :src="`https://flagcdn.com/w20/${currency.flag}.png`" :alt="currency.code" class="flag-img-sm" />
+                    <span>{{ currency.code }}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <NuxtLink to="/cart" class="cart-btn">
+                <ABaseIcon name="cart" size="18" /><span>Cart</span>
+                <ABaseBadge variant="primary" pill class="cart-count-badge">0</ABaseBadge>
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <nav class="nav-bar">
+      <div class="header-container nav-relative">
+        <ul class="nav-list">
+          <li><a href="#">New</a></li>
+          <li><a href="#">Best Sellers</a></li>
+          
+          <li class="has-dropdown">
+            <a href="#" class="menu-link">Holiday</a>
+            <div class="dropdown-menu">
+              <a href="#" class="dropdown-item">Themes</a>
+            </div>
+          </li>
+
+          <li class="has-mega-menu">
+            <a href="#" class="menu-link">Cubes</a>
+            
+            <div class="mega-menu">
+              <div class="mega-content">
+                
+                <div class="mega-column">
+                  <div class="mega-section">
+                    <h4>BY SIZE</h4>
+                    <ul>
+                      <li><a href="#">3x3</a></li>
+                      <li><a href="#">2x2</a></li>
+                      <li><a href="#">4x4</a></li>
+                      <li><a href="#">5x5</a></li>
+                      <li><a href="#">6x6</a></li>
+                      <li><a href="#">7x7</a></li>
+                      <li><a href="#">Big Cubes (8x8+)</a></li>
+                    </ul>
+                  </div>
+                  <div class="mega-section">
+                    <h4>SHAPE SHIFTING</h4>
+                    <ul>
+                      <li><a href="#">Shop all Shape Shifting</a></li>
+                      <li><a href="#">Mirror / Bump</a></li>
+                      <li><a href="#">Fisher</a></li>
+                      <li><a href="#">Windmill</a></li>
+                      <li><a href="#">Axis</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="mega-column">
+                  <div class="mega-section">
+                    <h4>BY EVENT</h4>
+                    <ul>
+                      <li><a href="#">Pyraminx</a></li>
+                      <li><a href="#">Megaminx</a></li>
+                      <li><a href="#">Skewb</a></li>
+                      <li><a href="#">Square-1</a></li>
+                      <li><a href="#">Clock</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="mega-column">
+                  <div class="mega-section">
+                    <h4>SPECIALTY</h4>
+                    <ul>
+                      <li><a href="#">Shop all Specialty Cubes</a></li>
+                      <li><a href="#">Smart / Bluetooth</a></li>
+                      <li><a href="#">Oversized</a></li>
+                      <li><a href="#">Mini</a></li>
+                      <li><a href="#">Glow in the Dark</a></li>
+                      <li><a href="#">Metallic</a></li>
+                      <li><a href="#">Sticker Mods</a></li>
+                      <li><a href="#">Special Edition</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="mega-column">
+                  <div class="mega-section">
+                    <h4>TWISTY PUZZLES</h4>
+                    <ul>
+                      <li><a href="#">Shop all Twisty Puzzles</a></li>
+                      <li><a href="#">Cuboids</a></li>
+                      <li><a href="#">Shape Mods</a></li>
+                      <li><a href="#">Ghost</a></li>
+                      <li><a href="#">Gear</a></li>
+                      <li><a href="#">Picture</a></li>
+                      <li><a href="#">Animal Shape Mods</a></li>
+                      <li><a href="#">FTO</a></li>
+                      <li><a href="#">Bandaged</a></li>
+                      <li><a href="#">Snake</a></li>
+                      <li><a href="#">Fused</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="mega-column">
+                  <div class="mega-section">
+                    <h4>VARIANTS & MORE</h4>
+                    <ul>
+                      <li><a href="#">Bundles</a></li>
+                      <li><a href="#">Mosaic Kits</a></li>
+                      <li><a href="#">Magic Panels</a></li>
+                      <li><a href="#">Klotski</a></li>
+                      <li><a href="#">Sudoku</a></li>
+                      <li><a href="#">Megaminx +</a></li>
+                      <li><a href="#">Pyraminx +</a></li>
+                      <li><a href="#">Square-1 +</a></li>
+                      <li><a href="#">Shop all</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </li>
+
+          <li><a href="#">Cube Finder</a></li>
+          <li><a href="#">Brands</a></li>
+          <li><a href="#">Accessories</a></li>
+          <li><a href="#">Lubricant</a></li>
+          <li><a href="#">Toys & Games</a></li>
+          <li><a href="#">Lifestyle</a></li>
+          <li><a href="#" class="sale">Sale</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue';
+// Composable'ı çağırıyoruz (Veri buradan geliyor)
+const { cubesMenuData, currencies } = useMenu();
+
+const handleSearch = (q: string) => console.log("Aranan:", q);
+
+// --- CURRENCY MANTIĞI ---
+const isCurrencyOpen = ref(false);
+const currencyWrapper = ref<HTMLElement | null>(null);
+
+// Veri artık 'useMenu'dan geldiği için direkt kullanabiliriz
+const selectedCurrency = ref(currencies[0]); 
+
+const selectCurrency = (currency: any) => {
+  selectedCurrency.value = currency;
+  isCurrencyOpen.value = false;
+};
+
+// Dışarı tıklama kontrolü
+const handleClickOutside = (event: MouseEvent) => {
+  if (currencyWrapper.value && !currencyWrapper.value.contains(event.target as Node)) {
+    isCurrencyOpen.value = false;
+  }
+};
+
+onMounted(() => { document.addEventListener('click', handleClickOutside); });
+onUnmounted(() => { document.removeEventListener('click', handleClickOutside); });
+</script>
+
+<style scoped lang="scss">
+.site-header { background-color: #121212 !important; color: white; padding-top: 15px; border-bottom: 1px solid #222; width: 100%; }
+.header-container { max-width: 1250px; margin: 0 auto; padding: 0 100px; width: 100%; box-sizing: border-box; display: flex; gap: 30px; }
+.logo-block { flex-shrink: 0; padding-top: 5px; .logo-img { height: 90px; width: auto; display: block; } }
+.right-block { flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; }
+.top-row { display: flex; justify-content: flex-end; align-items: center; gap: 25px; margin-bottom: 12px; font-size: 0.75rem; color: #ccc; .free-shipping strong { color: white; font-weight: 800; } .icon-group { display: flex; gap: 18px; } .icon-link { color: white; display: flex; gap: 8px; font-weight: 700; &:hover { color: var(--scs-orange); } } }
+.bottom-row { display: flex; align-items: center; gap: 15px; }
+.search-wrapper { flex-grow: 1; }
+
+.buttons-wrapper { display: flex; gap: 10px; flex-shrink: 0; }
+
+/* Currency Dropdown Stilleri */
+.currency-wrapper { position: relative; }
+.currency-btn { background: #222; border: 1px solid #333; color: white; padding: 0 14px; height: 38px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; &:hover { border-color: #555; } }
+.flag-img { width: 20px; border-radius: 2px; }
+.currency-dropdown { position: absolute; top: 100%; right: 0; margin-top: 5px; background-color: white; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); list-style: none; padding: 5px 0; min-width: 120px; z-index: 1000; border: 1px solid #ccc; .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 8px 15px; cursor: pointer; color: #333; font-size: 0.85rem; font-weight: 600; transition: background 0.2s; &:hover { background-color: #f0f0f0; } .flag-img-sm { width: 20px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); } } }
+
+.cart-btn { background: #2a2a2a; border: 1px solid #333; color: white; padding: 0 14px; height: 38px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; text-decoration: none; &:hover { border-color: var(--scs-orange); color: var(--scs-orange); } .cart-count-badge { margin-left: 4px; font-size: 0.8rem; } }
+
+/* Menü Stilleri */
+.nav-bar { background-color: #121212; padding: 10px 0 16px 0; .nav-relative { position: relative; } .nav-list { display: flex; justify-content: center; gap: 20px; width: 100%; padding: 0; margin: 10px 0 0 0; list-style: none; margin-top: 8px; flex-wrap: wrap; li { position: relative; > a { color: white; font-weight: 700; font-size: 0.81rem; text-transform: capitalize; text-decoration: none; display: block; padding-bottom: 5px; border-bottom: 2px solid transparent; cursor: pointer; &:hover, &.active { color: var(--scs-orange); border-bottom-color: var(--scs-orange); } } } li.has-dropdown:hover .dropdown-menu { display: block; } .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background-color: white; min-width: 160px; padding: 10px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border-radius: 2px; z-index: 100; .dropdown-item { color: #333 !important; font-size: 0.85rem !important; padding: 8px 20px; font-weight: 500; border-bottom: none; display: block; text-transform: none; &:hover { color: var(--scs-orange) !important; background-color: #f5f5f5; } } } li.has-mega-menu { position: static; &:hover .mega-menu { display: block; opacity: 1; visibility: visible; } } .mega-menu { display: none; opacity: 0; visibility: hidden; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; color: #333; padding: 30px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 999; transition: all 0.2s ease; } .mega-content { display: flex; justify-content: space-between; gap: 20px; padding: 0 20px; } .mega-column { flex: 1; display: flex; flex-direction: column; gap: 30px; } .mega-section { h4 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin: 0 0 10px 0; color: #111; } ul { list-style: none; padding: 0; margin: 0; li { margin-bottom: 6px; a { color: #555 !important; font-size: 0.85rem !important; font-weight: 400; border: none; padding: 0; text-transform: none; &:hover { color: var(--scs-orange) !important; padding-left: 2px; transition: padding 0.2s; border-bottom: none; } } } } } } }
+</style>
+
+==================================================
+DOSYA YOLU: .\composables\useBrands.ts
+==================================================
+
+// composables/useBrands.ts
+import type { IBrand } from '~/types';
+
+export const useBrands = () => {
+  
+  const brands: IBrand[] = [
+    { name: 'GAN', logo: 'https://cdn.shopify.com/s/files/1/0951/1902/files/GAN_Cube_Logo_160x.png' },
+    { name: 'MoYu', logo: 'https://cdn.shopify.com/s/files/1/0951/1902/files/MoYu_Logo_160x.png' },
+    { name: 'QiYi', logo: 'https://cdn.shopify.com/s/files/1/0951/1902/files/QiYi_MoFangGe_Logo_160x.png' },
+    { name: 'YJ', logo: 'https://cdn.shopify.com/s/files/1/0951/1902/files/YJ_Logo_160x.png' },
+    { name: 'Yuxin', logo: 'https://cdn.shopify.com/s/files/1/0951/1902/files/YuXin_Logo_160x.png' },
+  ];
+
+  return {
+    brands
+  };
+};
+
+==================================================
+DOSYA YOLU: .\composables\useMenu.ts
+==================================================
+
+// composables/useMenu.ts
+import type { IMenuSection, ICurrency } from '~/types';
+
+export const useMenu = () => {
+  
+  // 1. MEGA MENU VERİSİ
+  const cubesMenuData: IMenuSection[][] = [
+    // 1. Sütun
+    [
+      {
+        title: 'BY SIZE',
+        links: [
+          { text: '3x3', url: '#' },
+          { text: '2x2', url: '#' },
+          { text: '4x4', url: '#' },
+          { text: '5x5', url: '#' },
+          { text: '6x6', url: '#' },
+          { text: '7x7', url: '#' },
+          { text: 'Big Cubes (8x8+)', url: '#' },
+        ]
+      },
+      {
+        title: 'SHAPE SHIFTING',
+        links: [
+          { text: 'Shop all Shape Shifting', url: '#' },
+          { text: 'Mirror / Bump', url: '#' },
+          { text: 'Fisher', url: '#' },
+          { text: 'Windmill', url: '#' },
+          { text: 'Axis', url: '#' },
+        ]
+      }
+    ],
+    // 2. Sütun
+    [
+      {
+        title: 'BY EVENT',
+        links: [
+          { text: 'Pyraminx', url: '#' },
+          { text: 'Megaminx', url: '#' },
+          { text: 'Skewb', url: '#' },
+          { text: 'Square-1', url: '#' },
+          { text: 'Clock', url: '#' },
+        ]
+      }
+    ],
+    // 3. Sütun
+    [
+      {
+        title: 'SPECIALTY',
+        links: [
+          { text: 'Shop all Specialty Cubes', url: '#' },
+          { text: 'Smart / Bluetooth', url: '#' },
+          { text: 'Oversized', url: '#' },
+          { text: 'Mini', url: '#' },
+          { text: 'Glow in the Dark', url: '#' },
+          { text: 'Metallic', url: '#' },
+          { text: 'Sticker Mods', url: '#' },
+          { text: 'Special Edition', url: '#' },
+        ]
+      }
+    ],
+    // 4. Sütun
+    [
+      {
+        title: 'TWISTY PUZZLES',
+        links: [
+          { text: 'Shop all Twisty Puzzles', url: '#' },
+          { text: 'Cuboids', url: '#' },
+          { text: 'Shape Mods', url: '#' },
+          { text: 'Ghost', url: '#' },
+          { text: 'Gear', url: '#' },
+          { text: 'Picture', url: '#' },
+          { text: 'Animal Shape Mods', url: '#' },
+          { text: 'FTO', url: '#' },
+          { text: 'Bandaged', url: '#' },
+          { text: 'Snake', url: '#' },
+          { text: 'Fused', url: '#' },
+        ]
+      }
+    ],
+    // 5. Sütun
+    [
+      {
+        title: 'VARIANTS & MORE',
+        links: [
+          { text: 'Bundles', url: '#' },
+          { text: 'Mosaic Kits', url: '#' },
+          { text: 'Magic Panels', url: '#' },
+          { text: 'Klotski', url: '#' },
+          { text: 'Sudoku', url: '#' },
+          { text: 'Megaminx +', url: '#' },
+          { text: 'Pyraminx +', url: '#' },
+          { text: 'Square-1 +', url: '#' },
+          { text: 'Shop all', url: '#' },
+        ]
+      }
+    ]
+  ];
+
+  // 2. PARA BİRİMİ VERİSİ
+  const currencies: ICurrency[] = [
+    { code: 'USD', flag: 'us' },
+    { code: 'CAD', flag: 'ca' },
+    { code: 'AUD', flag: 'au' },
+    { code: 'EUR', flag: 'eu' },
+    { code: 'GBP', flag: 'gb' },
+  ];
+
+  return {
+    cubesMenuData,
+    currencies
+  };
+};
+
+==================================================
+DOSYA YOLU: .\composables\useProducts.ts
+==================================================
+
+// composables/useProducts.ts
+import type { IProduct } from '~/types';
+
+export const useProducts = () => {
+  
+  // 1. İSTENEN MENÜLER
+  const tabs = ['2x2', '3x3', '4x4'];
+
+  // 2. ÜRÜN LİSTESİ (Toplam 16 Ürün: 8 adet 2x2, 6 adet 3x3, 2 adet 4x4)
+  const products: IProduct[] = [
+    
+    // --- 2x2 KATEGORİSİ (8 ADET) ---
+    { title: 'GAN 251 M Pro 2x2', price: 32.95, rating: 5, reviewCount: 120, category: '2x2', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/GAN_251_M_Pro_2x2_1_360x.png', badge: 'BEST' },
+    { title: 'MoYu RS2 M 2020', price: 8.95, rating: 4.8, reviewCount: 340, category: '2x2', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/MoYu_RS2_M_2020_1_360x.png', badge: 'HOT' },
+    { title: 'YJ MGC 2x2 Magnetic', price: 11.95, rating: 4.9, reviewCount: 85, category: '2x2', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/YJ_MGC_2x2_Magnetic_1_360x.png' },
+    { title: 'QiYi MS 2x2 Magnetic', price: 7.95, rating: 4.5, reviewCount: 50, category: '2x2', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/QiYi_MS_2x2_Magnetic_1_360x.png' },
+    { title: 'Valk 2 M 2x2', price: 18.95, rating: 4.7, reviewCount: 200, category: '2x2', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/Valk_2_M_1_360x.png' },
+    { title: 'Yuxin Little Magic 2x2', price: 5.95, rating: 4.2, reviewCount: 110, category: '2x2', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/YuXin_Little_Magic_2x2_M_1_360x.png' },
+    { title: 'DaYan TengYun 2x2 V2', price: 28.95, rating: 4.8, reviewCount: 45, category: '2x2', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/DaYan_TengYun_V2_M_2x2_1_360x.png' },
+    { title: 'X-Man Flare 2x2 M', price: 15.95, rating: 4.6, reviewCount: 75, category: '2x2', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/X-Man_Flare_2x2_M_1_360x.png' },
+
+    // --- 3x3 KATEGORİSİ (6 ADET) ---
+    { title: 'MoYu RS3 M 2020', price: 8.95, rating: 5, reviewCount: 1547, category: '3x3', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/MoYu_RS3_M_2020_3x3_Magnetic_1_360x.png', badge: 'HOT SELLER' },
+    { title: 'GAN 12 MagLev 3x3', price: 77.95, rating: 5, reviewCount: 432, category: '3x3', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/GAN_12_MagLev_3x3_UV_Coated_Primary_1_360x.png', badge: 'NEW' },
+    { title: 'MoreTry Tianma X3', price: 24.95, oldPrice: 32.95, rating: 4, reviewCount: 25, category: '3x3', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/MoreTry_Tianma_X3_3x3_Magnetic_Snap_1_360x.png', badge: 'SALE', discount: 25 },
+    { title: 'QiYi Warrior S 3x3', price: 3.95, rating: 4.3, reviewCount: 890, category: '3x3', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/QiYi_Warrior_S_3x3_1_360x.png' },
+    { title: 'Tornado V3 M Flagship', price: 34.95, rating: 4.9, reviewCount: 120, category: '3x3', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/X-Man_Tornado_V3_M_Flagship_3x3_1_360x.png' },
+    { title: 'YJ MGC Evo 3x3', price: 22.95, rating: 4.7, reviewCount: 65, category: '3x3', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/YJ_MGC_Evo_3x3_1_360x.png' },
+
+    // --- 4x4 KATEGORİSİ (2 ADET) ---
+    { title: 'QiYi MS Magnetic 4x4', price: 14.95, rating: 4.5, reviewCount: 89, category: '4x4', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/QiYi_MS_4x4_Magnetic_1_360x.png' },
+    { title: 'YJ MGC 4x4 Magnetic', price: 19.95, rating: 4.8, reviewCount: 210, category: '4x4', image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/YJ_MGC_4x4_Magnetic_1_360x.png', badge: 'Top Pick' },
+
+  ];
+
+  return {
+    products,
+    tabs
+  };
+};
+
+==================================================
+DOSYA YOLU: .\layouts\default.vue
+==================================================
+
+<template>
+  <div class="layout-default">
+    <ONavbar />
+
+    <main class="page-content">
+      <slot />
+    </main>
+    
+    <OFooter />
+  </div>
+</template>
+
+<style scoped>
+.layout-default {
+  display: flex;
+  flex-direction: column;
+  min-height: 200vh; /* Sayfa yüksekliği en az ekran kadar olsun */
+}
+
+.page-content {
+  flex: 1; /* Sihirli kod: Mevcut tüm boşluğu kapla */
+  width: 100%;
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\pages\index.vue
+==================================================
+
+<template>
+  <div class="home-page">
+    
+    <OHeroSection />
+
+    <OHomeProducts />
+
+    <OMarketingSection />
+
+    <OBrandSlider />
+
+    <section class="trust-section">
+      <div class="trust-content">
+        <ABaseRating :rating="5" style="justify-content: center; margin-bottom: 10px;" />
+        <h3 class="trust-text">Trusted by <strong>1.1 Million</strong> Cubers worldwide 🏆</h3>
+        <button class="bestseller-btn">SHOP BEST SELLERS</button>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<style scoped>
+/* Mevcut stiller kalabilir */
+.trust-section {
+  text-align: center; 
+  padding: 50px 0; 
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+.trust-text {
+  margin: 10px 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+.bestseller-btn {
+  background: #111; 
+  color: white; 
+  padding: 12px 25px; 
+  border: none; 
+  font-weight: 800; 
+  margin-top: 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+.bestseller-btn:hover {
+  background: #4CAF50; /* Trust butonuna da yeşil efekt ekledim */
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\types\index.ts
+==================================================
+
+// types/index.ts
+
+// 1. Ürün Veri Tipi (Product Card ve Slider için)
+export interface IProduct {
+  title: string;
+  price: number;
+  oldPrice?: number; // Soru işareti (?) bu alanın zorunlu olmadığını belirtir
+  rating: number;
+  reviewCount: number;
+  image: string;
+  badge?: string;    // 'HOT SELLER', 'NEW' vb.
+  discount?: number; // İndirim oranı
+  category?: string; // Filtreleme için
+}
+
+// 2. Menü Link Tipi (Mega Menüdeki tek bir satır)
+export interface IMenuLink {
+  text: string;
+  url: string;
+}
+
+// 3. Menü Bölüm Tipi (Başlık ve altındaki linkler grubu)
+export interface IMenuSection {
+  title: string;
+  links: IMenuLink[];
+}
+
+// 4. Marka Tipi (Brand Slider için)
+export interface IBrand {
+  name: string;
+  logo: string; // Resim yolu
+}
+
+// 5. Para Birimi Tipi (Navbar için)
+export interface ICurrency {
+  code: string; // 'USD', 'EUR'
+  flag: string; // Bayrak kodu
+}
+
+// 6. Banner Tipi (Hero ve Marketing alanları için)
+export interface IBanner {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  buttonText: string;
+  image: string;
+  variant?: 'light' | 'dark' | 'primary'; // Tema seçenekleri
+}
