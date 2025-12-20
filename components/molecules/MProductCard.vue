@@ -27,34 +27,53 @@
       </div>
     </div>
 
-    <button class="add-to-cart-btn">
+    <button 
+      class="add-to-cart-btn" 
+      @click.stop="addToCart"
+    >
       {{ isPreOrder ? 'PRE ORDER' : 'ADD TO CART' }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { useCartStore } from '~/stores/cartStore';
+
+const props = defineProps<{
   title: string;
   price: number;
   oldPrice?: number;
   image: string;
   rating: number;
   reviewCount: number;
-  badge?: string; // "HOT SELLER" vb.
-  discount?: number; // İndirim yüzdesi
+  badge?: string; 
+  discount?: number;
   isPreOrder?: boolean;
 }>();
+
+// Store'u başlat
+const cartStore = useCartStore();
+
+// Sepete Ekleme Fonksiyonu
+const addToCart = () => {
+  cartStore.addToCart({
+    title: props.title,
+    price: props.price,
+    image: props.image,
+    // Diğer zorunlu alanlar store tipine göre eklenebilir
+    rating: props.rating,
+    reviewCount: props.reviewCount
+  } as any);
+};
 </script>
 
 <style scoped lang="scss">
+/* MEVCUT STİLLER AYNEN KORUNUYOR */
 .product-card {
   background: white;
   border-radius: 8px;
   overflow: hidden;
   position: relative;
-  margin-bottom: 10px;
-  margin-bottom: 10px;
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
@@ -103,7 +122,7 @@ defineProps<{
   padding: 20px;
   background: #f9f9f9;
   text-align: center;
-  height: 150px; /* Görseller için sabit alan */
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,7 +157,7 @@ defineProps<{
 
 .product-info {
   padding: 15px;
-  flex: 1; /* Butonu aşağı itmek için */
+  flex: 1;
 
   .product-title {
     font-size: 0.95rem;
@@ -163,7 +182,7 @@ defineProps<{
   width: calc(100% - 20px);
   margin: 0 10px 15px 10px;
   padding: 12px;
-  background-color: #4CAF50; /* Yeşil */
+  background-color: #4CAF50;
   color: white;
   border: none;
   font-weight: 800;

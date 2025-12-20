@@ -72,6 +72,232 @@ DOSYA YOLU: .\package.json
 
 
 ==================================================
+DOSYA YOLU: .\seed.js
+==================================================
+
+// seed.js
+// Modern ES Module import yapısı (package.json type: module olduğu için)
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, writeBatch } from "firebase/firestore";
+
+// --- DİKKAT: BURAYA KENDİ FIREBASE CONFIG BİLGİLERİNİ YAPIŞTIR ---
+// plugins/firebase.client.ts dosyasındaki bilgilerin aynısı olmalı.
+const firebaseConfig = {
+    apiKey: "AIzaSyD....", // <-- KENDİ API KEY'İNİ BURAYA YAZ
+    authDomain: "speedcubeshop-final.firebaseapp.com",
+    projectId: "speedcubeshop-final",
+    storageBucket: "speedcubeshop-final.firebasestorage.app",
+    messagingSenderId: "...",
+    appId: "..."
+};
+
+// Firebase Başlat
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// --- YÜKLENECEK VERİLER ---
+
+// 1. KATEGORİLER
+const categories = [
+  { id: '2x2', name: '2x2 Speed Cubes', description: 'Beginner to Pro 2x2 puzzles' },
+  { id: '3x3', name: '3x3 Speed Cubes', description: 'Standard 3x3 Rubiks Cubes' },
+  { id: '4x4', name: '4x4 Speed Cubes', description: 'Master logic with 4x4' },
+  { id: 'accessories', name: 'Accessories', description: 'Lubricants, Stands, Timers' }
+];
+
+// 2. ÜRÜNLER (Tam Liste - 16 Adet)
+const products = [
+    // --- 2x2 KATEGORİSİ (8 ADET) ---
+    { 
+        id: 'gan-251-m-pro', 
+        title: 'GAN 251 M Pro 2x2', 
+        price: 32.95, 
+        rating: 5, 
+        reviewCount: 120, 
+        category: '2x2', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/GAN_251_M_Pro_2x2_1_360x.png', 
+        badge: 'BEST' 
+    },
+    { 
+        id: 'moyu-rs2-m-2020', 
+        title: 'MoYu RS2 M 2020', 
+        price: 8.95, 
+        rating: 4.8, 
+        reviewCount: 340, 
+        category: '2x2', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/MoYu_RS2_M_2020_1_360x.png', 
+        badge: 'HOT' 
+    },
+    { 
+        id: 'yj-mgc-2x2', 
+        title: 'YJ MGC 2x2 Magnetic', 
+        price: 11.95, 
+        rating: 4.9, 
+        reviewCount: 85, 
+        category: '2x2', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/YJ_MGC_2x2_Magnetic_1_360x.png' 
+    },
+    { 
+        id: 'qiyi-ms-2x2', 
+        title: 'QiYi MS 2x2 Magnetic', 
+        price: 7.95, 
+        rating: 4.5, 
+        reviewCount: 50, 
+        category: '2x2', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/QiYi_MS_2x2_Magnetic_1_360x.png' 
+    },
+    { 
+        id: 'valk-2-m', 
+        title: 'Valk 2 M 2x2', 
+        price: 18.95, 
+        rating: 4.7, 
+        reviewCount: 200, 
+        category: '2x2', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/Valk_2_M_1_360x.png' 
+    },
+    { 
+        id: 'yuxin-little-magic-2x2', 
+        title: 'Yuxin Little Magic 2x2', 
+        price: 5.95, 
+        rating: 4.2, 
+        reviewCount: 110, 
+        category: '2x2', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/YuXin_Little_Magic_2x2_M_1_360x.png' 
+    },
+    { 
+        id: 'dayan-tengyun-v2', 
+        title: 'DaYan TengYun 2x2 V2', 
+        price: 28.95, 
+        rating: 4.8, 
+        reviewCount: 45, 
+        category: '2x2', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/DaYan_TengYun_V2_M_2x2_1_360x.png' 
+    },
+    { 
+        id: 'xman-flare-2x2', 
+        title: 'X-Man Flare 2x2 M', 
+        price: 15.95, 
+        rating: 4.6, 
+        reviewCount: 75, 
+        category: '2x2', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/X-Man_Flare_2x2_M_1_360x.png' 
+    },
+
+    // --- 3x3 KATEGORİSİ (6 ADET) ---
+    { 
+        id: 'moyu-rs3-m-2020', 
+        title: 'MoYu RS3 M 2020', 
+        price: 8.95, 
+        rating: 5, 
+        reviewCount: 1547, 
+        category: '3x3', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/MoYu_RS3_M_2020_3x3_Magnetic_1_360x.png', 
+        badge: 'HOT SELLER' 
+    },
+    { 
+        id: 'gan-12-maglev', 
+        title: 'GAN 12 MagLev 3x3', 
+        price: 77.95, 
+        rating: 5, 
+        reviewCount: 432, 
+        category: '3x3', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/GAN_12_MagLev_3x3_UV_Coated_Primary_1_360x.png', 
+        badge: 'NEW' 
+    },
+    { 
+        id: 'moretry-tianma-x3', 
+        title: 'MoreTry Tianma X3', 
+        price: 24.95, 
+        oldPrice: 32.95, 
+        rating: 4, 
+        reviewCount: 25, 
+        category: '3x3', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/MoreTry_Tianma_X3_3x3_Magnetic_Snap_1_360x.png', 
+        badge: 'SALE', 
+        discount: 25 
+    },
+    { 
+        id: 'qiyi-warrior-s', 
+        title: 'QiYi Warrior S 3x3', 
+        price: 3.95, 
+        rating: 4.3, 
+        reviewCount: 890, 
+        category: '3x3', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/QiYi_Warrior_S_3x3_1_360x.png' 
+    },
+    { 
+        id: 'tornado-v3-flagship', 
+        title: 'Tornado V3 M Flagship', 
+        price: 34.95, 
+        rating: 4.9, 
+        reviewCount: 120, 
+        category: '3x3', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/X-Man_Tornado_V3_M_Flagship_3x3_1_360x.png' 
+    },
+    { 
+        id: 'yj-mgc-evo-3x3', 
+        title: 'YJ MGC Evo 3x3', 
+        price: 22.95, 
+        rating: 4.7, 
+        reviewCount: 65, 
+        category: '3x3', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/YJ_MGC_Evo_3x3_1_360x.png' 
+    },
+
+    // --- 4x4 KATEGORİSİ (2 ADET) ---
+    { 
+        id: 'qiyi-ms-4x4', 
+        title: 'QiYi MS Magnetic 4x4', 
+        price: 14.95, 
+        rating: 4.5, 
+        reviewCount: 89, 
+        category: '4x4', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/QiYi_MS_4x4_Magnetic_1_360x.png' 
+    },
+    { 
+        id: 'yj-mgc-4x4', 
+        title: 'YJ MGC 4x4 Magnetic', 
+        price: 19.95, 
+        rating: 4.8, 
+        reviewCount: 210, 
+        category: '4x4', 
+        image: 'https://cdn.shopify.com/s/files/1/0951/1902/products/YJ_MGC_4x4_Magnetic_1_360x.png', 
+        badge: 'Top Pick' 
+    },
+];
+
+async function seedDatabase() {
+  const batch = writeBatch(db);
+
+  console.log("🚀 Veri yükleme başlıyor...");
+
+  // Kategorileri Ekle
+  categories.forEach((cat) => {
+    const ref = doc(db, "categories", cat.id);
+    batch.set(ref, cat);
+  });
+  console.log(`📦 ${categories.length} kategori hazırlandı.`);
+
+  // Ürünleri Ekle
+  products.forEach((prod) => {
+    // ID olarak verdiğimiz 'gan-251-m-pro' gibi değerleri kullanıyoruz ki URL yapısı güzel olsun
+    const ref = doc(db, "products", prod.id);
+    batch.set(ref, prod);
+  });
+  console.log(`📦 ${products.length} ürün hazırlandı.`);
+
+  // İşlemi Bitir
+  await batch.commit();
+  console.log("✅ TÜM VERİLER FIREBASE'E BAŞARIYLA YÜKLENDİ!");
+  process.exit(0);
+}
+
+seedDatabase().catch((error) => {
+    console.error("Hata:", error);
+    process.exit(1);
+});
+
+==================================================
 DOSYA YOLU: .\tsconfig.json
 ==================================================
 
@@ -99,6 +325,7 @@ type HydrationStrategies = {
 type LazyComponent<T> = (T & DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }>)
 interface _GlobalComponents {
       'OBrandSlider': typeof import("../components/organisms/OBrandSlider.vue")['default']
+    'OCartDrawer': typeof import("../components/organisms/OCartDrawer.vue")['default']
     'OFooter': typeof import("../components/organisms/OFooter.vue")['default']
     'OHeroSection': typeof import("../components/organisms/OHeroSection.vue")['default']
     'OHomeProducts': typeof import("../components/organisms/OHomeProducts.vue")['default']
@@ -156,6 +383,7 @@ interface _GlobalComponents {
     'NuxtIsland': typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
     'NuxtRouteAnnouncer': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
       'LazyOBrandSlider': LazyComponent<typeof import("../components/organisms/OBrandSlider.vue")['default']>
+    'LazyOCartDrawer': LazyComponent<typeof import("../components/organisms/OCartDrawer.vue")['default']>
     'LazyOFooter': LazyComponent<typeof import("../components/organisms/OFooter.vue")['default']>
     'LazyOHeroSection': LazyComponent<typeof import("../components/organisms/OHeroSection.vue")['default']>
     'LazyOHomeProducts': LazyComponent<typeof import("../components/organisms/OHomeProducts.vue")['default']>
@@ -219,6 +447,7 @@ declare module 'vue' {
 }
 
 export const OBrandSlider: typeof import("../components/organisms/OBrandSlider.vue")['default']
+export const OCartDrawer: typeof import("../components/organisms/OCartDrawer.vue")['default']
 export const OFooter: typeof import("../components/organisms/OFooter.vue")['default']
 export const OHeroSection: typeof import("../components/organisms/OHeroSection.vue")['default']
 export const OHomeProducts: typeof import("../components/organisms/OHomeProducts.vue")['default']
@@ -276,6 +505,7 @@ export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
 export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
 export const LazyOBrandSlider: LazyComponent<typeof import("../components/organisms/OBrandSlider.vue")['default']>
+export const LazyOCartDrawer: LazyComponent<typeof import("../components/organisms/OCartDrawer.vue")['default']>
 export const LazyOFooter: LazyComponent<typeof import("../components/organisms/OFooter.vue")['default']>
 export const LazyOHeroSection: LazyComponent<typeof import("../components/organisms/OHeroSection.vue")['default']>
 export const LazyOHomeProducts: LazyComponent<typeof import("../components/organisms/OHomeProducts.vue")['default']>
@@ -373,6 +603,8 @@ export { setInterval } from '#app/compat/interval';
 export { useBrands } from '../composables/useBrands';
 export { useMenu } from '../composables/useMenu';
 export { useProducts } from '../composables/useProducts';
+export { useCartStore, ICartItem } from '../stores/cartStore';
+export { useProductStore } from '../stores/productStore';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
 export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';
@@ -382,7 +614,7 @@ DOSYA YOLU: .\.nuxt\nitro.json
 ==================================================
 
 {
-  "date": "2025-12-19T11:32:28.756Z",
+  "date": "2025-12-20T22:18:35.928Z",
   "preset": "nitro-dev",
   "framework": {
     "name": "nuxt",
@@ -392,9 +624,9 @@ DOSYA YOLU: .\.nuxt\nitro.json
     "nitro": "2.12.4"
   },
   "dev": {
-    "pid": 17328,
+    "pid": 29060,
     "workerAddress": {
-      "socketPath": "\\\\.\\pipe\\nitro-worker-17328-2-1-1584.sock"
+      "socketPath": "\\\\.\\pipe\\nitro-worker-29060-2-1-8900.sock"
     }
   }
 }
@@ -404,8 +636,8 @@ DOSYA YOLU: .\.nuxt\nuxt.d.ts
 ==================================================
 
 /// <reference types="@pinia/nuxt" />
-/// <reference types="@nuxt/telemetry" />
 /// <reference types="@nuxt/devtools" />
+/// <reference types="@nuxt/telemetry" />
 /// <reference path="types/builder-env.d.ts" />
 /// <reference types="nuxt" />
 /// <reference path="types/app-defaults.d.ts" />
@@ -752,7 +984,7 @@ DOSYA YOLU: .\.nuxt\tsconfig.server.json
 DOSYA YOLU: .\.nuxt\manifest\latest.json
 ==================================================
 
-{"id":"dev","timestamp":1766143943368}
+{"id":"dev","timestamp":1766269110193}
 
 ==================================================
 DOSYA YOLU: .\.nuxt\manifest\meta\3159040d-7792-4ee6-9b68-12f1f145e661.json
@@ -764,7 +996,7 @@ DOSYA YOLU: .\.nuxt\manifest\meta\3159040d-7792-4ee6-9b68-12f1f145e661.json
 DOSYA YOLU: .\.nuxt\manifest\meta\dev.json
 ==================================================
 
-{"id":"dev","timestamp":1766143943368,"matcher":{"static":{},"wildcard":{},"dynamic":{}},"prerendered":[]}
+{"id":"dev","timestamp":1766269110193,"matcher":{"static":{},"wildcard":{},"dynamic":{}},"prerendered":[]}
 
 ==================================================
 DOSYA YOLU: .\.nuxt\schema\nuxt.schema.d.ts
@@ -989,6 +1221,7 @@ declare global {
   const useAsyncData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useAsyncData
   const useAttrs: typeof import('vue').useAttrs
   const useBrands: typeof import('../../composables/useBrands').useBrands
+  const useCartStore: typeof import('../../stores/cartStore').useCartStore
   const useCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie').useCookie
   const useCssModule: typeof import('vue').useCssModule
   const useCssVars: typeof import('vue').useCssVars
@@ -1009,6 +1242,7 @@ declare global {
   const useNuxtDevTools: typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools').useNuxtDevTools
   const usePinia: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').usePinia
   const usePreviewMode: typeof import('../../node_modules/nuxt/dist/app/composables/preview').usePreviewMode
+  const useProductStore: typeof import('../../stores/productStore').useProductStore
   const useProducts: typeof import('../../composables/useProducts').useProducts
   const useRequestEvent: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestEvent
   const useRequestFetch: typeof import('../../node_modules/nuxt/dist/app/composables/ssr').useRequestFetch
@@ -1073,6 +1307,9 @@ declare global {
   // @ts-ignore
   export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { ICartItem } from '../../stores/cartStore'
+  import('../../stores/cartStore')
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
@@ -1177,6 +1414,7 @@ declare module 'vue' {
     readonly useAsyncData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useBrands: UnwrapRef<typeof import('../../composables/useBrands')['useBrands']>
+    readonly useCartStore: UnwrapRef<typeof import('../../stores/cartStore')['useCartStore']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
@@ -1197,6 +1435,7 @@ declare module 'vue' {
     readonly useNuxtDevTools: UnwrapRef<typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>
     readonly usePinia: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>
     readonly usePreviewMode: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']>
+    readonly useProductStore: UnwrapRef<typeof import('../../stores/productStore')['useProductStore']>
     readonly useProducts: UnwrapRef<typeof import('../../composables/useProducts')['useProducts']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>
     readonly useRequestFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/ssr')['useRequestFetch']>
@@ -1552,7 +1791,8 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.server.js")> &
   InjectionType<typeof import("../../node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.client.js")> &
   InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/dev-server-logs.js")> &
-  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/check-if-layout-used.js")>
+  InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/check-if-layout-used.js")> &
+  InjectionType<typeof import("../../plugins/firebase.client")>
 
 declare module '#app' {
   interface NuxtApp extends NuxtAppInjections { }
@@ -2220,25 +2460,31 @@ DOSYA YOLU: .\components\molecules\MBannerCard.vue
 ==================================================
 
 <template>
-  <div 
+  <NuxtLink 
     class="banner-card" 
+    :to="link"
     :class="variant"
     :style="backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : {}"
   >
-    <div class="content">
+    <div class="content" v-if="title || buttonText">
       <h3 v-if="subtitle" class="subtitle">{{ subtitle }}</h3>
-      <h2 class="title" v-html="title"></h2> <button class="action-btn">{{ buttonText }}</button>
+      <h2 v-if="title" class="title" v-html="title"></h2> 
+      <button v-if="buttonText" class="action-btn">{{ buttonText }}</button>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  title: string;
+  backgroundImage: string; // Görsel artık en önemli parça, zorunlu olsun
+  link?: string;           // Tıklayınca gidilecek adres (Opsiyonel)
+  
+  // Yazı alanlarını opsiyonel (?) yaptık
+  title?: string;
   subtitle?: string;
-  buttonText: string;
-  backgroundImage?: string; // Opsiyonel: Resim varsa koyar
-  variant?: 'dark' | 'light' | 'primary'; // Tema seçeneği
+  buttonText?: string;
+  
+  variant?: 'dark' | 'light' | 'primary';
 }>();
 </script>
 
@@ -2247,74 +2493,60 @@ defineProps<{
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  padding: 40px;
+  padding: 0; /* Yazı yoksa padding'e gerek yok, görsel tam kaplasın */
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  text-decoration: none; /* Link alt çizgisini kaldır */
+  
+  /* Görsel Ayarları */
   background-size: cover;
   background-position: center;
-  min-height: 250px;
+  background-repeat: no-repeat;
   
-  /* Varsayılan (Light) */
-  background-color: #f4f4f4;
-  color: #111;
+  min-height: 400px; /* Görselin yüksekliği */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+  /* Hover Efekti: Üzerine gelince hafif yukarı kalksın */
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  }
 
   .content {
     position: relative;
     z-index: 2;
-    max-width: 80%;
+    max-width: 600px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    border-radius: 8px;
+    backdrop-filter: blur(2px);
   }
 
-  /* Koyu Tema (Dark) */
-  &.dark {
-    background-color: #111;
-    color: white;
-    .title { text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-  }
-
-  /* Primary Tema (Turuncu/Mavi vb.) */
-  &.primary {
-    background-color: #2962ff;
-    color: white;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    opacity: 0.9;
-  }
-
+  /* Temalar (Eğer yazı kullanılırsa diye duruyor) */
+  &.dark { color: white; }
+  &.primary { color: white; }
+  
+  /* ... Diğer yazı stilleri (title, btn vs.) aynı kalabilir ... */
   .title {
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 3rem;
+    font-weight: 900;
     line-height: 1.1;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     text-transform: uppercase;
+    color: white;
   }
-
+  
   .action-btn {
-    padding: 12px 25px;
-    font-weight: 700;
+    padding: 15px 40px;
+    font-weight: 800;
     text-transform: uppercase;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     background: white;
     color: black;
-    transition: transform 0.2s;
-
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
-
-  /* Dark modda buton rengi değişsin */
-  &.dark .action-btn {
-    background: var(--scs-orange); /* Turuncu */
-    color: white;
   }
 }
 </style>
@@ -2591,7 +2823,7 @@ defineProps<{
 .marketing-block {
   display: grid;
   grid-template-columns: 1fr 1fr; /* Yarı yarıya böl */
-  gap: 60px; /* Görsel ile yazı arası boşluk */
+  gap: 1px; /* Görsel ile yazı arası boşluk */
   align-items: center;
   margin-bottom: 80px; /* Bloklar arası boşluk */
 
@@ -2605,8 +2837,6 @@ defineProps<{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* İsteğe bağlı: Yazıları ortalamak istersen 'align-items: center; text-align: center;' yapabilirsin. 
-       Görselde genelde ortalı duruyor: */
     align-items: center; 
     text-align: center;
 
@@ -2667,19 +2897,7 @@ defineProps<{
   }
 }
 
-/* RESPONSIVE (Mobil/Tablet) */
-@media (max-width: 900px) {
-  .marketing-block {
-    grid-template-columns: 1fr; /* Alt alta diz */
-    gap: 30px;
-    margin-bottom: 60px;
 
-    &.reversed {
-      .content-area { order: 2; } /* Mobilde her zaman görsel üstte, yazı altta olsun */
-      .image-area { order: 1; }
-    }
-  }
-}
 </style>
 
 ==================================================
@@ -2822,27 +3040,48 @@ DOSYA YOLU: .\components\molecules\MProductCard.vue
       </div>
     </div>
 
-    <button class="add-to-cart-btn">
+    <button 
+      class="add-to-cart-btn" 
+      @click.stop="addToCart"
+    >
       {{ isPreOrder ? 'PRE ORDER' : 'ADD TO CART' }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { useCartStore } from '~/stores/cartStore';
+
+const props = defineProps<{
   title: string;
   price: number;
   oldPrice?: number;
   image: string;
   rating: number;
   reviewCount: number;
-  badge?: string; // "HOT SELLER" vb.
-  discount?: number; // İndirim yüzdesi
+  badge?: string; 
+  discount?: number;
   isPreOrder?: boolean;
 }>();
+
+// Store'u başlat
+const cartStore = useCartStore();
+
+// Sepete Ekleme Fonksiyonu
+const addToCart = () => {
+  cartStore.addToCart({
+    title: props.title,
+    price: props.price,
+    image: props.image,
+    // Diğer zorunlu alanlar store tipine göre eklenebilir
+    rating: props.rating,
+    reviewCount: props.reviewCount
+  } as any);
+};
 </script>
 
 <style scoped lang="scss">
+/* MEVCUT STİLLER AYNEN KORUNUYOR */
 .product-card {
   background: white;
   border-radius: 8px;
@@ -2896,7 +3135,7 @@ defineProps<{
   padding: 20px;
   background: #f9f9f9;
   text-align: center;
-  height: 200px; /* Görseller için sabit alan */
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2931,7 +3170,7 @@ defineProps<{
 
 .product-info {
   padding: 15px;
-  flex: 1; /* Butonu aşağı itmek için */
+  flex: 1;
 
   .product-title {
     font-size: 0.95rem;
@@ -2956,7 +3195,7 @@ defineProps<{
   width: calc(100% - 20px);
   margin: 0 10px 15px 10px;
   padding: 12px;
-  background-color: #4CAF50; /* Yeşil */
+  background-color: #4CAF50;
   color: white;
   border: none;
   font-weight: 800;
@@ -3079,8 +3318,7 @@ defineProps<{
   display: grid;
   grid-template-columns: 1fr 1fr; /* Alanı ikiye böl */
   align-items: center; /* İçeriği dikeyde ortala */
-  border-radius: 8px;
-  overflow: hidden;
+  border-radius: 0px;
   min-height: 450px; /* Heybetli bir yükseklik */
 
   /* Temalar */
@@ -3160,29 +3398,6 @@ defineProps<{
   }
 }
 
-/* RESPONSIVE AYARLAR (Mobil/Tablet) */
-@media (max-width: 900px) {
-  .split-banner {
-    grid-template-columns: 1fr; /* Mobilde alt alta */
-    text-align: center;
-    min-height: auto; 
-
-    .content-side {
-      padding: 40px 20px;
-      align-items: center; /* Yazıları ortala */
-      order: 2; /* Yazı görselin altına gelsin */
-    }
-
-    .image-side {
-      height: 350px; /* Mobilde görsel alanı yüksekliği */
-      order: 1; 
-      background: rgba(0,0,0,0.03); /* Görselin altına hafif bir fon */
-    }
-
-    .title { font-size: 2rem; }
-    .description { max-width: 100%; }
-  }
-}
 </style>
 
 ==================================================
@@ -3230,8 +3445,8 @@ import { ref } from 'vue';
 
 // 8 Adet Marka (İleride 'logo' alanlarını dolduracağız)
 const brands = [
-  { name: "Rubik's", logo: '' },
-  { name: 'GAN', logo: '' },
+  { name: "Rubik's", logo: '//speedcubeshop.com/cdn/shop/files/Rubik_s-Tile_250x.png?v=1725307086' },
+  { name: 'GAN', logo: '//speedcubeshop.com/cdn/shop/files/GAN-Tile_250x.png?v=1636494250' },
   { name: 'MoYu', logo: '' },
   { name: 'DianSheng', logo: '' },
   { name: 'QiYi', logo: '' },
@@ -3362,6 +3577,181 @@ const scroll = (direction: 'left' | 'right') => {
 </style>
 
 ==================================================
+DOSYA YOLU: .\components\organisms\OCartDrawer.vue
+==================================================
+
+<template>
+  <Teleport to="body">
+    <Transition name="fade">
+      <div v-if="cartStore.isOpen" class="cart-overlay" @click="cartStore.closeCart"></div>
+    </Transition>
+
+    <Transition name="slide">
+      <div v-if="cartStore.isOpen" class="cart-drawer">
+        
+        <div class="drawer-header">
+          <h3>Shopping Cart</h3>
+          <button class="close-btn" @click="cartStore.closeCart">✕</button>
+        </div>
+
+        <div v-if="cartStore.isEmpty" class="empty-state">
+          <p>Your cart is currently empty.</p>
+          <button class="continue-btn" @click="cartStore.closeCart">CONTINUE SHOPPING</button>
+        </div>
+
+        <div v-else class="cart-items-wrapper">
+          <div v-for="item in cartStore.items" :key="item.title" class="cart-item">
+            
+            <div class="item-img">
+              <img :src="item.image" :alt="item.title" />
+            </div>
+
+            <div class="item-details">
+              <h4 class="item-title">{{ item.title }}</h4>
+              <p class="item-variant" v-if="item.category">Category: {{ item.category }}</p>
+              <div class="item-price">${{ item.price }}</div>
+
+              <div class="qty-control">
+                <button @click="cartStore.updateQuantity(item.title, -1)">−</button>
+                <span>{{ item.quantity }}</span>
+                <button @click="cartStore.updateQuantity(item.title, 1)">+</button>
+              </div>
+            </div>
+
+            <button class="remove-btn" @click="cartStore.removeItem(item.title)">✕</button>
+
+          </div>
+        </div>
+
+        <div v-if="!cartStore.isEmpty" class="drawer-footer">
+          <div class="subtotal">
+            <span>Subtotal</span>
+            <span class="amount">${{ cartStore.subtotal }}</span>
+          </div>
+          <p class="shipping-note">Shipping & taxes calculated at checkout</p>
+          
+          <button class="checkout-btn">
+            PROCEED TO CHECKOUT | ${{ cartStore.subtotal }}
+          </button>
+        </div>
+
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<script setup lang="ts">
+import { useCartStore } from '~/stores/cartStore';
+const cartStore = useCartStore();
+</script>
+
+<style scoped lang="scss">
+/* --- ANIMASYONLAR --- */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+.slide-enter-active, .slide-leave-active { transition: transform 0.3s ease-in-out; }
+.slide-enter-from, .slide-leave-to { transform: translateX(100%); }
+
+/* --- STİLLER --- */
+.cart-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); z-index: 998;
+}
+
+.cart-drawer {
+  position: fixed; top: 0; right: 0;
+  width: 400px; max-width: 90%; height: 100%;
+  background: white; z-index: 999;
+  display: flex; flex-direction: column;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  color: #111;
+}
+
+/* HEADER */
+.drawer-header {
+  padding: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid #eee;
+  h3 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+  .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333; }
+}
+
+/* EMPTY STATE */
+.empty-state {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  padding-top: 50px; text-align: center;
+  p { margin-bottom: 20px; color: #666; }
+  .continue-btn {
+    background: #388e3c; color: white; /* İSTENEN: Yeşil Buton */
+    border: none; padding: 12px 25px;
+    font-weight: 700; text-transform: uppercase;
+    cursor: pointer; border-radius: 4px;
+    &:hover { background: #2e7d32; }
+  }
+}
+
+/* CART ITEMS */
+.cart-items-wrapper {
+  flex: 1; overflow-y: auto; padding: 20px;
+}
+
+.cart-item {
+  display: flex; gap: 15px; position: relative;
+  margin-bottom: 20px; padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+
+  .item-img {
+    width: 80px; height: 80px; flex-shrink: 0;
+    img { width: 100%; height: 100%; object-fit: contain; border: 1px solid #eee; border-radius: 4px; }
+  }
+
+  .item-details {
+    flex: 1;
+    .item-title { margin: 0 0 5px 0; font-size: 0.95rem; font-weight: 600; padding-right: 20px; }
+    .item-variant { margin: 0 0 5px 0; font-size: 0.8rem; color: #888; }
+    .item-price { font-weight: 700; color: #333; margin-bottom: 10px; }
+    
+    .qty-control {
+      display: inline-flex; border: 1px solid #ddd; border-radius: 4px;
+      button { background: none; border: none; width: 30px; height: 30px; cursor: pointer; font-size: 1.1rem; &:hover{ background: #f9f9f9;} }
+      span { display: flex; align-items: center; justify-content: center; width: 30px; font-size: 0.9rem; font-weight: 600; }
+    }
+  }
+
+  .remove-btn {
+    position: absolute; top: 0; right: 0;
+    background: none; border: none; color: #999;
+    cursor: pointer; font-size: 1.2rem;
+    &:hover { color: #f44336; }
+  }
+}
+
+/* FOOTER */
+.drawer-footer {
+  padding: 20px; border-top: 1px solid #eee; background: #f9f9f9;
+  
+  .subtotal {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 1.1rem; font-weight: 800; margin-bottom: 5px;
+  }
+  .shipping-note {
+    font-size: 0.8rem; color: #888; margin: 0 0 15px 0; font-style: italic;
+  }
+  
+  .checkout-btn {
+    width: 100%; padding: 15px;
+    background: #388e3c; color: white; /* İSTENEN: Yeşil Buton */
+    border: none; font-weight: 800; text-transform: uppercase;
+    font-size: 1rem; border-radius: 4px; cursor: pointer;
+    transition: 0.2s;
+    &:hover { background: #2e7d32; }
+  }
+}
+</style>
+
+==================================================
 DOSYA YOLU: .\components\organisms\OFooter.vue
 ==================================================
 
@@ -3384,11 +3774,21 @@ DOSYA YOLU: .\components\organisms\OFooter.vue
         </div>
 
       </div>
-
-      <div class="footer-bottom">
+      <div class="footer-bottom"> 
         <p class="copyright">© 2009-2025 SpeedCubeShop, Inc.</p>
-        
-        
+      </div>
+      <div class="footer-bottom">
+        <p class="payment-icons">
+          <img src="https://speedcubeshop.com/cdn/shop/files/visa-2024_x32.webp?v=1759475969" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/mastercard-2024_x32.webp?v=1759475971" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/american-express-2024_x32.webp?v=1759475972" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/amazon-2024_x32.webp?v=1759475973" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/apple-pay-2024_x32.webp?v=1759475974" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/Discover-2024_x32.webp?v=1759475975" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/paypal-2024_x32.webp?v=1759475976" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/stripe-2024_x32.webp?v=1759475977" alt="Payment Methods" class="payment-img" />
+          <img src="https://speedcubeshop.com/cdn/shop/files/google-pay-2024_x32.webp?v=1759475978" alt="Payment Methods" class="payment-img" />
+        </p>
       </div>
 
     </div>
@@ -3472,7 +3872,7 @@ const infoLinks = [
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 25px;
+  padding-top: 2px;
   /* İsteğe bağlı üst çizgi */
   /* border-top: 1px solid #333; */ 
   
@@ -3484,58 +3884,18 @@ const infoLinks = [
 
   .payment-icons {
     display: flex;
-    align-items: center;
+    align-items: left;
     
     .payment-img {
-      height: 25px;
-      opacity: 0.8;
+      max-height: 6%;
+      max-width: 6%;
+      margin-left: 5px;
       display: block;
     }
   }
 }
 
-/* --- RESPONSIVE AYARLAR --- */
 
-/* Tablet */
-@media (max-width: 1024px) {
-  .footer-container {
-    padding: 0 40px; /* Tablette kenar boşluğunu biraz azalt */
-  }
-  
-  .footer-grid {
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 50px;
-  }
-  
-  .newsletter-column {
-    grid-column: span 3; 
-    max-width: 500px;
-  }
-}
-
-/* Mobil */
-@media (max-width: 600px) {
-  .footer-container {
-    padding: 0 20px; /* Mobilde daha az boşluk */
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    text-align: left;
-    gap: 40px;
-  }
-
-  .newsletter-column {
-    grid-column: span 1;
-    max-width: 100%;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
-  }
-}
 </style>
 
 ==================================================
@@ -3548,57 +3908,44 @@ DOSYA YOLU: .\components\organisms\OHeroSection.vue
       
       <MBannerCard
         class="top-banner"
-        variant="dark"
-        title="CHRISTMAS DEALS<br>UP TO 50% OFF"
-        button-text="SHOP CHRISTMAS DEALS"
-        background-image="https://cdn.shopify.com/s/files/1/0951/1902/files/SCS_Holiday_2024_Homepage_Banner_Desktop.jpg?v=1731610000"
+        link="/products" 
+        background-image="https://speedcubeshop.com/cdn/shop/files/2025-christmas-sale-banner-desktop-3_1024x.progressive.png.jpg?v=1765315204"
       />
 
       <MSplitBanner
         variant="light"
         subtitle="LIMITED EDITION SPEED CUBE"
         title="GAN 16 AMYTH"
-        description="Discover GAN's newest flagship 3x3 in a limited amethyst finish. Complete with MagLev, core magnets, UV coating, and exclusive Amyth accessories. Once this run sells out, it's gone for good!"
+        description="Discover GAN's newest flagship 3x3 in a limited amethyst finish. Complete with MagLev, core magnets, UV coating, exclusive accessories."
         button-text="SHOP GAN 16 AMYTH"
-        image="https://cdn.shopify.com/s/files/1/0951/1902/files/GAN_14_MagLev_3x3_UV_Coated_Primary_1_360x.png?v=1692135940"
+        image="//speedcubeshop.com/cdn/shop/files/gan-16-amyth-banner_1024x1024_crop_center.jpg?v=1765512076"
       />
 
     </div>
   </section>
 </template>
 
+<script setup lang="ts">
+// BURASI BOŞ KALMALI veya sadece importlar olmalı.
+// DİKKAT: Burada "defineProps" OLMAMALI. 
+// Eğer varsa, yanlışlıkla MBannerCard'ın kodları buraya karışmış demektir.
+</script>
+
 <style scoped lang="scss">
 .hero-section {
-  margin-top: 30px;
-  /* Alt kısımla (Popular Cubes) çakışmaması için cömert bir boşluk */
+  margin-top: 0px;
   margin-bottom: 80px; 
 }
 
 .hero-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 30px; /* İki banner arasındaki dikey boşluk */
-
-  /* Üstteki banner'ın yüksekliğini belirleyelim */
-  .top-banner {
-    height: 350px; /* İsteğe göre artırılıp azaltılabilir */
-  }
-  
-  /* Alttaki split banner zaten kendi içinde min-height: 450px'e sahip */
-}
-
-/* RESPONSIVE AYARLAR */
-@media (max-width: 768px) {
-  .hero-section {
-    margin-bottom: 50px;
-  }
-  
-  .hero-wrapper {
-    gap: 20px;
-  }
+  gap: 30px; 
 
   .top-banner {
-    height: 250px; /* Mobilde üst banner daha kısa olsun */
+    height: 500px; 
+    width: 100%;
+    border-radius: 0px; 
   }
 }
 </style>
@@ -3610,179 +3957,262 @@ DOSYA YOLU: .\components\organisms\OHomeProducts.vue
 <template>
   <section class="home-products-section container">
     
-    <div class="section-header">
-      <h2 class="section-title">POPULAR SPEED CUBES</h2>
-      
-      <div class="tabs-wrapper">
-        <button 
-          v-for="tab in tabs" 
-          :key="tab"
-          class="tab-btn"
-          :class="{ active: activeTab === tab }"
-          @click="activeTab = tab"
-        >
-          {{ tab }}
-        </button>
-      </div>
-
-      <div class="nav-buttons">
-        <button @click="prev" class="nav-btn prev">
-          <ABaseIcon name="chevron-left" size="14" />
-        </button>
-        <button @click="next" class="nav-btn next">
-          <ABaseIcon name="chevron-right" size="14" />
-        </button>
-      </div>
+    <div v-if="productStore.loading" class="loading-state">
+      Veriler Yükleniyor...
     </div>
 
-    <div class="slider-container">
-      <Carousel 
-        ref="scroll"
-        :items-to-show="4" 
-        :wrap-around="false" 
-        :breakpoints="sliderBreakpoints"
-        class="product-carousel"
-      >
-        <Slide v-for="(product, index) in filteredProducts" :key="index">
-          <div class="carousel__item">
-            <MProductCard 
-              :title="product.title"
-              :price="product.price"
-              :old-price="product.oldPrice"
-              :rating="product.rating"
-              :review-count="product.reviewCount"
-              :image="product.image"
-              :badge="product.badge"
-              :discount="product.discount"
-            />
-          </div>
-        </Slide>
+    <div v-else-if="productStore.error" class="error-state">
+      Bir hata oluştu: {{ productStore.error }}
+    </div>
 
-        <template #addons>
-          <div v-if="filteredProducts.length === 0" class="no-products">
-            No products found in this category.
+    <div v-else class="content-wrapper">
+      
+      <div class="section-header">
+        <h2 class="section-title">POPULAR SPEED CUBES</h2>
+        
+        <div class="tabs-wrapper">
+          <button 
+            v-for="tab in tabs" 
+            :key="tab"
+            class="tab-btn"
+            :class="{ active: activeTab === tab }"
+            @click="activeTab = tab"
+          >
+            {{ tab.toUpperCase() }}
+          </button>
+        </div>
+
+        <div class="header-spacer"></div>
+      </div>
+
+      <div class="product-carousel-wrapper">
+        
+        <button class="carousel-btn left-btn" @click="prevSlide">
+          <ABaseIcon name="chevron-left" size="24" />
+        </button>
+
+        <div class="carousel-window">
+          <div 
+            class="carousel-track" 
+            :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
+          >
+            <div 
+              v-for="product in filteredProducts" 
+              :key="product.title" 
+              class="card-wrapper"
+            >
+              <MProductCard 
+                :title="product.title"
+                :price="product.price"
+                :old-price="product.oldPrice"
+                :rating="product.rating"
+                :review-count="product.reviewCount"
+                :image="product.image"
+                :badge="product.badge"
+                :discount="product.discount"
+              />
+            </div>
           </div>
-        </template>
-      </Carousel>
+        </div>
+
+        <button class="carousel-btn right-btn" @click="nextSlide">
+          <ABaseIcon name="chevron-right" size="24" />
+        </button>
+
+      </div>
+
+      <div class="carousel-dots" v-if="totalSlides > 1">
+        <span 
+          v-for="(n, index) in totalSlides" 
+          :key="index"
+          class="dot"
+          :class="{ active: index === currentIndex }"
+          @click="goToSlide(index)"
+        ></span>
+      </div>
+
     </div>
 
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { Carousel, Slide } from 'vue3-carousel';
-import 'vue3-carousel/dist/carousel.css';
+import { ref, computed, watch, onMounted } from 'vue';
+import { useProductStore } from '~/stores/productStore';
 
-// Verileri Composable'dan alıyoruz
-const { products, tabs } = useProducts();
+// 1. STORE BAĞLANTISI
+const productStore = useProductStore();
+
+// Sayfa yüklendiğinde verileri çek
+onMounted(() => {
+  productStore.fetchProducts();
+});
 
 // --- STATE ---
-const activeTab = ref(tabs[0]); // İlk sekme (2x2)
-const scroll = ref<any>(null);  // <Carousel ref="scroll"> ile eşleşir
+// Tabs artık Store'dan dinamik geliyor (Statik değil!)
+const tabs = computed(() => {
+    // Eğer veri henüz gelmediyse varsayılan bir tab koy ki patlamasın
+    return productStore.getCategoryTabs.length > 0 ? productStore.getCategoryTabs : ['2x2'];
+});
 
-// --- COMPUTED (Filtreleme) ---
+const activeTab = ref('2x2'); // Başlangıç değeri
+const currentIndex = ref(0);
+const itemsPerSlide = 4; 
+
+// --- COMPUTED ---
+// Ürünleri Store'dan alıp filtreliyoruz
 const filteredProducts = computed(() => {
-  return products.filter(product => product.category === activeTab.value);
+  return productStore.products.filter(product => product.category === activeTab.value);
 });
 
-// Sekme değişince slider'ı başa sar
+const totalSlides = computed(() => Math.ceil(filteredProducts.value.length / itemsPerSlide));
+
+// --- WATCH ---
+// 1. Sekme değişirse başa dön
 watch(activeTab, () => {
-  scroll.value?.slideTo(0);
+  currentIndex.value = 0;
 });
 
-// --- METODLAR ---
-// Bu fonksiyonlar template'deki @click="prev/next" butonlarına bağlı
-const next = () => scroll.value?.next();
-const prev = () => scroll.value?.prev();
+// 2. Veriler geç yüklenirse (Firebase gecikmesi), tablar güncellenince ilk tabı seçili yap
+watch(tabs, (newTabs) => {
+    if (newTabs.length > 0 && !newTabs.includes(activeTab.value)) {
+        activeTab.value = newTabs[0];
+    }
+});
 
-// --- SLIDER AYARLARI ---
-const sliderBreakpoints = {
-  300:  { itemsToShow: 1.2, snapAlign: 'center' as const },
-  600:  { itemsToShow: 2.5, snapAlign: 'start' as const },
-  900:  { itemsToShow: 3.2, snapAlign: 'start' as const },
-  1100: { itemsToShow: 4,   snapAlign: 'start' as const }
+// --- METODLAR (Aynı kaldı) ---
+const nextSlide = () => {
+  if (currentIndex.value >= totalSlides.value - 1) {
+    currentIndex.value = 0; 
+  } else {
+    currentIndex.value++;
+  }
+};
+
+const prevSlide = () => {
+  if (currentIndex.value <= 0) {
+    currentIndex.value = totalSlides.value - 1; 
+  } else {
+    currentIndex.value--;
+  }
+};
+
+const goToSlide = (index: number) => {
+  currentIndex.value = index;
 };
 </script>
 
 <style scoped lang="scss">
-.home-products-section {
-  padding: 40px 0;
-  margin-bottom: 40px;
+/* Mevcut CSS Kodların Aynen Kalacak */
+/* Sadece yükleniyor yazısı için ufak bir stil ekleyelim */
+.loading-state, .error-state {
+  text-align: center;
+  padding: 50px;
+  font-size: 1.2rem;
+  color: #666;
 }
+.error-state { color: red; }
 
+/* ... (Geri kalan CSS kodlarını önceki cevaptan aynen koru) ... */
+/* Buraya önceki CSS kodlarının tamamını yapıştırmayı unutma! */
+.home-products-section {
+  padding: 40px 30px; 
+  margin-bottom: 40px;
+  position: relative;
+  min-width: 1000px; 
+}
 .section-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; 
   align-items: center;
   margin-bottom: 30px;
-  flex-wrap: wrap;
   gap: 20px;
 }
-
 .section-title {
   font-size: 1.5rem;
   font-weight: 800;
   text-transform: uppercase;
   margin: 0;
+  white-space: nowrap;
 }
-
-/* TABLAR */
 .tabs-wrapper {
+  grid-column: 2; 
   display: flex;
   gap: 10px;
   background: #f5f5f5;
   padding: 5px;
   border-radius: 4px;
+  justify-content: center;
 }
-
+.header-spacer { grid-column: 3; }
 .tab-btn {
   background: transparent;
   border: none;
-  padding: 8px 20px;
+  padding: 8px 25px;
   font-weight: 700;
   cursor: pointer;
   color: #666;
   border-radius: 4px;
   transition: all 0.2s;
-
-  &:hover { color: black; }
-  
-  &.active {
-    background: black;
-    color: white;
-  }
+  white-space: nowrap;
 }
-
-/* NAVIGASYON BUTONLARI */
-.nav-buttons {
+.tab-btn:hover { color: black; }
+.tab-btn.active { background: black; color: white; }
+.product-carousel-wrapper { position: relative; width: 100%; }
+.carousel-window { overflow: hidden; width: 100%; padding: 10px 0; }
+.carousel-track {
   display: flex;
-  gap: 10px;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  width: 100%;
 }
-
-.nav-btn {
-  width: 35px;
-  height: 35px;
+.card-wrapper {
+  min-width: 25%;
+  width: 25%; 
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 45px;
+  height: 45px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
   border-radius: 50%;
-  border: 1px solid #ddd;
-  background: white;
   cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: black;
-    background: black;
-    color: white;
-  }
+  transition: all 0.3s ease;
+  color: #333;
 }
-
-/* SLIDER */
-.carousel__item {
-  padding: 0 10px; /* Kartlar arası boşluk */
-  width: 100%;
+.carousel-btn:hover {
+  background-color: #f9f9f9;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  transform: translateY(-50%) scale(1.1);
+}
+.left-btn { left: -25px; }
+.right-btn { right: -25px; }
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.dot.active {
+  background-color: #333;
+  transform: scale(1.2);
 }
 </style>
 
@@ -3797,7 +4227,7 @@ DOSYA YOLU: .\components\organisms\OMarketingSection.vue
       title="NEW TO SPEEDCUBING?"
       description="Use our Cube Finder to get a personalized recommendation in under 30 seconds."
       button-text="START CUBE FINDER"
-      image="https://cdn.shopify.com/s/files/1/0951/1902/files/SCS_Logo_White_2020_400x.png?v=1614305634" 
+      image="//speedcubeshop.com/cdn/shop/files/new-to-cubing-homepgae-tile-v2_1024x1024_crop_center.png?v=1726518037" 
     />
 
     <MMarketingBlock
@@ -3805,14 +4235,14 @@ DOSYA YOLU: .\components\organisms\OMarketingSection.vue
       title="HOME OF RECORD HOLDERS"
       description="Max Park is a world champion, holds 98 world records, and achieved the 3x3 world record with a time of 3.13 seconds!"
       button-text="SHOP MAX PARK PRO SERIES"
-      image="https://cdn.shopify.com/s/files/1/0951/1902/files/Max_Park_SCS_Image_600x.jpg?v=1614305600"
+      image="//speedcubeshop.com/cdn/shop/files/max-park-homepage-tile-v2_1024x1024_crop_center.png?v=1726518949"
     />
 
     <MMarketingBlock
       title="ENDORSED BY SOUP TIMMY"
       description="'SpeedCubeShop is always experimenting and innovating to find ways to make the best experience for cubers!' - Soup Timmy"
       button-text="SHOP SOUP TIMMY COLLECTION"
-      image="https://cdn.shopify.com/s/files/1/0951/1902/files/Soup_Timmy_SCS_Image_600x.jpg?v=1622230000"
+      image="//speedcubeshop.com/cdn/shop/files/soup-timmy-homepage-tile-v2_1024x1024_crop_center.png?v=1726518206"
     />
 
     <MMarketingBlock
@@ -3820,7 +4250,7 @@ DOSYA YOLU: .\components\organisms\OMarketingSection.vue
       title="ENDORSED BY J PERM"
       description="'SpeedCubeShop's dedication to providing an amazing experience for cubers — from beginner to pro — is one of the many reasons I choose to support them.' - Dylan (J Perm)"
       button-text="SHOP J PERM COLLECTION"
-      image="https://cdn.shopify.com/s/files/1/0951/1902/files/J_Perm_SCS_Image_600x.jpg?v=1614305600"
+      image="//speedcubeshop.com/cdn/shop/files/jperm-banner-block-2023-585px-485px-1_1024x1024_crop_center.png?v=1696362634"
     />
 
   </section>
@@ -3829,7 +4259,6 @@ DOSYA YOLU: .\components\organisms\OMarketingSection.vue
 <style scoped>
 .marketing-section-wrapper {
   padding: 60px 0;
-  background-color: white; /* İSTENEN: Beyaz arka plan */
 }
 </style>
 
@@ -3888,10 +4317,16 @@ DOSYA YOLU: .\components\organisms\ONavbar.vue
                 </ul>
               </div>
 
-              <NuxtLink to="/cart" class="cart-btn">
-                <ABaseIcon name="cart" size="18" /><span>Cart</span>
-                <ABaseBadge variant="primary" pill class="cart-count-badge">0</ABaseBadge>
-              </NuxtLink>
+
+              <button class="cart-btn" @click="cartStore.toggleCart">
+                  <ABaseIcon name="cart" size="18" />
+                  <span>Cart</span>
+                  <ABaseBadge variant="primary" pill class="cart-count-badge">
+                    {{ cartStore.totalItems }}
+                  </ABaseBadge>
+              </button>
+
+
             </div>
           </div>
         </div>
@@ -4027,9 +4462,11 @@ DOSYA YOLU: .\components\organisms\ONavbar.vue
 </template>
 
 <script setup lang="ts">
+import { useCartStore } from '~/stores/cartStore'; // IMPORT EKLE
 import { ref, onMounted, onUnmounted } from 'vue';
 // Composable'ı çağırıyoruz (Veri buradan geliyor)
 const { cubesMenuData, currencies } = useMenu();
+const cartStore = useCartStore(); // STORE'U BAŞLAT
 
 const handleSearch = (q: string) => console.log("Aranan:", q);
 
@@ -4277,19 +4714,32 @@ DOSYA YOLU: .\layouts\default.vue
     </main>
     
     <OFooter />
+
+    <OCartDrawer />
   </div>
 </template>
 
 <style scoped>
-.layout-default {
-  display: flex;
-  flex-direction: column;
-  min-height: 200vh; /* Sayfa yüksekliği en az ekran kadar olsun */
-}
+/* Mevcut stiller aynı kalsın */
+.layout-default { display: flex; flex-direction: column; min-height: 200vh; }
+.page-content { flex: 1; width: 100%; }
+</style>
 
-.page-content {
-  flex: 1; /* Sihirli kod: Mevcut tüm boşluğu kapla */
-  width: 100%;
+==================================================
+DOSYA YOLU: .\pages\checkout.vue
+==================================================
+
+<template>
+  <div class="checkout-page container">
+    <h1>Checkout Page</h1>
+    <p>Tasarım birazdan yapılacak...</p>
+  </div>
+</template>
+
+<style scoped>
+.checkout-page {
+  padding: 50px 0;
+  text-align: center;
 }
 </style>
 
@@ -4349,6 +4799,177 @@ DOSYA YOLU: .\pages\index.vue
 </style>
 
 ==================================================
+DOSYA YOLU: .\plugins\firebase.client.ts
+==================================================
+
+import { defineNuxtPlugin } from '#app'
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+export default defineNuxtPlugin((nuxtApp) => {
+  // BURADAKİ BİLGİLERİ KENDİ PROJENLE DEĞİŞTİR
+  const firebaseConfig = {
+    apiKey: "AIzaSyDBzilgJXsktEO3_U34gF6YljnwG4VMjEI",
+    authDomain: "speedcubeshop-final.firebaseapp.com",
+    projectId: "speedcubeshop-final",
+    storageBucket: "speedcubeshop-final.firebasestorage.app",
+    messagingSenderId: "687684778546",
+    appId: "1:687684778546:web:0ba175e97a6869a0685a2b"
+  };
+
+  // 1. Firebase Uygulamasını Başlat
+  const app = initializeApp(firebaseConfig);
+  
+  // 2. Veritabanı (Firestore) Servisini Başlat
+  const db = getFirestore(app);
+  
+  // 3. Kimlik Doğrulama (Auth) Servisini Başlat (İleride lazım olacak)
+  const auth = getAuth(app);
+
+  console.log("🔥 Firebase Başarıyla Yüklendi!");
+
+  // Nuxt uygulamasına bu servisleri sunuyoruz ($db ve $auth olarak erişeceğiz)
+  return {
+    provide: {
+      db,
+      auth
+    }
+  };
+});
+
+==================================================
+DOSYA YOLU: .\stores\cartStore.ts
+==================================================
+
+import { defineStore } from 'pinia';
+import type { IProduct } from '~/types';
+
+// Sepetteki ürün tipi (Ürün + Adet)
+export interface ICartItem extends IProduct {
+  quantity: number;
+}
+
+export const useCartStore = defineStore('cart', {
+  state: () => ({
+    items: [] as ICartItem[],
+    isOpen: false, // Sepet açık mı kapalı mı?
+  }),
+
+  getters: {
+    // Sepetteki toplam ürün sayısı (Rozet için)
+    totalItems: (state) => state.items.reduce((sum, item) => sum + item.quantity, 0),
+    
+    // Sepet tutarı
+    subtotal: (state) => state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2),
+    
+    // Sepet boş mu?
+    isEmpty: (state) => state.items.length === 0
+  },
+
+  actions: {
+    // Sepeti Aç/Kapa
+    toggleCart() {
+      this.isOpen = !this.isOpen;
+    },
+    
+    openCart() {
+      this.isOpen = true;
+    },
+
+    closeCart() {
+      this.isOpen = false;
+    },
+
+    // Ürün Ekle
+    addToCart(product: IProduct) {
+      const existingItem = this.items.find(item => item.title === product.title); // ID olmadığı için Title kullanıyoruz şimdilik
+      
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        this.items.push({ ...product, quantity: 1 });
+      }
+      
+      this.openCart(); // Ekleme yapınca sepeti otomatik aç (Güzel UX)
+    },
+
+    // Ürün Çıkar
+    removeItem(title: string) {
+      this.items = this.items.filter(item => item.title !== title);
+    },
+
+    // Adet Güncelle (+/-)
+    updateQuantity(title: string, delta: number) {
+      const item = this.items.find(i => i.title === title);
+      if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+          this.removeItem(title);
+        }
+      }
+    }
+  }
+});
+
+==================================================
+DOSYA YOLU: .\stores\productStore.ts
+==================================================
+
+import { defineStore } from 'pinia';
+import { collection, getDocs } from 'firebase/firestore'; 
+import type { IProduct } from '~/types';
+
+export const useProductStore = defineStore('product', {
+  // 1. STATE: Verilerin tutulduğu yer
+  state: () => ({
+    products: [] as IProduct[], // Ürünleri burada saklayacağız
+    loading: false,             // Yükleniyor mu? (Spinner için)
+    error: null as string | null, // Hata var mı?
+  }),
+
+  // 2. GETTERS: Veriyi işleyip sunan fonksiyonlar (Computed gibi)
+  getters: {
+    // Kategori listesini ürünlerden otomatik çıkarır (Tekrar edenleri siler)
+    getCategoryTabs: (state) => {
+      const categories = state.products.map(p => p.category).filter(Boolean);
+      return [...new Set(categories)] as string[]; // Unique yapar ['2x2', '3x3'...]
+    }
+  },
+
+  // 3. ACTIONS: İş zekası ve API çağrıları
+  actions: {
+    async fetchProducts() {
+      // Eğer veriler zaten çekildiyse tekrar yorma (Performans)
+      if (this.products.length > 0) return;
+
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const { $db } = useNuxtApp(); // Plugin'den veritabanını al
+        
+        // 'products' koleksiyonundaki tüm belgeleri çek
+        const querySnapshot = await getDocs(collection($db as any, 'products'));
+        
+        // Gelen veriyi formatla ve state'e kaydet
+        this.products = querySnapshot.docs.map(doc => {
+          return { id: doc.id, ...doc.data() } as unknown as IProduct;
+        });
+        
+        console.log("🔥 Ürünler Firebase'den çekildi:", this.products.length, "adet");
+
+      } catch (err: any) {
+        this.error = err.message;
+        console.error("Firebase Hatası:", err);
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
+});
+
+==================================================
 DOSYA YOLU: .\types\index.ts
 ==================================================
 
@@ -4356,6 +4977,7 @@ DOSYA YOLU: .\types\index.ts
 
 // 1. Ürün Veri Tipi (Product Card ve Slider için)
 export interface IProduct {
+  id?: string;
   title: string;
   price: number;
   oldPrice?: number; // Soru işareti (?) bu alanın zorunlu olmadığını belirtir

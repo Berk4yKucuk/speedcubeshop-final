@@ -7,18 +7,13 @@
     </main>
     
     <OFooter />
+
+    <OCartDrawer />
   </div>
 </template>
 
 <style scoped>
-.layout-default {
-  display: flex;
-  flex-direction: column;
-  min-height: 200vh; /* Sayfa yüksekliği en az ekran kadar olsun */
-}
-
-.page-content {
-  flex: 1; /* Sihirli kod: Mevcut tüm boşluğu kapla */
-  width: 100%;
-}
+/* Mevcut stiller aynı kalsın */
+.layout-default { display: flex; flex-direction: column; min-height: 200vh; }
+.page-content { flex: 1; width: 100%; }
 </style>

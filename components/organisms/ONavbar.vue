@@ -49,10 +49,16 @@
                 </ul>
               </div>
 
-              <NuxtLink to="/cart" class="cart-btn">
-                <ABaseIcon name="cart" size="18" /><span>Cart</span>
-                <ABaseBadge variant="primary" pill class="cart-count-badge">0</ABaseBadge>
-              </NuxtLink>
+
+              <button class="cart-btn" @click="cartStore.toggleCart">
+                  <ABaseIcon name="cart" size="18" />
+                  <span>Cart</span>
+                  <ABaseBadge variant="primary" pill class="cart-count-badge">
+                    {{ cartStore.totalItems }}
+                  </ABaseBadge>
+              </button>
+
+
             </div>
           </div>
         </div>
@@ -188,9 +194,11 @@
 </template>
 
 <script setup lang="ts">
+import { useCartStore } from '~/stores/cartStore'; // IMPORT EKLE
 import { ref, onMounted, onUnmounted } from 'vue';
 // Composable'ı çağırıyoruz (Veri buradan geliyor)
 const { cubesMenuData, currencies } = useMenu();
+const cartStore = useCartStore(); // STORE'U BAŞLAT
 
 const handleSearch = (q: string) => console.log("Aranan:", q);
 
