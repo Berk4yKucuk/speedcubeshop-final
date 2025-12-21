@@ -1,27 +1,44 @@
-/* assets/css/main.scss */
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
 
 :root {
   // Görselden alınan renkler
-  --scs-header-bg: #181818;    // Header arka planı (Bir tık açık siyah)
+  --scs-header-bg: #181818;    // Header arka planı
   --scs-orange: #ff9800;       // Turuncu
   --scs-white: #ffffff;
+  --scs-black: #111111;        // YENİ: Koyu renk değişkeni
   --scs-gray-text: #b0b0b0;    // Pasif yazılar
   --scs-input-bg: #ffffff;     // Arama kutusu içi
+  --scs-body-text: #2c2c2c;    // YENİ: Varsayılan yazı rengi
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Rubik', sans-serif;
-  color: var(--scs-white);
+  
+  /* DÜZELTME: Varsayılan yazı rengini KOYU yaptık */
+  color: var(--scs-body-text); 
+  background-color: var(--scs-white);
+  
+  /* Yumuşak render için */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-  max-width: 1300px; /* Görseldeki gibi geniş */
+  max-width: 1300px; 
   margin: 0 auto;
   padding: 0 20px;
 }
 
-a { text-decoration: none; color: inherit; transition: color 0.2s; }
-ul { list-style: none; padding: 0; margin: 0; }
+a { 
+  text-decoration: none; 
+  color: inherit; 
+  transition: color 0.2s; 
+}
+
+ul { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+}

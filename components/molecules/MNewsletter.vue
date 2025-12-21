@@ -17,7 +17,8 @@
     
     <div class="input-group">
       <input type="email" placeholder="Email Address" />
-      <button class="subscribe-btn">Subscribe</button>
+      
+      <ABaseButton class="subscribe-btn">Subscribe</ABaseButton>
     </div>
 
   </div>
@@ -47,11 +48,10 @@
       justify-content: center;
       width: 32px;
       height: 32px;
-      background-color: white; /* Görseldeki gibi beyaz daire */
+      background-color: white; 
       border-radius: 50%;
-      color: black; /* İkon rengi siyah */
+      color: black; 
       transition: transform 0.2s;
-
       &:hover {
         transform: translateY(-3px);
         background-color: var(--scs-orange);
@@ -70,7 +70,8 @@
 
   .input-group {
     display: flex;
-    gap: 0; /* Birleşik duruyorlar */
+    gap: 0;
+    /* Birleşik duruyorlar */
 
     input {
       flex: 1;
@@ -86,7 +87,9 @@
     }
 
     .subscribe-btn {
-      background: #e67e22; /* Görseldeki turuncu tonu */
+      /* ABaseButton stillerini eziyoruz */
+      background: #e67e22;
+      /* Görseldeki turuncu tonu */
       color: black;
       font-weight: 700;
       border: none;

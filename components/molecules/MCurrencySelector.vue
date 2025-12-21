@@ -1,6 +1,6 @@
 <template>
   <div class="currency-selector" v-click-outside="closeDropdown">
-    <button class="trigger-btn" @click="toggleDropdown">
+    <ABaseButton class="trigger-btn" @click="toggleDropdown">
       <span class="flag-icon">{{ selected.flag }}</span>
       <span class="currency-code">{{ selected.code }}</span>
       <ABaseIcon 
@@ -9,7 +9,7 @@
         class="arrow-icon" 
         :style="{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }" 
       />
-    </button>
+    </ABaseButton>
 
     <transition name="slide-fade">
       <ul v-if="isOpen" class="dropdown-list">
@@ -30,9 +30,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-// Basitçe dışarı tıklamayı algılamak için (VueUse yoksa manuel directive yerine basit blur kullanabiliriz ama şimdilik manuel toggle yeterli)
-// Not: Profesyonel projelerde 'vueuse/onClickOutside' kullanılır.
-
 const isOpen = ref(false);
 
 const currencies = [
@@ -42,23 +39,20 @@ const currencies = [
   { code: 'EUR', flag: '🇪🇺' },
   { code: 'GBP', flag: '🇬🇧' },
 ];
-
 const selected = ref(currencies[0]);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
-
 const closeDropdown = () => {
   isOpen.value = false;
 };
-
 const selectCurrency = (currency: any) => {
   selected.value = currency;
   isOpen.value = false;
 };
 
-// Basit bir "Click Outside" direktifi (Geçici çözüm)
+// Basit bir "Click Outside" direktifi
 const vClickOutside = {
   mounted(el: any, binding: any) {
     el.clickOutsideEvent = (event: Event) => {
@@ -82,13 +76,14 @@ const vClickOutside = {
 }
 
 .trigger-btn {
+  /* ABaseButton stillerini eziyoruz */
   background: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #fff; /* Topbar koyu olacağı için yazı beyaz */
+  color: #fff; 
   font-size: 0.85rem;
   font-weight: 600;
   padding: 5px 10px;
@@ -106,7 +101,7 @@ const vClickOutside = {
 .dropdown-list {
   position: absolute;
   top: 100%;
-  left: 0; /* Veya right: 0 */
+  left: 0; 
   margin-top: 5px;
   background: white;
   border-radius: 4px;
@@ -127,10 +122,9 @@ const vClickOutside = {
     color: #333;
     font-size: 0.9rem;
     font-weight: 500;
-
     &:hover {
       background: #f5f5f5;
-      color: var(--scs-orange); /* Turuncu vurgu */
+      color: var(--scs-orange);
     }
 
     .item-flag { font-size: 1.2rem; }

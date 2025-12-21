@@ -47,3 +47,12 @@ export interface IBanner {
   image: string;
   variant?: 'light' | 'dark' | 'primary'; // Tema seçenekleri
 }
+
+// 7. Kullanıcı Tipi (Login ve Users tablosu için)
+export interface IUser {
+  id?: string;
+  email: string;
+  role: 'customer' | 'admin';
+  createdAt: any; // Firebase Timestamp
+  lastLogin: any;
+}

@@ -6,19 +6,20 @@
       <div v-if="discount" class="badge-sale">-{{ discount }}%</div>
     </div>
 
-    <div class="image-wrapper">
+    <NuxtLink :to="productUrl" class="image-wrapper">
       <img :src="image" :alt="title" class="product-img" />
+      
       <div class="hover-actions">
-        <button class="action-btn"><ABaseIcon name="heart" size="16" /></button>
-        <button class="action-btn"><ABaseIcon name="search" size="16" /></button>
+        <ABaseButton class="action-btn" @click.prevent><ABaseIcon name="heart" size="16" /></ABaseButton>
+        <ABaseButton class="action-btn" @click.prevent><ABaseIcon name="search" size="16" /></ABaseButton>
       </div>
-    </div>
+    </NuxtLink>
 
     <div class="product-info">
       <ABaseRating :rating="rating" :count="reviewCount" />
       
       <h3 class="product-title">
-        <NuxtLink to="#">{{ title }}</NuxtLink>
+        <NuxtLink :to="productUrl">{{ title }}</NuxtLink>
       </h3>
       
       <div class="price-box">
@@ -27,16 +28,18 @@
       </div>
     </div>
 
-    <button 
+    <ABaseButton 
       class="add-to-cart-btn" 
       @click.stop="addToCart"
     >
       {{ isPreOrder ? 'PRE ORDER' : 'ADD TO CART' }}
-    </button>
+    </ABaseButton>
+
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'; // Computed import edildi
 import { useCartStore } from '~/stores/cartStore';
 
 const props = defineProps<{
@@ -51,16 +54,27 @@ const props = defineProps<{
   isPreOrder?: boolean;
 }>();
 
-// Store'u başlat
 const cartStore = useCartStore();
 
-// Sepete Ekleme Fonksiyonu
+// DEĞİŞİKLİK 3: Başlığı URL formatına (Slug) çeviren kod
+// Örnek: "Gan 12 Maglev" -> "/product/gan-12-maglev"
+const productUrl = computed(() => {
+  if (!props.title) return '/';
+  
+  const slug = props.title
+    .toLowerCase()
+    .trim()
+    .replace(/ /g, '-')       // Boşlukları tire yap
+    .replace(/[^\w-]+/g, ''); // Özel karakterleri sil (sadece harf, rakam, tire kalsın)
+  
+  return `/product/${slug}`;
+});
+
 const addToCart = () => {
   cartStore.addToCart({
     title: props.title,
     price: props.price,
     image: props.image,
-    // Diğer zorunlu alanlar store tipine göre eklenebilir
     rating: props.rating,
     reviewCount: props.reviewCount
   } as any);
@@ -68,7 +82,6 @@ const addToCart = () => {
 </script>
 
 <style scoped lang="scss">
-/* MEVCUT STİLLER AYNEN KORUNUYOR */
 .product-card {
   background: white;
   border-radius: 8px;
@@ -117,20 +130,28 @@ const addToCart = () => {
   }
 }
 
+/* NuxtLink (<a> etiketi) olduğu için display block gibi davranmalı.
+   Mevcut flex yapısını koruyoruz.
+*/
 .image-wrapper {
-  position: relative;
-  padding: 20px;
+  position: relative; 
+  padding: 0px;
+  border: 1px solid #eee;
   background: #f9f9f9;
   text-align: center;
-  height: 200px;
-  display: flex;
+  height: 250px;
+  display: flex; /* Link olsa bile flex özelliği çalışır */
   align-items: center;
   justify-content: center;
+  overflow: hidden; 
+  text-decoration: none; /* Link alt çizgisini kaldır */
+  color: inherit;
 
   .product-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
   }
 
   .hover-actions {
@@ -145,9 +166,10 @@ const addToCart = () => {
 
     .action-btn {
       width: 30px; height: 30px;
+      padding: 0;
       border-radius: 50%;
       border: none; background: white;
-      color: #333; cursor: pointer;
+      color: #333; 
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       &:hover { color: var(--scs-orange); }

@@ -7,9 +7,10 @@
       class="search-input"
       @keyup.enter="handleSearch"
     />
-    <button class="search-btn" @click="handleSearch">
+    
+    <ABaseButton class="search-btn" @click="handleSearch">
       <ABaseIcon name="search" size="18" />
-    </button>
+    </ABaseButton>
   </div>
 </template>
 
@@ -17,49 +18,59 @@
 import { ref } from 'vue';
 
 const searchQuery = ref('');
-const emit = defineEmits(['search']);
 
 const handleSearch = () => {
-  if (searchQuery.value.trim()) {
-    emit('search', searchQuery.value);
-  }
+  console.log("Searching for:", searchQuery.value);
+  // İleride buraya yönlendirme kodu eklenecek
 };
 </script>
 
 <style scoped lang="scss">
 .search-bar-molecule {
   display: flex;
+  align-items: center;
   width: 100%;
-  height: 38px; /* Yükseklik küçültüldü (Daha zarif) */
-  border-radius: 4px;
+  max-height: 35px;
+  max-width: 600px;
+  background: white;
+  border-radius: 8px;
   overflow: hidden;
+  border: 0px solid transparent; 
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: var(--scs-orange);
+  }
 
   .search-input {
-    flex-grow: 1;
+    flex: 1;
     border: none;
-    padding: 0 15px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    font-family: 'Rubik', sans-serif;
+    padding: 12px 15px;
     outline: none;
+    font-size: 0.95rem;
     color: #333;
-    background: white;
-    
-    &::placeholder { color: #999; font-weight: 500; }
+
+    &::placeholder {
+      color: #999;
+    }
   }
 
   .search-btn {
-    width: 40px; /* Buton da küçüldü */
+    /* ABaseButton override */
+    background: var(--scs-orange); 
     border: none;
-    background-color: var(--scs-orange);
-    color: #111;
+    width: 50px;
+    height: 100%; 
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
-
-    &:hover { background-color: #f57c00; }
+    color: black;
+    border-radius: 8px; 
+    
+    &:hover {
+      background: #e67e22;
+    }
   }
 }
 </style>

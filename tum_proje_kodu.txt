@@ -603,6 +603,8 @@ export { setInterval } from '#app/compat/interval';
 export { useBrands } from '../composables/useBrands';
 export { useMenu } from '../composables/useMenu';
 export { useProducts } from '../composables/useProducts';
+export { useAuthStore } from '../stores/authStore';
+export { useBrandStore } from '../stores/brandStore';
 export { useCartStore, ICartItem } from '../stores/cartStore';
 export { useProductStore } from '../stores/productStore';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
@@ -614,7 +616,7 @@ DOSYA YOLU: .\.nuxt\nitro.json
 ==================================================
 
 {
-  "date": "2025-12-20T22:18:35.928Z",
+  "date": "2025-12-21T22:20:29.529Z",
   "preset": "nitro-dev",
   "framework": {
     "name": "nuxt",
@@ -624,9 +626,9 @@ DOSYA YOLU: .\.nuxt\nitro.json
     "nitro": "2.12.4"
   },
   "dev": {
-    "pid": 29060,
+    "pid": 6680,
     "workerAddress": {
-      "socketPath": "\\\\.\\pipe\\nitro-worker-29060-2-1-8900.sock"
+      "socketPath": "\\\\.\\pipe\\nitro-worker-6680-2-1-5020.sock"
     }
   }
 }
@@ -984,7 +986,7 @@ DOSYA YOLU: .\.nuxt\tsconfig.server.json
 DOSYA YOLU: .\.nuxt\manifest\latest.json
 ==================================================
 
-{"id":"dev","timestamp":1766269110193}
+{"id":"dev","timestamp":1766355625259}
 
 ==================================================
 DOSYA YOLU: .\.nuxt\manifest\meta\3159040d-7792-4ee6-9b68-12f1f145e661.json
@@ -996,7 +998,7 @@ DOSYA YOLU: .\.nuxt\manifest\meta\3159040d-7792-4ee6-9b68-12f1f145e661.json
 DOSYA YOLU: .\.nuxt\manifest\meta\dev.json
 ==================================================
 
-{"id":"dev","timestamp":1766269110193,"matcher":{"static":{},"wildcard":{},"dynamic":{}},"prerendered":[]}
+{"id":"dev","timestamp":1766355625259,"matcher":{"static":{},"wildcard":{},"dynamic":{}},"prerendered":[]}
 
 ==================================================
 DOSYA YOLU: .\.nuxt\schema\nuxt.schema.d.ts
@@ -1220,6 +1222,8 @@ declare global {
   const useAppConfig: typeof import('../../node_modules/nuxt/dist/app/config').useAppConfig
   const useAsyncData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useAsyncData
   const useAttrs: typeof import('vue').useAttrs
+  const useAuthStore: typeof import('../../stores/authStore').useAuthStore
+  const useBrandStore: typeof import('../../stores/brandStore').useBrandStore
   const useBrands: typeof import('../../composables/useBrands').useBrands
   const useCartStore: typeof import('../../stores/cartStore').useCartStore
   const useCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie').useCookie
@@ -1413,6 +1417,8 @@ declare module 'vue' {
     readonly useAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['useAppConfig']>
     readonly useAsyncData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useAuthStore: UnwrapRef<typeof import('../../stores/authStore')['useAuthStore']>
+    readonly useBrandStore: UnwrapRef<typeof import('../../stores/brandStore')['useBrandStore']>
     readonly useBrands: UnwrapRef<typeof import('../../composables/useBrands')['useBrands']>
     readonly useCartStore: UnwrapRef<typeof import('../../stores/cartStore')['useCartStore']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
@@ -1502,7 +1508,7 @@ DOSYA YOLU: .\.nuxt\types\layouts.d.ts
 ==================================================
 
 import type { ComputedRef, MaybeRef } from 'vue'
-export type LayoutKey = "default"
+export type LayoutKey = "blank" | "default"
 declare module 'nuxt/app' {
   interface PageMeta {
     layout?: MaybeRef<LayoutKey | false> | ComputedRef<LayoutKey | false>
@@ -1916,33 +1922,50 @@ DOSYA YOLU: .\.nuxt\types\vue-shim.d.ts
 DOSYA YOLU: .\assets\css\main.scss
 ==================================================
 
-/* assets/css/main.scss */
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
 
 :root {
   // Görselden alınan renkler
-  --scs-header-bg: #181818;    // Header arka planı (Bir tık açık siyah)
+  --scs-header-bg: #181818;    // Header arka planı
   --scs-orange: #ff9800;       // Turuncu
   --scs-white: #ffffff;
+  --scs-black: #111111;        // YENİ: Koyu renk değişkeni
   --scs-gray-text: #b0b0b0;    // Pasif yazılar
   --scs-input-bg: #ffffff;     // Arama kutusu içi
+  --scs-body-text: #2c2c2c;    // YENİ: Varsayılan yazı rengi
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Rubik', sans-serif;
-  color: var(--scs-white);
+  
+  /* DÜZELTME: Varsayılan yazı rengini KOYU yaptık */
+  color: var(--scs-body-text); 
+  background-color: var(--scs-white);
+  
+  /* Yumuşak render için */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-  max-width: 1300px; /* Görseldeki gibi geniş */
+  max-width: 1300px; 
   margin: 0 auto;
   padding: 0 20px;
 }
 
-a { text-decoration: none; color: inherit; transition: color 0.2s; }
-ul { list-style: none; padding: 0; margin: 0; }
+a { 
+  text-decoration: none; 
+  color: inherit; 
+  transition: color 0.2s; 
+}
+
+ul { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+}
 
 ==================================================
 DOSYA YOLU: .\components\atoms\ABaseRating.vue
@@ -2469,21 +2492,22 @@ DOSYA YOLU: .\components\molecules\MBannerCard.vue
     <div class="content" v-if="title || buttonText">
       <h3 v-if="subtitle" class="subtitle">{{ subtitle }}</h3>
       <h2 v-if="title" class="title" v-html="title"></h2> 
-      <button v-if="buttonText" class="action-btn">{{ buttonText }}</button>
+      
+      <ABaseButton v-if="buttonText" class="action-btn">
+        {{ buttonText }}
+      </ABaseButton>
+
     </div>
   </NuxtLink>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  backgroundImage: string; // Görsel artık en önemli parça, zorunlu olsun
-  link?: string;           // Tıklayınca gidilecek adres (Opsiyonel)
-  
-  // Yazı alanlarını opsiyonel (?) yaptık
+  backgroundImage: string; 
+  link?: string;           
   title?: string;
   subtitle?: string;
   buttonText?: string;
-  
   variant?: 'dark' | 'light' | 'primary';
 }>();
 </script>
@@ -2493,23 +2517,21 @@ defineProps<{
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  padding: 0; /* Yazı yoksa padding'e gerek yok, görsel tam kaplasın */
+  padding: 0; 
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  text-decoration: none; /* Link alt çizgisini kaldır */
+  text-decoration: none; 
   
-  /* Görsel Ayarları */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   
-  min-height: 400px; /* Görselin yüksekliği */
+  min-height: 400px; 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 
-  /* Hover Efekti: Üzerine gelince hafif yukarı kalksın */
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
@@ -2525,11 +2547,9 @@ defineProps<{
     backdrop-filter: blur(2px);
   }
 
-  /* Temalar (Eğer yazı kullanılırsa diye duruyor) */
   &.dark { color: white; }
   &.primary { color: white; }
   
-  /* ... Diğer yazı stilleri (title, btn vs.) aynı kalabilir ... */
   .title {
     font-size: 3rem;
     font-weight: 900;
@@ -2539,11 +2559,12 @@ defineProps<{
     color: white;
   }
   
+  /* ABaseButton için özel stil bindirmesi */
   .action-btn {
     padding: 15px 40px;
     font-weight: 800;
     text-transform: uppercase;
-    border: none;
+    border: none; /* Atom'dan gelen border'ı eziyoruz */
     border-radius: 4px;
     background: white;
     color: black;
@@ -2557,7 +2578,7 @@ DOSYA YOLU: .\components\molecules\MCurrencySelector.vue
 
 <template>
   <div class="currency-selector" v-click-outside="closeDropdown">
-    <button class="trigger-btn" @click="toggleDropdown">
+    <ABaseButton class="trigger-btn" @click="toggleDropdown">
       <span class="flag-icon">{{ selected.flag }}</span>
       <span class="currency-code">{{ selected.code }}</span>
       <ABaseIcon 
@@ -2566,7 +2587,7 @@ DOSYA YOLU: .\components\molecules\MCurrencySelector.vue
         class="arrow-icon" 
         :style="{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }" 
       />
-    </button>
+    </ABaseButton>
 
     <transition name="slide-fade">
       <ul v-if="isOpen" class="dropdown-list">
@@ -2587,9 +2608,6 @@ DOSYA YOLU: .\components\molecules\MCurrencySelector.vue
 <script setup lang="ts">
 import { ref } from 'vue';
 
-// Basitçe dışarı tıklamayı algılamak için (VueUse yoksa manuel directive yerine basit blur kullanabiliriz ama şimdilik manuel toggle yeterli)
-// Not: Profesyonel projelerde 'vueuse/onClickOutside' kullanılır.
-
 const isOpen = ref(false);
 
 const currencies = [
@@ -2599,23 +2617,20 @@ const currencies = [
   { code: 'EUR', flag: '🇪🇺' },
   { code: 'GBP', flag: '🇬🇧' },
 ];
-
 const selected = ref(currencies[0]);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
-
 const closeDropdown = () => {
   isOpen.value = false;
 };
-
 const selectCurrency = (currency: any) => {
   selected.value = currency;
   isOpen.value = false;
 };
 
-// Basit bir "Click Outside" direktifi (Geçici çözüm)
+// Basit bir "Click Outside" direktifi
 const vClickOutside = {
   mounted(el: any, binding: any) {
     el.clickOutsideEvent = (event: Event) => {
@@ -2639,13 +2654,14 @@ const vClickOutside = {
 }
 
 .trigger-btn {
+  /* ABaseButton stillerini eziyoruz */
   background: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #fff; /* Topbar koyu olacağı için yazı beyaz */
+  color: #fff; 
   font-size: 0.85rem;
   font-weight: 600;
   padding: 5px 10px;
@@ -2663,7 +2679,7 @@ const vClickOutside = {
 .dropdown-list {
   position: absolute;
   top: 100%;
-  left: 0; /* Veya right: 0 */
+  left: 0; 
   margin-top: 5px;
   background: white;
   border-radius: 4px;
@@ -2684,10 +2700,9 @@ const vClickOutside = {
     color: #333;
     font-size: 0.9rem;
     font-weight: 500;
-
     &:hover {
       background: #f5f5f5;
-      color: var(--scs-orange); /* Turuncu vurgu */
+      color: var(--scs-orange);
     }
 
     .item-flag { font-size: 1.2rem; }
@@ -2799,7 +2814,8 @@ DOSYA YOLU: .\components\molecules\MMarketingBlock.vue
     <div class="content-area">
       <h3 class="block-title">{{ title }}</h3>
       <div class="separator"></div> <p class="block-desc">{{ description }}</p>
-      <button class="block-btn">{{ buttonText }}</button>
+      
+      <ABaseButton class="block-btn">{{ buttonText }}</ABaseButton>
     </div>
 
     <div class="image-area">
@@ -2823,9 +2839,11 @@ defineProps<{
 .marketing-block {
   display: grid;
   grid-template-columns: 1fr 1fr; /* Yarı yarıya böl */
-  gap: 1px; /* Görsel ile yazı arası boşluk */
+  gap: 1px;
+  /* Görsel ile yazı arası boşluk */
   align-items: center;
-  margin-bottom: 80px; /* Bloklar arası boşluk */
+  margin-bottom: 80px;
+  /* Bloklar arası boşluk */
 
   /* REVERSED MODU (Görsel Solda, Yazı Sağda) */
   &.reversed {
@@ -2841,7 +2859,8 @@ defineProps<{
     text-align: center;
 
     .block-title {
-      color: #ff9f00; /* İSTENEN: Turuncu Başlık */
+      color: #ff9f00;
+      /* İSTENEN: Turuncu Başlık */
       font-size: 1.4rem;
       text-transform: uppercase;
       font-weight: 800;
@@ -2866,19 +2885,25 @@ defineProps<{
     }
 
     .block-btn {
-      background: #111; /* İSTENEN: Siyah Buton */
+      /* ABaseButton stillerini eziyoruz */
+      background: #111;
+      /* İSTENEN: Siyah Buton */
       color: white;
       padding: 14px 30px;
       border: none;
+      border-radius: 0px;
       font-weight: 800;
       text-transform: uppercase;
       cursor: pointer;
       font-size: 0.85rem;
-      transition: all 0.3s ease; /* Yumuşak geçiş */
+      transition: all 0.3s ease;
+      /* Yumuşak geçiş */
 
       &:hover {
-        background: #4CAF50; /* İSTENEN: Yeşil Hover */
-        transform: translateY(-2px); /* Ufak bir zıplama efekti */
+        background: #4CAF50;
+        /* İSTENEN: Yeşil Hover */
+        transform: translateY(-2px);
+        /* Ufak bir zıplama efekti */
       }
     }
   }
@@ -2891,13 +2916,12 @@ defineProps<{
 
     img {
       max-width: 100%;
-      max-height: 400px; /* Çok uzamasını engelle */
+      max-height: 400px;
+      /* Çok uzamasını engelle */
       object-fit: contain;
     }
   }
 }
-
-
 </style>
 
 ==================================================
@@ -2923,7 +2947,8 @@ DOSYA YOLU: .\components\molecules\MNewsletter.vue
     
     <div class="input-group">
       <input type="email" placeholder="Email Address" />
-      <button class="subscribe-btn">Subscribe</button>
+      
+      <ABaseButton class="subscribe-btn">Subscribe</ABaseButton>
     </div>
 
   </div>
@@ -2953,11 +2978,10 @@ DOSYA YOLU: .\components\molecules\MNewsletter.vue
       justify-content: center;
       width: 32px;
       height: 32px;
-      background-color: white; /* Görseldeki gibi beyaz daire */
+      background-color: white; 
       border-radius: 50%;
-      color: black; /* İkon rengi siyah */
+      color: black; 
       transition: transform 0.2s;
-
       &:hover {
         transform: translateY(-3px);
         background-color: var(--scs-orange);
@@ -2976,7 +3000,8 @@ DOSYA YOLU: .\components\molecules\MNewsletter.vue
 
   .input-group {
     display: flex;
-    gap: 0; /* Birleşik duruyorlar */
+    gap: 0;
+    /* Birleşik duruyorlar */
 
     input {
       flex: 1;
@@ -2992,7 +3017,9 @@ DOSYA YOLU: .\components\molecules\MNewsletter.vue
     }
 
     .subscribe-btn {
-      background: #e67e22; /* Görseldeki turuncu tonu */
+      /* ABaseButton stillerini eziyoruz */
+      background: #e67e22;
+      /* Görseldeki turuncu tonu */
       color: black;
       font-weight: 700;
       border: none;
@@ -3019,19 +3046,20 @@ DOSYA YOLU: .\components\molecules\MProductCard.vue
       <div v-if="discount" class="badge-sale">-{{ discount }}%</div>
     </div>
 
-    <div class="image-wrapper">
+    <NuxtLink :to="productUrl" class="image-wrapper">
       <img :src="image" :alt="title" class="product-img" />
+      
       <div class="hover-actions">
-        <button class="action-btn"><ABaseIcon name="heart" size="16" /></button>
-        <button class="action-btn"><ABaseIcon name="search" size="16" /></button>
+        <ABaseButton class="action-btn" @click.prevent><ABaseIcon name="heart" size="16" /></ABaseButton>
+        <ABaseButton class="action-btn" @click.prevent><ABaseIcon name="search" size="16" /></ABaseButton>
       </div>
-    </div>
+    </NuxtLink>
 
     <div class="product-info">
       <ABaseRating :rating="rating" :count="reviewCount" />
       
       <h3 class="product-title">
-        <NuxtLink to="#">{{ title }}</NuxtLink>
+        <NuxtLink :to="productUrl">{{ title }}</NuxtLink>
       </h3>
       
       <div class="price-box">
@@ -3040,16 +3068,18 @@ DOSYA YOLU: .\components\molecules\MProductCard.vue
       </div>
     </div>
 
-    <button 
+    <ABaseButton 
       class="add-to-cart-btn" 
       @click.stop="addToCart"
     >
       {{ isPreOrder ? 'PRE ORDER' : 'ADD TO CART' }}
-    </button>
+    </ABaseButton>
+
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'; // Computed import edildi
 import { useCartStore } from '~/stores/cartStore';
 
 const props = defineProps<{
@@ -3064,16 +3094,27 @@ const props = defineProps<{
   isPreOrder?: boolean;
 }>();
 
-// Store'u başlat
 const cartStore = useCartStore();
 
-// Sepete Ekleme Fonksiyonu
+// DEĞİŞİKLİK 3: Başlığı URL formatına (Slug) çeviren kod
+// Örnek: "Gan 12 Maglev" -> "/product/gan-12-maglev"
+const productUrl = computed(() => {
+  if (!props.title) return '/';
+  
+  const slug = props.title
+    .toLowerCase()
+    .trim()
+    .replace(/ /g, '-')       // Boşlukları tire yap
+    .replace(/[^\w-]+/g, ''); // Özel karakterleri sil (sadece harf, rakam, tire kalsın)
+  
+  return `/product/${slug}`;
+});
+
 const addToCart = () => {
   cartStore.addToCart({
     title: props.title,
     price: props.price,
     image: props.image,
-    // Diğer zorunlu alanlar store tipine göre eklenebilir
     rating: props.rating,
     reviewCount: props.reviewCount
   } as any);
@@ -3081,7 +3122,6 @@ const addToCart = () => {
 </script>
 
 <style scoped lang="scss">
-/* MEVCUT STİLLER AYNEN KORUNUYOR */
 .product-card {
   background: white;
   border-radius: 8px;
@@ -3130,20 +3170,28 @@ const addToCart = () => {
   }
 }
 
+/* NuxtLink (<a> etiketi) olduğu için display block gibi davranmalı.
+   Mevcut flex yapısını koruyoruz.
+*/
 .image-wrapper {
-  position: relative;
-  padding: 20px;
+  position: relative; 
+  padding: 0px;
+  border: 1px solid #eee;
   background: #f9f9f9;
   text-align: center;
-  height: 200px;
-  display: flex;
+  height: 250px;
+  display: flex; /* Link olsa bile flex özelliği çalışır */
   align-items: center;
   justify-content: center;
+  overflow: hidden; 
+  text-decoration: none; /* Link alt çizgisini kaldır */
+  color: inherit;
 
   .product-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
   }
 
   .hover-actions {
@@ -3158,9 +3206,10 @@ const addToCart = () => {
 
     .action-btn {
       width: 30px; height: 30px;
+      padding: 0;
       border-radius: 50%;
       border: none; background: white;
-      color: #333; cursor: pointer;
+      color: #333; 
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       &:hover { color: var(--scs-orange); }
@@ -3224,9 +3273,10 @@ DOSYA YOLU: .\components\molecules\MSearchBar.vue
       class="search-input"
       @keyup.enter="handleSearch"
     />
-    <button class="search-btn" @click="handleSearch">
+    
+    <ABaseButton class="search-btn" @click="handleSearch">
       <ABaseIcon name="search" size="18" />
-    </button>
+    </ABaseButton>
   </div>
 </template>
 
@@ -3234,49 +3284,59 @@ DOSYA YOLU: .\components\molecules\MSearchBar.vue
 import { ref } from 'vue';
 
 const searchQuery = ref('');
-const emit = defineEmits(['search']);
 
 const handleSearch = () => {
-  if (searchQuery.value.trim()) {
-    emit('search', searchQuery.value);
-  }
+  console.log("Searching for:", searchQuery.value);
+  // İleride buraya yönlendirme kodu eklenecek
 };
 </script>
 
 <style scoped lang="scss">
 .search-bar-molecule {
   display: flex;
+  align-items: center;
   width: 100%;
-  height: 38px; /* Yükseklik küçültüldü (Daha zarif) */
-  border-radius: 4px;
+  max-height: 35px;
+  max-width: 600px;
+  background: white;
+  border-radius: 8px;
   overflow: hidden;
+  border: 0px solid transparent; 
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: var(--scs-orange);
+  }
 
   .search-input {
-    flex-grow: 1;
+    flex: 1;
     border: none;
-    padding: 0 15px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    font-family: 'Rubik', sans-serif;
+    padding: 12px 15px;
     outline: none;
+    font-size: 0.95rem;
     color: #333;
-    background: white;
-    
-    &::placeholder { color: #999; font-weight: 500; }
+
+    &::placeholder {
+      color: #999;
+    }
   }
 
   .search-btn {
-    width: 40px; /* Buton da küçüldü */
+    /* ABaseButton override */
+    background: var(--scs-orange); 
     border: none;
-    background-color: var(--scs-orange);
-    color: #111;
+    width: 50px;
+    height: 100%; 
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
-
-    &:hover { background-color: #f57c00; }
+    color: black;
+    border-radius: 8px; 
+    
+    &:hover {
+      background: #e67e22;
+    }
   }
 }
 </style>
@@ -3289,14 +3349,15 @@ DOSYA YOLU: .\components\molecules\MSplitBanner.vue
   <div class="split-banner" :class="variant">
     
     <div class="content-side">
-      <h4 v-if="subtitle" class="subtitle">{{ subtitle }}</h4>
-      <h2 class="title" v-html="title"></h2>
-      <p v-if="description" class="description">{{ description }}</p>
-      <button class="action-btn">{{ buttonText }}</button>
+      <h3 v-if="subtitle" class="subtitle">{{ subtitle }}</h3>
+      <h2 class="title">{{ title }}</h2>
+      <p class="description">{{ description }}</p>
+      
+      <ABaseButton class="action-btn">{{ buttonText }}</ABaseButton>
     </div>
 
     <div class="image-side">
-      <img :src="image" :alt="title" class="product-image" />
+      <img :src="image" :alt="title" />
     </div>
 
   </div>
@@ -3306,40 +3367,48 @@ DOSYA YOLU: .\components\molecules\MSplitBanner.vue
 defineProps<{
   title: string;
   subtitle?: string;
-  description?: string;
+  description: string;
   buttonText: string;
   image: string;
-  variant?: 'light' | 'dark'; // Açık veya Koyu tema seçeneği
+  variant?: 'light' | 'dark'; // Arka plan rengi seçeneği
 }>();
 </script>
 
 <style scoped lang="scss">
 .split-banner {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Alanı ikiye böl */
-  align-items: center; /* İçeriği dikeyde ortala */
-  border-radius: 0px;
-  min-height: 450px; /* Heybetli bir yükseklik */
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 450px;
+  
+  /* Varsayılan (Light) */
+  background-color: #f4f4f4;
+  color: #111;
 
-  /* Temalar */
-  &.light { background-color: #f4f4f4; color: #111; }
-  &.dark { background-color: #111; color: white; }
+  &.dark {
+    background-color: #111;
+    color: white;
+    .description { color: #ccc; }
+  }
+
 
   .content-side {
+    flex: 1;
     padding: 60px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start; /* Yazıları sola yasla */
+    align-items: flex-start; /* Mobilde center yapılabilir */
+    
 
     .subtitle {
       font-size: 0.9rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       margin-bottom: 15px;
       font-weight: 700;
       opacity: 0.8;
-      color: var(--scs-orange); /* Turuncu vurgu */
     }
 
     .title {
@@ -3355,49 +3424,48 @@ defineProps<{
       line-height: 1.6;
       margin-bottom: 30px;
       max-width: 90%;
-      opacity: 0.9;
+      color: #555;
     }
 
     .action-btn {
-      padding: 15px 35px;
+      /* ABaseButton override */
+      padding: 15px 40px;
+      background: rgb(255, 123, 0);
+      color: #111;
+      border: none;
       font-weight: 800;
       text-transform: uppercase;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
       font-size: 0.9rem;
-
-      /* Tema bazlı buton renkleri */
-      .light & { background: #111; color: white; &:hover { background: var(--scs-orange); } }
-      .dark & { background: white; color: #111; &:hover { background: var(--scs-orange); color: white; } }
+      border-radius: 0px;
+      cursor: pointer;
+      
+      &:hover {
+        background: #333; /* Hafif açılma */
+      }
     }
+  }
+
+  /* Dark modda buton rengini tersine çevirelim */
+  &.dark .action-btn {
+    background: white;
+    color: black;
+    &:hover { background: #eee; }
   }
 
   .image-side {
+    flex: 1;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 450px;
     position: relative;
-    padding: 30px;
-
-    .product-image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain; /* Resmi bozmadan sığdır */
-      /* Ürünü öne çıkaran hafif bir gölge */
-      filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));
-      transition: transform 0.3s;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
   }
-
-  /* Hover Efekti: Ürün hafifçe büyüsün */
-  &:hover .product-image {
-    transform: scale(1.05);
-  }
 }
-
 </style>
 
 ==================================================
@@ -3416,23 +3484,39 @@ DOSYA YOLU: .\components\organisms\OBrandSlider.vue
 
       <div class="slider-wrapper">
         
-        <button class="nav-btn prev" @click="scroll('left')">
+        <ABaseButton 
+            variant="outline" 
+            class="nav-btn prev" 
+            @click="scroll('left')"
+        >
           <ABaseIcon name="chevron-down" style="transform: rotate(90deg);" />
-        </button>
+        </ABaseButton>
 
         <div class="brands-track" ref="scrollContainer">
+          
+          <div v-if="isLoading" class="loading-state">
+            Loading...
+          </div>
+
           <div 
+            v-else
             v-for="(brand, index) in brands" 
             :key="index" 
             class="brand-item"
           >
-            <span class="brand-name">{{ brand.name }}</span>
+            <img v-if="brand.logo" :src="brand.logo" :alt="brand.name" class="brand-logo" />
+            <span v-else class="brand-name">{{ brand.name }}</span>
           </div>
+
         </div>
 
-        <button class="nav-btn next" @click="scroll('right')">
+        <ABaseButton 
+            variant="outline" 
+            class="nav-btn next" 
+            @click="scroll('right')"
+        >
           <ABaseIcon name="chevron-down" style="transform: rotate(-90deg);" />
-        </button>
+        </ABaseButton>
 
       </div>
 
@@ -3441,28 +3525,27 @@ DOSYA YOLU: .\components\organisms\OBrandSlider.vue
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useBrandStore } from '~/stores/brandStore';
 
-// 8 Adet Marka (İleride 'logo' alanlarını dolduracağız)
-const brands = [
-  { name: "Rubik's", logo: '//speedcubeshop.com/cdn/shop/files/Rubik_s-Tile_250x.png?v=1725307086' },
-  { name: 'GAN', logo: '//speedcubeshop.com/cdn/shop/files/GAN-Tile_250x.png?v=1636494250' },
-  { name: 'MoYu', logo: '' },
-  { name: 'DianSheng', logo: '' },
-  { name: 'QiYi', logo: '' },
-  { name: 'YJ', logo: '' },
-  { name: 'X-Man Design', logo: '' },
-  { name: 'YuXin', logo: '' },
-];
+// Store'u çağır
+const brandStore = useBrandStore();
 
 const scrollContainer = ref<HTMLElement | null>(null);
 
-// TEK TEK KAYDIRMA FONKSİYONU
+// State'i Store'dan computed olarak al (Reaktif olması için)
+const brands = computed(() => brandStore.brands);
+const isLoading = computed(() => brandStore.loading);
+
+// Sayfa yüklendiğinde Store action'ını tetikle
+onMounted(() => {
+  brandStore.fetchBrands();
+});
+
+// Kaydırma Fonksiyonu (Aynı kalıyor)
 const scroll = (direction: 'left' | 'right') => {
   if (scrollContainer.value) {
-    // Bir kartın genişliği (150px) + boşluk (20px) = 170px
     const itemWidth = 170; 
-    
     scrollContainer.value.scrollBy({
       left: direction === 'right' ? itemWidth : -itemWidth,
       behavior: 'smooth'
@@ -3496,7 +3579,7 @@ const scroll = (direction: 'left' | 'right') => {
     font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #888;
+    color: #111;
     white-space: nowrap;
     letter-spacing: 0.5px;
   }
@@ -3511,25 +3594,30 @@ const scroll = (direction: 'left' | 'right') => {
 
 .brands-track {
   display: flex;
-  gap: 20px; /* Markalar arası boşluk */
+  gap: 20px;
   overflow-x: auto;
   scroll-behavior: smooth;
   width: 100%;
   padding: 10px 5px;
-  
-  /* Scrollbar gizleme */
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
 
+.loading-state {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-size: 0.9rem;
+}
+
 .brand-item {
-  /* Sabit genişlik veriyoruz ki "tek tek" kaydırma düzgün çalışsın */
   min-width: 150px; 
   height: 80px;
-  background-color: #f9f9f9;
+  background-color: #fff;
   border: 1px solid #eee;
-  border-radius: 8px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3538,13 +3626,20 @@ const scroll = (direction: 'left' | 'right') => {
   font-size: 0.9rem;
   text-align: center;
   transition: all 0.2s;
-  user-select: none; /* Yazı seçilmesin */
+  user-select: none; 
+  overflow: hidden; 
+  padding: 0; 
   
   &:hover {
     border-color: var(--scs-orange);
-    color: var(--scs-orange);
-    background-color: white;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .brand-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .brand-name {
@@ -3553,27 +3648,27 @@ const scroll = (direction: 'left' | 'right') => {
 }
 
 .nav-btn {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  /* ABaseButton override */
+  background-color: white !important; 
+  border: 1px solid #ddd !important;
+  color: #333 !important;
+
+  border-radius: 100%;
+  width: 30px;  
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  flex-shrink: 0; /* Butonlar ezilmesin */
-  color: #666;
+  flex-shrink: 0;
   transition: all 0.2s;
-  
+
   &:hover {
-    background: var(--scs-orange);
-    border-color: var(--scs-orange);
-    color: white;
+    background-color: black !important;
+    border-color: black !important;
+    color: white !important;
   }
 }
-
-
 </style>
 
 ==================================================
@@ -3591,12 +3686,14 @@ DOSYA YOLU: .\components\organisms\OCartDrawer.vue
         
         <div class="drawer-header">
           <h3>Shopping Cart</h3>
-          <button class="close-btn" @click="cartStore.closeCart">✕</button>
+          <ABaseButton class="close-btn" @click="cartStore.closeCart">✕</ABaseButton>
         </div>
 
         <div v-if="cartStore.isEmpty" class="empty-state">
           <p>Your cart is currently empty.</p>
-          <button class="continue-btn" @click="cartStore.closeCart">CONTINUE SHOPPING</button>
+          <ABaseButton class="continue-btn" @click="cartStore.closeCart">
+            CONTINUE SHOPPING
+          </ABaseButton>
         </div>
 
         <div v-else class="cart-items-wrapper">
@@ -3612,13 +3709,13 @@ DOSYA YOLU: .\components\organisms\OCartDrawer.vue
               <div class="item-price">${{ item.price }}</div>
 
               <div class="qty-control">
-                <button @click="cartStore.updateQuantity(item.title, -1)">−</button>
+                <ABaseButton class="qty-btn" @click="cartStore.updateQuantity(item.title, -1)">−</ABaseButton>
                 <span>{{ item.quantity }}</span>
-                <button @click="cartStore.updateQuantity(item.title, 1)">+</button>
+                <ABaseButton class="qty-btn" @click="cartStore.updateQuantity(item.title, 1)">+</ABaseButton>
               </div>
             </div>
 
-            <button class="remove-btn" @click="cartStore.removeItem(item.title)">✕</button>
+            <ABaseButton class="remove-btn" @click="cartStore.removeItem(item.title)">✕</ABaseButton>
 
           </div>
         </div>
@@ -3630,9 +3727,13 @@ DOSYA YOLU: .\components\organisms\OCartDrawer.vue
           </div>
           <p class="shipping-note">Shipping & taxes calculated at checkout</p>
           
-          <button class="checkout-btn">
+          <ABaseButton 
+            class="checkout-btn" 
+            block 
+            @click="goToCheckout"
+          >
             PROCEED TO CHECKOUT | ${{ cartStore.subtotal }}
-          </button>
+          </ABaseButton>
         </div>
 
       </div>
@@ -3642,7 +3743,15 @@ DOSYA YOLU: .\components\organisms\OCartDrawer.vue
 
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cartStore';
+
 const cartStore = useCartStore();
+const router = useRouter();
+
+// Checkout Sayfasına Yönlendirme
+const goToCheckout = () => {
+  cartStore.closeCart(); // Önce sepeti kapat
+  router.push('/checkout'); // Sonra sayfaya git
+};
 </script>
 
 <style scoped lang="scss">
@@ -3665,7 +3774,7 @@ const cartStore = useCartStore();
   background: white; z-index: 999;
   display: flex; flex-direction: column;
   box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-  color: #111;
+  color: #111; /* Yazı rengini siyah yaptık */
 }
 
 /* HEADER */
@@ -3674,20 +3783,30 @@ const cartStore = useCartStore();
   display: flex; justify-content: space-between; align-items: center;
   border-bottom: 1px solid #eee;
   h3 { margin: 0; font-size: 1.2rem; font-weight: 700; }
-  .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333; }
+  
+  .close-btn {
+    /* Atom override: Şeffaf buton */
+    background: transparent !important; 
+    border: none !important;
+    font-size: 1.5rem; 
+    color: #333;
+    padding: 0;
+    width: auto; height: auto;
+    &:hover { color: #000; }
+  }
 }
 
 /* EMPTY STATE */
 .empty-state {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: flex-start;
-  padding-top: 50px; text-align: center;
+  padding-top: 10px; text-align: center;
   p { margin-bottom: 20px; color: #666; }
+  
   .continue-btn {
-    background: #388e3c; color: white; /* İSTENEN: Yeşil Buton */
-    border: none; padding: 12px 25px;
-    font-weight: 700; text-transform: uppercase;
-    cursor: pointer; border-radius: 4px;
+    background: #388e3c; /* Yeşil */
+    border-radius: 0px;
+    width: 90%;
     &:hover { background: #2e7d32; }
   }
 }
@@ -3715,15 +3834,31 @@ const cartStore = useCartStore();
     
     .qty-control {
       display: inline-flex; border: 1px solid #ddd; border-radius: 4px;
-      button { background: none; border: none; width: 30px; height: 30px; cursor: pointer; font-size: 1.1rem; &:hover{ background: #f9f9f9;} }
+      align-items: center;
+
+      .qty-btn {
+        background: transparent !important;
+        border: none !important;
+        color: #333 !important;
+        width: 30px; height: 30px;
+        padding: 0;
+        font-size: 1.1rem;
+        border-radius: 0;
+        &:hover { background: #f9f9f9 !important; }
+      }
+      
       span { display: flex; align-items: center; justify-content: center; width: 30px; font-size: 0.9rem; font-weight: 600; }
     }
   }
 
   .remove-btn {
     position: absolute; top: 0; right: 0;
-    background: none; border: none; color: #999;
-    cursor: pointer; font-size: 1.2rem;
+    background: transparent !important; 
+    border: none !important;
+    color: #999;
+    padding: 0;
+    width: auto; height: auto;
+    font-size: 1.2rem;
     &:hover { color: #f44336; }
   }
 }
@@ -3741,11 +3876,9 @@ const cartStore = useCartStore();
   }
   
   .checkout-btn {
-    width: 100%; padding: 15px;
-    background: #388e3c; color: white; /* İSTENEN: Yeşil Buton */
-    border: none; font-weight: 800; text-transform: uppercase;
-    font-size: 1rem; border-radius: 4px; cursor: pointer;
-    transition: 0.2s;
+    background: #388e3c; /* Yeşil */
+    font-weight: 800;
+    border-radius: 0px;
     &:hover { background: #2e7d32; }
   }
 }
@@ -3968,10 +4101,15 @@ DOSYA YOLU: .\components\organisms\OHomeProducts.vue
     <div v-else class="content-wrapper">
       
       <div class="section-header">
-        <h2 class="section-title">POPULAR SPEED CUBES</h2>
+        <span class="line"></span>
+          <h2 class="section-title">POPULAR SPEED CUBES</h2>
+        <span class="line"></span>
+      </div>
+      <div class="section-header">
+       
         
         <div class="tabs-wrapper">
-          <button 
+          <ABaseButton 
             v-for="tab in tabs" 
             :key="tab"
             class="tab-btn"
@@ -3979,7 +4117,7 @@ DOSYA YOLU: .\components\organisms\OHomeProducts.vue
             @click="activeTab = tab"
           >
             {{ tab.toUpperCase() }}
-          </button>
+          </ABaseButton>
         </div>
 
         <div class="header-spacer"></div>
@@ -3987,9 +4125,9 @@ DOSYA YOLU: .\components\organisms\OHomeProducts.vue
 
       <div class="product-carousel-wrapper">
         
-        <button class="carousel-btn left-btn" @click="prevSlide">
+        <ABaseButton class="carousel-btn left-btn" @click="prevSlide">
           <ABaseIcon name="chevron-left" size="24" />
-        </button>
+        </ABaseButton>
 
         <div class="carousel-window">
           <div 
@@ -4015,9 +4153,9 @@ DOSYA YOLU: .\components\organisms\OHomeProducts.vue
           </div>
         </div>
 
-        <button class="carousel-btn right-btn" @click="nextSlide">
+        <ABaseButton class="carousel-btn right-btn" @click="nextSlide">
           <ABaseIcon name="chevron-right" size="24" />
-        </button>
+        </ABaseButton>
 
       </div>
 
@@ -4049,18 +4187,15 @@ onMounted(() => {
 });
 
 // --- STATE ---
-// Tabs artık Store'dan dinamik geliyor (Statik değil!)
 const tabs = computed(() => {
-    // Eğer veri henüz gelmediyse varsayılan bir tab koy ki patlamasın
     return productStore.getCategoryTabs.length > 0 ? productStore.getCategoryTabs : ['2x2'];
 });
 
-const activeTab = ref('2x2'); // Başlangıç değeri
+const activeTab = ref('2x2'); 
 const currentIndex = ref(0);
-const itemsPerSlide = 4; 
+const itemsPerSlide = 4;
 
 // --- COMPUTED ---
-// Ürünleri Store'dan alıp filtreliyoruz
 const filteredProducts = computed(() => {
   return productStore.products.filter(product => product.category === activeTab.value);
 });
@@ -4068,22 +4203,20 @@ const filteredProducts = computed(() => {
 const totalSlides = computed(() => Math.ceil(filteredProducts.value.length / itemsPerSlide));
 
 // --- WATCH ---
-// 1. Sekme değişirse başa dön
 watch(activeTab, () => {
   currentIndex.value = 0;
 });
 
-// 2. Veriler geç yüklenirse (Firebase gecikmesi), tablar güncellenince ilk tabı seçili yap
 watch(tabs, (newTabs) => {
     if (newTabs.length > 0 && !newTabs.includes(activeTab.value)) {
         activeTab.value = newTabs[0];
     }
 });
 
-// --- METODLAR (Aynı kaldı) ---
+// --- METODLAR ---
 const nextSlide = () => {
   if (currentIndex.value >= totalSlides.value - 1) {
-    currentIndex.value = 0; 
+    currentIndex.value = 0;
   } else {
     currentIndex.value++;
   }
@@ -4091,7 +4224,7 @@ const nextSlide = () => {
 
 const prevSlide = () => {
   if (currentIndex.value <= 0) {
-    currentIndex.value = totalSlides.value - 1; 
+    currentIndex.value = totalSlides.value - 1;
   } else {
     currentIndex.value--;
   }
@@ -4103,8 +4236,6 @@ const goToSlide = (index: number) => {
 </script>
 
 <style scoped lang="scss">
-/* Mevcut CSS Kodların Aynen Kalacak */
-/* Sadece yükleniyor yazısı için ufak bir stil ekleyelim */
 .loading-state, .error-state {
   text-align: center;
   padding: 50px;
@@ -4113,27 +4244,33 @@ const goToSlide = (index: number) => {
 }
 .error-state { color: red; }
 
-/* ... (Geri kalan CSS kodlarını önceki cevaptan aynen koru) ... */
-/* Buraya önceki CSS kodlarının tamamını yapıştırmayı unutma! */
 .home-products-section {
-  padding: 40px 30px; 
+  padding: 40px 200px; 
   margin-bottom: 40px;
   position: relative;
   min-width: 1000px; 
 }
 .section-header {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr; 
+  display: flex;
   align-items: center;
+  justify-content: center;
   margin-bottom: 30px;
-  gap: 20px;
-}
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin: 0;
-  white-space: nowrap;
+  
+  .line {
+    flex: 1;
+    height: 1.5px;
+    background-color: #eee;
+  }
+    
+  .section-title {
+    color: #111;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 20px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
 }
 .tabs-wrapper {
   grid-column: 2; 
@@ -4145,19 +4282,27 @@ const goToSlide = (index: number) => {
   justify-content: center;
 }
 .header-spacer { grid-column: 3; }
+
+/* Tab Buton Stilleri Override */
 .tab-btn {
-  background: transparent;
-  border: none;
+  background: transparent !important; /* Atom'un yeşilini ezmek için */
+  border: none !important;
   padding: 8px 25px;
-  font-weight: 700;
+  font-weight: 400;
   cursor: pointer;
-  color: #666;
+  color: #666 !important;
   border-radius: 4px;
   transition: all 0.2s;
   white-space: nowrap;
+  
+  &:hover { color: black !important; }
+  
+  &.active { 
+    background: black !important; 
+    color: white !important; 
+  }
 }
-.tab-btn:hover { color: black; }
-.tab-btn.active { background: black; color: white; }
+
 .product-carousel-wrapper { position: relative; width: 100%; }
 .carousel-window { overflow: hidden; width: 100%; padding: 10px 0; }
 .carousel-track {
@@ -4171,15 +4316,18 @@ const goToSlide = (index: number) => {
   box-sizing: border-box;
   padding: 0 10px;
 }
+
+/* Carousel Ok Stilleri Override */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 45px;
   height: 45px;
-  background-color: white;
-  border: 1px solid #e0e0e0;
+  background-color: white !important; /* Atom override */
+  border: 1px solid #e0e0e0 !important;
   border-radius: 50%;
+  padding: 0;
   cursor: pointer;
   z-index: 10;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -4187,15 +4335,17 @@ const goToSlide = (index: number) => {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  color: #333;
-}
-.carousel-btn:hover {
-  background-color: #f9f9f9;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-  transform: translateY(-50%) scale(1.1);
+  color: #333 !important;
+
+  &:hover {
+    background-color: #f9f9f9 !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    transform: translateY(-50%) scale(1.1);
+  }
 }
 .left-btn { left: -25px; }
 .right-btn { right: -25px; }
+
 .carousel-dots {
   display: flex;
   justify-content: center;
@@ -4298,11 +4448,11 @@ DOSYA YOLU: .\components\organisms\ONavbar.vue
             <div class="buttons-wrapper">
               
               <div class="currency-wrapper" ref="currencyWrapper">
-                <button class="currency-btn" @click="isCurrencyOpen = !isCurrencyOpen">
+                <ABaseButton class="currency-btn" @click="isCurrencyOpen = !isCurrencyOpen">
                   <img :src="`https://flagcdn.com/w20/${selectedCurrency.flag}.png`" :alt="selectedCurrency.code" class="flag-img" />
                   {{ selectedCurrency.code }} 
                   <ABaseIcon name="chevron-down" size="12" :style="{ transform: isCurrencyOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: '0.2s' }" />
-                </button>
+                </ABaseButton>
 
                 <ul v-if="isCurrencyOpen" class="currency-dropdown">
                   <li 
@@ -4317,15 +4467,13 @@ DOSYA YOLU: .\components\organisms\ONavbar.vue
                 </ul>
               </div>
 
-
-              <button class="cart-btn" @click="cartStore.toggleCart">
+              <ABaseButton class="cart-btn" @click="cartStore.toggleCart">
                   <ABaseIcon name="cart" size="18" />
                   <span>Cart</span>
                   <ABaseBadge variant="primary" pill class="cart-count-badge">
                     {{ cartStore.totalItems }}
                   </ABaseBadge>
-              </button>
-
+              </ABaseButton>
 
             </div>
           </div>
@@ -4353,92 +4501,13 @@ DOSYA YOLU: .\components\organisms\ONavbar.vue
             <div class="mega-menu">
               <div class="mega-content">
                 
-                <div class="mega-column">
-                  <div class="mega-section">
-                    <h4>BY SIZE</h4>
+                <div class="mega-column" v-for="(col, index) in cubesMenuData" :key="index">
+                   <div class="mega-section" v-for="section in col" :key="section.title">
+                    <h4>{{ section.title }}</h4>
                     <ul>
-                      <li><a href="#">3x3</a></li>
-                      <li><a href="#">2x2</a></li>
-                      <li><a href="#">4x4</a></li>
-                      <li><a href="#">5x5</a></li>
-                      <li><a href="#">6x6</a></li>
-                      <li><a href="#">7x7</a></li>
-                      <li><a href="#">Big Cubes (8x8+)</a></li>
-                    </ul>
-                  </div>
-                  <div class="mega-section">
-                    <h4>SHAPE SHIFTING</h4>
-                    <ul>
-                      <li><a href="#">Shop all Shape Shifting</a></li>
-                      <li><a href="#">Mirror / Bump</a></li>
-                      <li><a href="#">Fisher</a></li>
-                      <li><a href="#">Windmill</a></li>
-                      <li><a href="#">Axis</a></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="mega-column">
-                  <div class="mega-section">
-                    <h4>BY EVENT</h4>
-                    <ul>
-                      <li><a href="#">Pyraminx</a></li>
-                      <li><a href="#">Megaminx</a></li>
-                      <li><a href="#">Skewb</a></li>
-                      <li><a href="#">Square-1</a></li>
-                      <li><a href="#">Clock</a></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="mega-column">
-                  <div class="mega-section">
-                    <h4>SPECIALTY</h4>
-                    <ul>
-                      <li><a href="#">Shop all Specialty Cubes</a></li>
-                      <li><a href="#">Smart / Bluetooth</a></li>
-                      <li><a href="#">Oversized</a></li>
-                      <li><a href="#">Mini</a></li>
-                      <li><a href="#">Glow in the Dark</a></li>
-                      <li><a href="#">Metallic</a></li>
-                      <li><a href="#">Sticker Mods</a></li>
-                      <li><a href="#">Special Edition</a></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="mega-column">
-                  <div class="mega-section">
-                    <h4>TWISTY PUZZLES</h4>
-                    <ul>
-                      <li><a href="#">Shop all Twisty Puzzles</a></li>
-                      <li><a href="#">Cuboids</a></li>
-                      <li><a href="#">Shape Mods</a></li>
-                      <li><a href="#">Ghost</a></li>
-                      <li><a href="#">Gear</a></li>
-                      <li><a href="#">Picture</a></li>
-                      <li><a href="#">Animal Shape Mods</a></li>
-                      <li><a href="#">FTO</a></li>
-                      <li><a href="#">Bandaged</a></li>
-                      <li><a href="#">Snake</a></li>
-                      <li><a href="#">Fused</a></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="mega-column">
-                  <div class="mega-section">
-                    <h4>VARIANTS & MORE</h4>
-                    <ul>
-                      <li><a href="#">Bundles</a></li>
-                      <li><a href="#">Mosaic Kits</a></li>
-                      <li><a href="#">Magic Panels</a></li>
-                      <li><a href="#">Klotski</a></li>
-                      <li><a href="#">Sudoku</a></li>
-                      <li><a href="#">Megaminx +</a></li>
-                      <li><a href="#">Pyraminx +</a></li>
-                      <li><a href="#">Square-1 +</a></li>
-                      <li><a href="#">Shop all</a></li>
+                      <li v-for="link in section.links" :key="link.text">
+                        <a :href="link.url">{{ link.text }}</a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -4462,11 +4531,11 @@ DOSYA YOLU: .\components\organisms\ONavbar.vue
 </template>
 
 <script setup lang="ts">
-import { useCartStore } from '~/stores/cartStore'; // IMPORT EKLE
+import { useCartStore } from '~/stores/cartStore';
 import { ref, onMounted, onUnmounted } from 'vue';
-// Composable'ı çağırıyoruz (Veri buradan geliyor)
+
 const { cubesMenuData, currencies } = useMenu();
-const cartStore = useCartStore(); // STORE'U BAŞLAT
+const cartStore = useCartStore();
 
 const handleSearch = (q: string) => console.log("Aranan:", q);
 
@@ -4474,9 +4543,7 @@ const handleSearch = (q: string) => console.log("Aranan:", q);
 const isCurrencyOpen = ref(false);
 const currencyWrapper = ref<HTMLElement | null>(null);
 
-// Veri artık 'useMenu'dan geldiği için direkt kullanabiliriz
-const selectedCurrency = ref(currencies[0]); 
-
+const selectedCurrency = ref(currencies[0]);
 const selectCurrency = (currency: any) => {
   selectedCurrency.value = currency;
   isCurrencyOpen.value = false;
@@ -4504,13 +4571,38 @@ onUnmounted(() => { document.removeEventListener('click', handleClickOutside); }
 
 .buttons-wrapper { display: flex; gap: 10px; flex-shrink: 0; }
 
-/* Currency Dropdown Stilleri */
+/* Currency & Cart Buton Override */
 .currency-wrapper { position: relative; }
-.currency-btn { background: #222; border: 1px solid #333; color: white; padding: 0 14px; height: 38px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; &:hover { border-color: #555; } }
+
+.currency-btn, .cart-btn { 
+  background: #2a2a2a !important; /* Atom rengini ez */
+  border: 1px solid #333 !important; 
+  color: white !important; 
+  padding: 0 14px; 
+  height: 38px; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  font-weight: 600; 
+  font-size: 0.85rem;
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  transition: all 0.2s; 
+  
+  &:hover { 
+    border-color: #555 !important; 
+  }
+}
+
 .flag-img { width: 20px; border-radius: 2px; }
 .currency-dropdown { position: absolute; top: 100%; right: 0; margin-top: 5px; background-color: white; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); list-style: none; padding: 5px 0; min-width: 120px; z-index: 1000; border: 1px solid #ccc; .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 8px 15px; cursor: pointer; color: #333; font-size: 0.85rem; font-weight: 600; transition: background 0.2s; &:hover { background-color: #f0f0f0; } .flag-img-sm { width: 20px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); } } }
 
-.cart-btn { background: #2a2a2a; border: 1px solid #333; color: white; padding: 0 14px; height: 38px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; text-decoration: none; &:hover { border-color: var(--scs-orange); color: var(--scs-orange); } .cart-count-badge { margin-left: 4px; font-size: 0.8rem; } }
+/* Cart Btn Özel Hover */
+.cart-btn:hover { 
+  border-color: var(--scs-orange) !important; 
+  color: var(--scs-orange) !important; 
+}
+.cart-count-badge { margin-left: 4px; font-size: 0.8rem; }
 
 /* Menü Stilleri */
 .nav-bar { background-color: #121212; padding: 10px 0 16px 0; .nav-relative { position: relative; } .nav-list { display: flex; justify-content: center; gap: 20px; width: 100%; padding: 0; margin: 10px 0 0 0; list-style: none; margin-top: 8px; flex-wrap: wrap; li { position: relative; > a { color: white; font-weight: 700; font-size: 0.81rem; text-transform: capitalize; text-decoration: none; display: block; padding-bottom: 5px; border-bottom: 2px solid transparent; cursor: pointer; &:hover, &.active { color: var(--scs-orange); border-bottom-color: var(--scs-orange); } } } li.has-dropdown:hover .dropdown-menu { display: block; } .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background-color: white; min-width: 160px; padding: 10px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border-radius: 2px; z-index: 100; .dropdown-item { color: #333 !important; font-size: 0.85rem !important; padding: 8px 20px; font-weight: 500; border-bottom: none; display: block; text-transform: none; &:hover { color: var(--scs-orange) !important; background-color: #f5f5f5; } } } li.has-mega-menu { position: static; &:hover .mega-menu { display: block; opacity: 1; visibility: visible; } } .mega-menu { display: none; opacity: 0; visibility: hidden; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; color: #333; padding: 30px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 999; transition: all 0.2s ease; } .mega-content { display: flex; justify-content: space-between; gap: 20px; padding: 0 20px; } .mega-column { flex: 1; display: flex; flex-direction: column; gap: 30px; } .mega-section { h4 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin: 0 0 10px 0; color: #111; } ul { list-style: none; padding: 0; margin: 0; li { margin-bottom: 6px; a { color: #555 !important; font-size: 0.85rem !important; font-weight: 400; border: none; padding: 0; text-transform: none; &:hover { color: var(--scs-orange) !important; padding-left: 2px; transition: padding 0.2s; border-bottom: none; } } } } } } }
@@ -4702,6 +4794,23 @@ export const useProducts = () => {
 };
 
 ==================================================
+DOSYA YOLU: .\layouts\blank.vue
+==================================================
+
+<template>
+  <div class="layout-blank">
+    <slot />
+  </div>
+</template>
+
+<style scoped>
+.layout-blank {
+  min-height: 100vh;
+  background-color: white;
+}
+</style>
+
+==================================================
 DOSYA YOLU: .\layouts\default.vue
 ==================================================
 
@@ -4730,17 +4839,601 @@ DOSYA YOLU: .\pages\checkout.vue
 ==================================================
 
 <template>
-  <div class="checkout-page container">
-    <h1>Checkout Page</h1>
-    <p>Tasarım birazdan yapılacak...</p>
+  <div class="checkout-wrapper">
+    
+    <header class="checkout-header">
+      <div class="header-content">
+        <NuxtLink to="/">
+          <img src="https://cdn.shopify.com/s/files/1/0978/8602/files/Legacy-Logo-Mobile-2024-02_200x60@2x.webp?v=1759476043.webp" alt="SpeedCubeShop" class="logo-img" />
+        </NuxtLink>
+      </div>
+    </header>
+
+    <div class="checkout-container">
+      <div class="checkout-grid">
+
+        <div class="left-column">
+          
+          <div class="express-checkout">
+            <p class="express-title">Express checkout</p>
+            <div class="express-buttons">
+              <button class="express-btn shop-pay">shop</button>
+              <button class="express-btn paypal">PayPal</button>
+              <button class="express-btn gpay">G Pay</button>
+            </div>
+          </div>
+
+          <div class="divider">
+            <span class="or-text">OR</span>
+          </div>
+
+          <section class="form-section">
+            <div class="section-header">
+              <h2 class="section-title">Contact</h2>
+              <NuxtLink to="/login" class="login-link">Log in</NuxtLink>
+            </div>
+            
+            <ABaseInput 
+              v-model="form.email" 
+              placeholder="Email or mobile phone number" 
+              class="mb-3"
+            />
+            
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="news" v-model="form.newsletter" />
+              <label for="news">Email me with news and offers</label>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <h2 class="section-title">Delivery</h2>
+            
+            <div class="delivery-selector">
+              <div 
+                class="delivery-option" 
+                :class="{ active: form.deliveryMethod === 'ship' }"
+                @click="form.deliveryMethod = 'ship'"
+              >
+                <div class="radio-circle">
+                  <div class="inner-circle" v-if="form.deliveryMethod === 'ship'"></div>
+                </div>
+                <span>Ship</span>
+                <ABaseIcon name="cart" size="18" class="option-icon" />
+              </div>
+              
+              <div 
+                class="delivery-option"
+                :class="{ active: form.deliveryMethod === 'pickup' }"
+                @click="form.deliveryMethod = 'pickup'"
+              >
+                <div class="radio-circle">
+                  <div class="inner-circle" v-if="form.deliveryMethod === 'pickup'"></div>
+                </div>
+                <span>Pick up</span>
+                <ABaseIcon name="user" size="18" class="option-icon" />
+              </div>
+            </div>
+
+            <div class="address-form mt-4">
+              <div class="form-group mb-3">
+                <select v-model="form.country" class="base-select">
+                  <option value="USA">United States</option>
+                  <option value="TR">Turkey</option>
+                  <option value="UK">United Kingdom</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <ABaseInput v-model="form.firstName" placeholder="First name" />
+                <ABaseInput v-model="form.lastName" placeholder="Last name" />
+              </div>
+
+              <ABaseInput v-model="form.address" placeholder="Address" class="mb-3" />
+              <ABaseInput v-model="form.apartment" placeholder="Apartment, suite, etc. (optional)" class="mb-3" />
+
+              <div class="form-row">
+                <ABaseInput v-model="form.city" placeholder="City" />
+                <ABaseInput v-model="form.state" placeholder="State" />
+                <ABaseInput v-model="form.zip" placeholder="ZIP code" />
+              </div>
+            </div>
+          </section>
+
+          <div class="action-area">
+             <ABaseButton 
+                variant="primary" 
+                block 
+                size="lg"
+                class="pay-btn"
+                :loading="loading"
+                @click="handlePlaceOrder"
+             >
+               {{ loading ? 'PROCESSING...' : 'PAY NOW' }}
+             </ABaseButton>
+           </div>
+
+        </div>
+
+        <div class="right-column">
+          
+          <div class="order-items">
+            <div v-for="item in cartStore.items" :key="item.title" class="summary-item">
+              <div class="img-badge-wrapper">
+                <img :src="item.image" :alt="item.title" />
+                <span class="qty-badge">{{ item.quantity }}</span>
+              </div>
+              <div class="item-info">
+                <p class="item-name">{{ item.title }}</p>
+                <p class="item-variant">{{ item.category }}</p>
+              </div>
+              <div class="item-price">${{ item.price }}</div>
+            </div>
+          </div>
+
+          <div class="discount-wrapper">
+             <ABaseInput v-model="discountCode" placeholder="Discount code or gift card" />
+             <ABaseButton 
+              variant="outline" 
+              class="apply-btn"
+              :disabled="!discountCode"
+             >
+               Apply
+             </ABaseButton>
+          </div>
+
+          <div class="totals-wrapper">
+            <div class="total-row">
+              <span>Subtotal</span>
+              <span>${{ cartStore.subtotal }}</span>
+            </div>
+            <div class="total-row">
+              <span>Shipping <ABaseIcon name="chevron-down" size="12" /></span>
+              <span class="small-text">Enter shipping address</span>
+            </div>
+            
+            <div class="total-row main-total">
+              <span class="total-label">Total</span>
+              <div class="total-amount">
+                <span class="currency">USD</span>
+                <span class="value">${{ cartStore.subtotal }}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
   </div>
 </template>
 
-<style scoped>
-.checkout-page {
-  padding: 50px 0;
-  text-align: center;
+<script setup lang="ts">
+  
+definePageMeta({
+  layout: 'blank'
+});
+
+import { ref, reactive } from 'vue';
+import { useCartStore } from '~/stores/cartStore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+const cartStore = useCartStore();
+const router = useRouter();
+const { $db } = useNuxtApp();
+
+const loading = ref(false);
+const discountCode = ref('');
+
+const form = reactive({
+  email: '',
+  newsletter: true,
+  deliveryMethod: 'ship',
+  country: 'USA',
+  firstName: '',
+  lastName: '',
+  address: '',
+  apartment: '',
+  city: '',
+  state: '',
+  zip: ''
+});
+
+const handlePlaceOrder = async () => {
+  if (!form.email || !form.address) {
+    alert("Please fill in the required fields (Email, Address).");
+    return;
+  }
+
+  loading.value = true;
+
+  try {
+    const orderData = {
+      customer: { ...form },
+      items: cartStore.items,
+      totalAmount: cartStore.subtotal,
+      status: 'Paid', 
+      createdAt: serverTimestamp()
+    };
+
+    const docRef = await addDoc(collection($db as any, 'orders'), orderData);
+    
+    console.log("Sipariş No:", docRef.id);
+    cartStore.items = []; 
+    alert(`Order #${docRef.id} confirmed! Redirecting to home...`);
+    router.push('/');
+
+  } catch (error) {
+    console.error("Sipariş hatası:", error);
+    alert("An error occurred. Please try again.");
+  } finally {
+    loading.value = false;
+  }
+};
+</script>
+
+<style scoped lang="scss">
+/* --- GENEL LAYOUT --- */
+.checkout-wrapper {
+  background-color: white;
+  min-height: 100vh;
+  padding: 0 250px;
+  margin-right: 0px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
 }
+
+.checkout-header {
+  padding: 20px 0;
+  border-bottom: 1px solid #e6e6e6;
+
+  .header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-img {
+    height: 60px;
+  }
+}
+
+/* Konteyner: Sayfayı ortalar ve maksimum genişlik verir */
+.checkout-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1px;
+}
+
+/* Grid Yapısı: Sol %58, Sağ %42 */
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 58% 42%;
+  min-height: calc(100vh - 100px);
+}
+
+/* --- SOL KOLON (FORM) --- */
+.left-column {
+  padding: 40px 40px 40px 0;
+  border-right: 1px solid #e6e6e6;
+  background-color: white;
+}
+
+/* Express Checkout */
+.express-title {
+  text-align: center;
+  color: #737373;
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+}
+
+.express-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.express-btn {
+  border: none;
+  border-radius: 4px;
+  height: 45px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover { opacity: 0.9; }
+  &.shop-pay { background: #5a31f4; }
+  &.paypal { background: #ffc439; color: #003087; font-style: italic; }
+  &.gpay { background: #000; }
+}
+
+/* Divider (OR) */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+
+  &::before, &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e6e6e6;
+  }
+
+  .or-text {
+    padding: 0 10px;
+    color: #737373;
+    font-size: 0.85rem;
+  }
+}
+
+/* Form Sections */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.login-link {
+  color: #2c6ecb;
+  font-size: 0.9rem;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+
+  label {
+    font-size: 0.9rem;
+    color: #555;
+  }
+}
+
+/* Delivery Selector */
+.delivery-selector {
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.delivery-option {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+  background: white;
+  border-bottom: 1px solid #d9d9d9;
+
+  &:last-child { border-bottom: none; }
+
+  &.active {
+    background: #f4fbfd;
+    border-color: #2c6ecb;
+    .radio-circle { border-color: #2c6ecb; }
+  }
+
+  .radio-circle {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #d9d9d9;
+    border-radius: 50%;
+    margin-right: 15px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .inner-circle {
+      width: 8px;
+      height: 8px;
+      background: #2c6ecb;
+      border-radius: 50%;
+    }
+  }
+
+  span {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .option-icon { color: #555; }
+}
+
+/* Input Rows */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-row:nth-child(3) {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.base-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  background: white;
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+
+  &:focus {
+    border-color: #2c6ecb;
+    box-shadow: 0 0 0 1px #2c6ecb;
+  }
+}
+
+.action-area {
+  margin-top: 30px;
+}
+
+.pay-btn {
+  background-color: #111 !important;
+  border-radius: 5px !important;
+  height: 55px !important;
+  font-weight: 700;
+  
+  &:hover {
+    background-color: #333 !important;
+  }
+}
+
+/* --- SAĞ KOLON (ÖZET) --- */
+.right-column {
+  background-color: #fafafa;
+  padding: 40px 0 40px 40px;
+  border-left: 1px solid #e6e6e6;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.img-badge-wrapper {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  background: white;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .qty-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #737373;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.item-info {
+  flex: 1;
+
+  .item-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+  }
+
+  .item-variant {
+    font-size: 0.8rem;
+    color: #737373;
+    margin: 5px 0 0 0;
+  }
+}
+
+.item-price {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Discount */
+.discount-wrapper {
+  display: flex;
+  gap: 10px;
+  margin: 25px 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #e6e6e6;
+
+  .apply-btn {
+    height: 46px;
+    background: #c8c8c8;
+    color: white;
+    border: none;
+    font-weight: 600;
+
+    &:not(:disabled) {
+      background: #333;
+    }
+  }
+}
+
+/* Totals */
+.totals-wrapper {
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    margin-right: 25px;
+    font-size: 0.9rem;
+    color: #555;
+
+    .small-text {
+      font-size: 0.8rem;
+      color: #737373;
+    }
+
+    &.main-total {
+      margin-top: 20px;
+      border-top: 1px solid #e6e6e6;
+      padding-top: 20px;
+      align-items: baseline;
+
+      .total-label {
+        font-size: 1.1rem;
+        color: #333;
+      }
+
+      .total-amount {
+        .currency {
+          font-size: 0.8rem;
+          color: #737373;
+          margin-right: 5px;
+        }
+
+        .value {
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: #333;
+        }
+      }
+    }
+  }
+}
+
+/* Helper Class */
+.mb-3 { margin-bottom: 12px; }
+.mt-4 { margin-top: 20px; }
 </style>
 
 ==================================================
@@ -4762,7 +5455,9 @@ DOSYA YOLU: .\pages\index.vue
       <div class="trust-content">
         <ABaseRating :rating="5" style="justify-content: center; margin-bottom: 10px;" />
         <h3 class="trust-text">Trusted by <strong>1.1 Million</strong> Cubers worldwide 🏆</h3>
-        <button class="bestseller-btn">SHOP BEST SELLERS</button>
+        
+        <ABaseButton class="bestseller-btn">SHOP BEST SELLERS</ABaseButton>
+        
       </div>
     </section>
 
@@ -4782,19 +5477,1149 @@ DOSYA YOLU: .\pages\index.vue
   color: #333;
   font-size: 1.2rem;
 }
+
+/* ABaseButton stillerini eziyoruz */
 .bestseller-btn {
-  background: #111; 
-  color: white; 
+  background: #111 !important; /* Atom rengini ezmek için important */
+  color: white !important; 
   padding: 12px 25px; 
-  border: none; 
+  border: none !important; 
   font-weight: 800; 
   margin-top: 15px;
   cursor: pointer;
   text-transform: uppercase;
   transition: 0.3s;
+  border-radius: 4px; /* Köşeleri hafif kırdık */
 }
 .bestseller-btn:hover {
-  background: #4CAF50; /* Trust butonuna da yeşil efekt ekledim */
+  background: #4CAF50 !important; /* Yeşil hover efekti */
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\pages\login.vue
+==================================================
+
+<template>
+  <div class="login-wrapper">
+    
+    <div class="login-container">
+      
+      <div class="login-card">
+        
+        <div class="logo-area">
+          <NuxtLink to="/">
+            <img src="https://cdn.shopify.com/s/files/1/0978/8602/files/Legacy-Logo-Mobile-2024-02_200x60@2x.webp?v=1759476043.webp" alt="SpeedCubeShop" class="logo-img" />
+          </NuxtLink>
+        </div>
+
+        <div v-if="errorMessage || authStore.error" class="error-banner">
+          {{ errorMessage || authStore.error }}
+        </div>
+
+        <div v-if="step === 1">
+          <h1 class="page-title">Log in</h1>
+          <p class="page-subtitle">Log in or create an account</p>
+
+          <button class="shop-login-btn">
+            <span class="shop-text">shop</span> ile giriş yapın
+          </button>
+
+          <div class="divider">
+            <span>or</span>
+          </div>
+
+          <div class="form-area">
+            <ABaseInput 
+              v-model="email" 
+              placeholder="Email" 
+              class="email-input"
+              @keyup.enter="handleSendCode"
+              @input="clearError"
+            />
+
+            <ABaseButton 
+              class="continue-btn" 
+              block 
+              size="lg"
+              :loading="authStore.loading"
+              @click="handleSendCode"
+            >
+              Continue
+            </ABaseButton>
+          </div>
+        </div>
+
+        <div v-else>
+          <h1 class="page-title">Check your email</h1>
+          <p class="page-subtitle">
+            We sent a code to <strong>{{ email }}</strong>.<br>
+            <span class="edit-email" @click="step = 1">Change email</span>
+          </p>
+
+          <div class="form-area">
+            <ABaseInput 
+              v-model="verificationCode" 
+              placeholder="Enter 6-digit code" 
+              class="code-input"
+              maxlength="6"
+              @keyup.enter="handleLogin"
+              @input="clearError"
+            />
+
+            <ABaseButton 
+              class="continue-btn" 
+              block 
+              size="lg"
+              :loading="authStore.loading"
+              @click="handleLogin"
+            >
+              Log in
+            </ABaseButton>
+            
+            <div class="resend-wrapper">
+              <span class="resend-text">Didn't receive it? <a href="#" @click.prevent="handleSendCode">Resend code</a></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="login-footer">
+        <a href="#">Privacy policy</a>
+        <a href="#">Terms of service</a>
+      </div>
+
+    </div>
+
+  </div>
+</template>
+
+<script setup lang="ts">
+definePageMeta({ layout: 'blank' });
+
+import { ref } from 'vue';
+import { useAuthStore } from '~/stores/authStore';
+
+const router = useRouter();
+const authStore = useAuthStore();
+
+// STATE
+const step = ref(1); // 1: Email, 2: Kod
+const email = ref('');
+const verificationCode = ref('');
+const errorMessage = ref('');
+
+// Hata mesajını temizle
+const clearError = () => {
+  errorMessage.value = '';
+  authStore.error = null;
+};
+
+// İŞLEM 1: KOD GÖNDER (Store Bağlantılı)
+const handleSendCode = async () => {
+  if (!email.value) {
+    errorMessage.value = 'Please enter your email address.';
+    return;
+  }
+  if (!email.value.includes('@')) {
+    errorMessage.value = 'Please enter a valid email address.';
+    return;
+  }
+
+  // Store action çağır
+  await authStore.sendVerificationCode(email.value);
+  
+  // Hata yoksa 2. adıma geç
+  if (!authStore.error) {
+    step.value = 2;
+    errorMessage.value = ''; // Temizle
+  }
+};
+
+// İŞLEM 2: GİRİŞ YAP (Store Bağlantılı)
+const handleLogin = async () => {
+  if (verificationCode.value.length < 6) {
+    errorMessage.value = 'Please enter the 6-digit code.';
+    return;
+  }
+
+  // Store action çağır
+  await authStore.verifyAndLogin(email.value, verificationCode.value);
+
+  // Başarılıysa yönlendir
+  if (authStore.isAuthenticated) {
+    router.push('/');
+  } else {
+    // Store'dan dönen hatayı göster (Örn: Hatalı kod)
+    errorMessage.value = authStore.error || 'Login failed.';
+  }
+};
+</script>
+
+<style scoped lang="scss">
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-card {
+  width: 400px;
+  background: white;
+  border: 1px solid #f3f3f3;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+}
+
+.logo-area {
+  margin-bottom: 25px;
+  .logo-img { height: 70px; }
+}
+
+/* Hata Mesajı Stili */
+.error-banner {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.page-title {
+  text-align: left;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 10px 0;
+}
+
+.page-subtitle {
+  text-align: left;
+  font-size: 1rem;
+  color: #666;
+  margin: 0 0 30px 0;
+  line-height: 1.5;
+  
+  strong { color: #111; }
+  
+  .edit-email {
+    color: #2c6ecb;
+    cursor: pointer;
+    font-size: 0.9rem;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.shop-login-btn {
+  width: 100%;
+  height: 48px;
+  background-color: #5a31f4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: background-color 0.2s;
+  &:hover { background-color: #4824d6; }
+  .shop-text { font-weight: 800; letter-spacing: -0.5px; }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+  color: #888;
+  font-size: 0.9rem;
+  &::before, &::after { content: ""; flex: 1; height: 1px; background-color: #e1e1e1; }
+  span { padding: 0 15px; }
+}
+
+.form-area {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.email-input, .code-input {
+  :deep(input) { height: 48px; font-size: 1rem; }
+}
+
+.code-input :deep(input) {
+  text-align: center; 
+  letter-spacing: 5px; 
+  font-weight: 700;
+}
+
+.continue-btn {
+  background-color: #f0f0f0 !important;
+  color: #333 !important;
+  border: none !important;
+  height: 48px;
+  font-weight: 600;
+  border-radius: 5px !important;
+  &:hover { background-color: #ff9500 !important; }
+}
+
+.resend-wrapper {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+  a { color: #2c6ecb; text-decoration: none; &:hover { text-decoration: underline; } }
+}
+
+.login-footer {
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  a { color: #2c6ecb; font-size: 0.85rem; text-decoration: none; &:hover { text-decoration: underline; } }
+}
+</style>
+
+==================================================
+DOSYA YOLU: .\pages\product\[id].vue
+==================================================
+
+<template>
+  <div class="product-detail-page">
+    
+    <div class="container main-layout">
+      
+      <div class="gallery-column">
+        <div class="main-image-wrapper">
+          <div class="badge-overlay" v-if="product.badge">
+            🔥 {{ product.badge }}
+          </div>
+          <img :src="activeImage" :alt="product.title" class="main-img" />
+        </div>
+        
+        <div class="thumbnails-track">
+          <ABaseButton 
+            v-for="(img, idx) in product.images" 
+            :key="idx"
+            class="thumb-btn"
+            :class="{ active: activeImage === img }"
+            @click="activeImage = img"
+          >
+            <img :src="img" alt="thumbnail" />
+          </ABaseButton>
+        </div>
+      </div>
+
+      <div class="info-column">
+        
+        <h1 class="product-title">{{ product.title }}</h1>
+        
+        <div class="meta-row">
+          <ABaseRating :rating="product.rating" :count="product.reviewCount" />
+          <span class="stock-status">
+            <span class="dot"></span> Ready to ship!
+          </span>
+        </div>
+
+        <div class="price-box">
+          <span class="currency">$</span>
+          <span class="amount">{{ totalPrice.toFixed(2) }}</span>
+        </div>
+
+        <div class="actions-wrapper-top">
+          <ABaseButton 
+            class="add-cart-sharp" 
+            block 
+            @click="handleAddToCart"
+          >
+            ADD TO CART
+          </ABaseButton>
+        </div>
+
+        <div class="option-group">
+          <h3 class="option-title">
+            <span class="step-num">1</span> Version
+          </h3>
+          <div class="version-list">
+            <ABaseButton 
+              v-for="ver in product.versions" 
+              :key="ver.name"
+              class="tile-btn version-btn"
+              :class="{ active: selectedVersion === ver.name }"
+              @click="selectedVersion = ver.name"
+            >
+              {{ ver.name }}
+            </ABaseButton>
+          </div>
+        </div>
+
+        <div class="option-group collapsible-group">
+          <h3 class="option-title clickable" @click="isCustomizeOpen = !isCustomizeOpen">
+            <span class="title-left">
+              <span class="step-num">2</span> Customize This Item
+            </span>
+            <ABaseIcon 
+              name="chevron-down" 
+              size="14" 
+              class="chevron-icon"
+              :style="{ transform: isCustomizeOpen ? 'rotate(180deg)' : 'rotate(0deg)' }" 
+            />
+          </h3>
+          
+          <div v-show="isCustomizeOpen" class="collapsible-content">
+            
+            <div class="sub-option">
+              <label class="sub-label">Lubrication Service</label>
+              <div class="vertical-list">
+                <ABaseButton 
+                  v-for="lube in product.lubeOptions" 
+                  :key="lube.name"
+                  class="tile-btn service-tile"
+                  :class="{ active: selectedLube === lube }"
+                  @click="selectedLube = lube"
+                >
+                  <div class="tile-content-row">
+                    <span class="tile-name">{{ lube.name }}</span>
+                    <span v-if="lube.price > 0" class="tile-price">+ ${{ lube.price }}</span>
+                  </div>
+                </ABaseButton>
+              </div>
+            </div>
+
+            <div class="sub-option">
+              <label class="sub-label">Exterior Coating</label>
+              <div class="vertical-list">
+                <ABaseButton 
+                  v-for="coat in product.coatingOptions" 
+                  :key="coat.name"
+                  class="tile-btn service-tile"
+                  :class="{ active: selectedCoating === coat }"
+                  @click="selectedCoating = coat"
+                >
+                  <div class="tile-content-row">
+                    <span class="tile-name">{{ coat.name }}</span>
+                    <span v-if="coat.price > 0" class="tile-price">+ ${{ coat.price }}</span>
+                  </div>
+                </ABaseButton>
+              </div>
+            </div>
+
+            <div class="sub-option">
+              <label class="sub-label">
+                Logo Sticker: <strong>{{ selectedLogo }}</strong>
+              </label>
+              <div class="logo-options">
+                <ABaseButton 
+                  v-for="logo in product.logoOptions" 
+                  :key="logo.name"
+                  class="logo-item"
+                  :class="{ active: selectedLogo === logo.name }"
+                  @click="selectedLogo = logo.name"
+                >
+                  <img :src="logo.img" :alt="logo.name" />
+                </ABaseButton>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="option-group">
+          <h3 class="option-title">
+            <span class="step-num">3</span> Add Ons
+          </h3>
+          
+          <label class="addon-box" :class="{ active: isAddonSelected }">
+             <div class="addon-left">
+               <input type="checkbox" v-model="isAddonSelected" class="addon-checkbox" />
+               <img src="https://speedcubeshop.com/cdn/shop/files/Cosmic_Lube_Sampler_1080x.png?v=1653335272" alt="Lube" width="40" />
+             </div>
+             
+             <div class="addon-right">
+               <span class="addon-name">Add Martian Lubricant</span>
+               <div class="addon-controls">
+                 <select class="addon-select" :disabled="!isAddonSelected">
+                   <option>5ml (+ $5.95)</option>
+                   <option>10ml (+ $9.95)</option>
+                 </select>
+               </div>
+             </div>
+          </label>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="container bottom-section">
+      
+      <div class="product-tabs">
+        <div class="tab-headers">
+          <span 
+            class="tab-link" 
+            :class="{ active: activeTab === 'desc' }" 
+            @click="activeTab = 'desc'"
+          >
+            DESCRIPTION
+          </span>
+          <span 
+            class="tab-link" 
+            :class="{ active: activeTab === 'reviews' }" 
+            @click="activeTab = 'reviews'"
+          >
+            REVIEWS ({{ product.reviewCount }})
+          </span>
+          <span 
+            class="tab-link" 
+            :class="{ active: activeTab === 'details' }" 
+            @click="activeTab = 'details'"
+          >
+            DETAILS
+          </span>
+          <span 
+            class="tab-link" 
+            :class="{ active: activeTab === 'returns' }" 
+            @click="activeTab = 'returns'"
+          >
+            90 DAY RETURNS
+          </span>
+        </div>
+        
+        <div class="tab-content">
+          <div v-if="activeTab === 'desc'">
+             <p>The <strong>{{ product.title }}</strong> is the latest flagship release. It features the new core magnetic system which provides a more consistent turning feel.</p>
+             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida.</p>
+          </div>
+          <div v-else-if="activeTab === 'reviews'" class="reviews-tab">
+             <div class="review-item">
+               <ABaseRating :rating="5" />
+               <p><strong>Great cube!</strong> - Turn speed is amazing.</p>
+             </div>
+             <div class="review-item">
+               <ABaseRating :rating="5" />
+               <p><strong>Highly recommended.</strong> - The magnets are perfect strength.</p>
+             </div>
+          </div>
+          <div v-else-if="activeTab === 'details'">
+             <ul>
+               <li>Weight: 55g</li>
+               <li>Size: 51mm</li>
+               <li>Release Date: 2025</li>
+             </ul>
+          </div>
+          <div v-else-if="activeTab === 'returns'">
+             <p>We offer a <strong>90-day return policy</strong> for any unused items. Customer satisfaction is our #1 priority!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="frequently-bought">
+        <div class="divider-header">
+          <span class="line"></span>
+          <h3 class="section-title">FREQUENTLY BOUGHT TOGETHER</h3>
+          <span class="line"></span>
+        </div>
+
+        <div class="freq-wrapper">
+           <img :src="product.images[0]" class="freq-img" />
+           <span class="plus">+</span>
+           <img src="https://speedcubeshop.com/cdn/shop/files/Cosmic_Lube_Sampler_1080x.png?v=1653335272" class="freq-img" />
+           
+           <div class="freq-total">
+             <span>Total: <strong>${{ (totalPrice + 15).toFixed(2) }}</strong></span>
+             <ABaseButton class="freq-btn">ADD ALL TO CART</ABaseButton>
+           </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, reactive } from 'vue';
+import { useCartStore } from '~/stores/cartStore';
+
+const cartStore = useCartStore();
+const activeTab = ref('desc');
+const isCustomizeOpen = ref(true);
+const isAddonSelected = ref(false);
+
+const product = reactive({
+  title: 'GAN 251 M Pro 2x2',
+  basePrice: 32.95,
+  rating: 5,
+  reviewCount: 120,
+  badge: 'BEST',
+  images: [
+    'https://speedcubeshop.com/cdn/shop/products/GAN251MProUV2x2_Magnetic_CoreMagnets_1080x.png?v=1658348937',
+    'https://speedcubeshop.com/cdn/shop/products/GAN251MPro2x2_Magnetic_CoreMagnets_1080x.png?v=1658348937',
+    'https://speedcubeshop.com/cdn/shop/products/GAN251MLeap2x2_Magnetic_CoreMagnets_1080x.png?v=1658348937',
+    'https://speedcubeshop.com/cdn/shop/products/GAN251MAir2x2_Magnetic_1080x.png?v=1658348937'
+  ],
+  versions: [
+    { name: 'Special Edition, Leap, UV' }, { name: 'Leap, UV' }, { name: 'Leap' },
+    { name: 'Pro' }, { name: 'Special Edition, Air' }, { name: 'Air' }
+  ],
+  lubeOptions: [
+    { name: 'No lubrication', price: 0 }, 
+    { name: 'Piece Lube (Quick)', price: 5.99 },
+    { name: 'Supernova (Fast)', price: 9.99 }, 
+    { name: 'Cosmic (Controllable)', price: 9.99 }
+  ],
+  coatingOptions: [
+    { name: 'No Coating', price: 0 }, 
+    { name: 'PVC Coating', price: 24.99 }, 
+    { name: 'PVC + Exotheill', price: 29.99 }
+  ],
+  logoOptions: [
+    { name: 'Factory', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/Gan_Logo_Sticker_small.png?v=1614378923' },
+    { name: 'SCS Silver', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Silver_small.png?v=1614378923' },
+    { name: 'SCS Gold', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Gold_small.png?v=1614378923' },
+    { name: 'SCS Blue', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Blue_small.png?v=1614378923' },
+    { name: 'None', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/No_Logo_small.png?v=1614378923' }
+  ]
+});
+
+const activeImage = ref(product.images[0]);
+const selectedVersion = ref('Leap, UV');
+const selectedLube = ref(product.lubeOptions[0]);
+const selectedCoating = ref(product.coatingOptions[0]);
+const selectedLogo = ref('Factory');
+
+const totalPrice = computed(() => {
+  let total = product.basePrice + selectedLube.value.price + selectedCoating.value.price;
+  if (isAddonSelected.value) total += 5.95; 
+  return total;
+});
+
+const handleAddToCart = () => {
+  cartStore.addToCart({
+    title: `${product.title} (${selectedVersion.value})`,
+    price: totalPrice.value,
+    image: activeImage.value,
+    rating: product.rating,
+    reviewCount: product.reviewCount,
+    category: `Lube: ${selectedLube.value.name}`
+  } as any);
+  alert('Added to cart!');
+};
+</script>
+
+<style scoped lang="scss">
+.product-detail-page {
+  background-color: white;
+  padding-bottom: 60px;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding-top: 40px;
+  padding: 0 200px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* GALERİ KOLONU */
+.gallery-column {
+  .main-image-wrapper {
+    position: relative;
+    background: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+
+    .badge-overlay {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: white;
+      color: #ff5722;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .thumbnails-track {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+
+    .thumb-btn {
+      /* ABaseButton Override */
+      width: 80px;
+      height: 80px;
+      padding: 5px;
+      border: 1px solid #eee !important;
+      border-radius: 4px !important;
+      background: white !important;
+      cursor: pointer;
+
+      &.active {
+        border-color: var(--scs-orange) !important;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+}
+
+/* BİLGİ KOLONU */
+.info-column {
+  padding-right: 20px;
+
+  .product-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 10px;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+
+    .stock-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.85rem;
+      color: #4caf50;
+      font-weight: 600;
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: #4caf50;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .price-box {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 20px;
+
+    .currency {
+      font-size: 1.2rem;
+      vertical-align: top;
+    }
+  }
+
+  /* ADD TO CART BUTONU */
+  .actions-wrapper-top {
+    margin-bottom: 30px;
+
+    .add-cart-sharp {
+      background-color: #43a047 !important;
+      color: white !important;
+      height: 45px;
+      width: 40%;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      border-radius: 2px !important; /* Keskin köşe */
+
+      &:hover {
+        background-color: #2e7d32 !important;
+      }
+    }
+  }
+
+  /* SEÇENEK BAŞLIKLARI */
+  .option-group {
+    margin-bottom: 25px;
+
+    .option-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .step-num {
+        background: black;
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  /* COLLAPSIBLE (AÇILIR KAPANIR) */
+  .collapsible-group {
+    .option-title.clickable {
+      cursor: pointer;
+      justify-content: space-between;
+      user-select: none;
+
+      .title-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .chevron-icon {
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .collapsible-content {
+      margin-top: 15px;
+      animation: fadeIn 0.3s ease;
+    }
+  }
+
+  /* DÜZELTME: VERSİYON BUTONLARI (FLEX) */
+  .version-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .version-btn {
+      /* ABaseButton Override */
+      padding: 8px 15px !important;
+      border: 1px solid #ccc !important;
+      background: white !important;
+      border-radius: 8px !important; /* Yumuşak köşe */
+      color: #333 !important;
+      font-weight: 600;
+      font-size: 0.85rem;
+      height: auto !important;
+      min-height: 40px;
+      flex: 0 0 auto; /* İçerik kadar genişle */
+
+      &:hover {
+        border-color: #666 !important;
+      }
+
+      &.active {
+        border-color: var(--scs-orange) !important;
+        color: var(--scs-orange) !important;
+        background-color: #fff8e1 !important;
+        box-shadow: 0 0 0 1px var(--scs-orange);
+      }
+    }
+  }
+
+  /* DÜZELTME: HİZMET BUTONLARI (DİKEY VE GENİŞ) */
+  .sub-option {
+    margin-top: 20px;
+
+    .sub-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2c6ecb;
+      margin-bottom: 8px;
+    }
+
+    .vertical-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .service-tile {
+      /* ABaseButton Override */
+      width: 100% !important; /* Tam genişlik */
+      padding: 12px 15px !important;
+      border: 1px solid #ccc !important;
+      background: white !important;
+      border-radius: 8px !important; /* Yumuşak köşe */
+      color: #333 !important;
+      font-weight: 600;
+      font-size: 0.85rem;
+      height: auto !important;
+      display: block !important; /* İçeriği yaymak için */
+      text-align: left !important;
+
+      &:hover {
+        border-color: #666 !important;
+      }
+
+      &.active {
+        border-color: var(--scs-orange) !important;
+        color: var(--scs-orange) !important;
+        background-color: #fff8e1 !important;
+        box-shadow: 0 0 0 1px var(--scs-orange);
+      }
+
+      .tile-content-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
+      .tile-price {
+        font-size: 0.8rem;
+        color: inherit;
+        font-weight: 700;
+      }
+    }
+  }
+
+  /* DÜZELTME: LOGO STICKER (KARE) */
+  .logo-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+
+    .logo-item {
+      /* ABaseButton Override */
+      width: 45px !important;
+      height: 45px !important;
+      border: 1px solid #ddd !important;
+      border-radius: 6px !important; /* KARE (Hafif köşeli) */
+      padding: 2px !important;
+      background: white !important;
+      min-width: 0 !important;
+
+      &.active {
+        border-color: var(--scs-orange) !important;
+        border-width: 2px !important;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  /* ADD ON KUTUSU */
+  .addon-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      background: #f9f9f9;
+    }
+
+    &.active {
+      border-color: var(--scs-orange);
+      background: #fffdf5;
+    }
+
+    .addon-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .addon-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--scs-orange);
+    }
+
+    .addon-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .addon-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .addon-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .addon-select {
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+  }
+}
+
+/* ALT BÖLÜM (SEKMELER & ÖNERİLER) */
+.bottom-section {
+  margin-top: 60px;
+  padding-top: 40px;
+  padding: 0 200px;
+  .product-tabs {
+    margin-bottom: 50px;
+
+    .tab-headers {
+      display: flex;
+      gap: 30px;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+
+      .tab-link {
+        padding-bottom: 10px;
+        font-weight: 700;
+        color: #666;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+
+        &.active {
+          color: #111;
+          border-bottom-color: var(--scs-orange);
+        }
+      }
+    }
+
+    .tab-content {
+      color: #555;
+      line-height: 1.6;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .reviews-tab {
+      .review-item {
+        margin-bottom: 15px;
+
+        p {
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+
+  .frequently-bought {
+    padding: 30px;
+    border-radius: 8px;
+
+    .divider-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      .line {
+        flex: 1;
+        height: 1px;
+        background-color: #ddd;
+      }
+
+      .section-title {
+        margin: 0 20px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #111;
+        white-space: nowrap;
+      }
+    }
+
+    .freq-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+
+      .freq-img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        border: 1px solid #eee;
+        background: white;
+        padding: 5px;
+        border-radius: 4px;
+      }
+
+      .plus {
+        font-size: 1.5rem;
+        color: #999;
+      }
+
+      .freq-total {
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-end;
+        font-size: 1.1rem;
+      }
+
+      .freq-btn {
+        background: #43a047 !important;
+        color: white !important;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
 
@@ -4836,6 +6661,161 @@ export default defineNuxtPlugin((nuxtApp) => {
       auth
     }
   };
+});
+
+==================================================
+DOSYA YOLU: .\stores\authStore.ts
+==================================================
+
+import { defineStore } from 'pinia';
+import { collection, query, where, getDocs, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
+import type { IUser } from '~/types';
+
+// PROJE İÇİN SABİT DOĞRULAMA KODU (ŞİFRE GÖREVİ GÖRÜR)
+const FIXED_CODE = '123456';
+
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    currentUser: null as IUser | null,
+    isAuthenticated: false,
+    loading: false,
+    error: null as string | null,
+    // generatedCode'u kaldırdık, çünkü artık sabit.
+  }),
+
+  actions: {
+    // 1. ADIM: KOD GÖNDERME SİMÜLASYONU (Sadece Bekletir)
+    async sendVerificationCode(email: string) {
+      this.loading = true;
+      this.error = null;
+      
+      // Sadece kullanıcıya işlem yapılıyormuş hissi vermek için 1 saniye bekle
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      this.loading = false;
+      // Konsola log atmaya gerek yok, kod zaten belli (123456)
+    },
+
+    // 2. ADIM: SABİT KOD İLE DOĞRULAMA VE GİRİŞ
+    async verifyAndLogin(email: string, inputCode: string) {
+      this.loading = true;
+      this.error = null;
+
+      // KOD KONTROLÜ (SABİT KOD İLE)
+      if (inputCode !== FIXED_CODE) {
+        this.error = "Hatalı doğrulama kodu! (Test kodu: 123456)";
+        this.loading = false;
+        return; 
+      }
+
+      // Kod doğruysa Firebase işlemlerine başla
+      try {
+        const { $db } = useNuxtApp();
+        const usersRef = collection($db as any, 'users');
+        
+        // Kullanıcı var mı kontrol et
+        const q = query(usersRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          // VARSA: Güncelle
+          const userDoc = querySnapshot.docs[0];
+          const userData = userDoc.data() as IUser;
+          
+          await updateDoc(doc($db as any, 'users', userDoc.id), {
+            lastLogin: serverTimestamp()
+          });
+
+          this.currentUser = { ...userData, id: userDoc.id };
+        } else {
+          // YOKSA: Kayıt et
+          const newUser: IUser = {
+            email: email,
+            role: 'customer',
+            createdAt: serverTimestamp(),
+            lastLogin: serverTimestamp()
+          };
+          
+          const docRef = await addDoc(usersRef, newUser);
+          this.currentUser = { ...newUser, id: docRef.id };
+        }
+
+        this.isAuthenticated = true;
+        
+        if (process.client) {
+          localStorage.setItem('user_email', email);
+        }
+
+      } catch (err: any) {
+        console.error("Auth hatası:", err);
+        this.error = err.message;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    logout() {
+      this.currentUser = null;
+      this.isAuthenticated = false;
+      if (process.client) {
+        localStorage.removeItem('user_email');
+      }
+    },
+
+    checkAuth() {
+      if (process.client) {
+        const savedEmail = localStorage.getItem('user_email');
+        if (savedEmail) {
+           this.isAuthenticated = true;
+           // İstenirse burada loginWithEmail benzeri bir fonksiyonla user verisi çekilebilir
+        }
+      }
+    }
+  }
+});
+
+==================================================
+DOSYA YOLU: .\stores\brandStore.ts
+==================================================
+
+import { defineStore } from 'pinia';
+import { collection, getDocs } from 'firebase/firestore';
+// Eğer types/index.ts içinde IBrand tanımlı değilse 'any' kullanabilirsin veya types dosyana ekleyebilirsin.
+// Şimdilik types dosyanda IBrand olduğunu varsayıyorum (hatırladığım kadarıyla vardı).
+import type { IBrand } from '~/types'; 
+
+export const useBrandStore = defineStore('brand', {
+  state: () => ({
+    brands: [] as IBrand[],
+    loading: false,
+    error: null as string | null,
+  }),
+
+  actions: {
+    async fetchBrands() {
+      // Eğer veriler zaten çekildiyse tekrar çekme (Performans)
+      if (this.brands.length > 0) return;
+
+      this.loading = true;
+      try {
+        const { $db } = useNuxtApp();
+        const querySnapshot = await getDocs(collection($db as any, 'brands'));
+        
+        const brandsData: IBrand[] = [];
+        querySnapshot.forEach((doc) => {
+          // doc.data() verisini IBrand tipine zorluyoruz
+          brandsData.push(doc.data() as IBrand);
+        });
+
+        this.brands = brandsData;
+      } catch (err: any) {
+        console.error("Markalar çekilirken hata:", err);
+        this.error = err.message;
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
 });
 
 ==================================================
@@ -5021,4 +7001,13 @@ export interface IBanner {
   buttonText: string;
   image: string;
   variant?: 'light' | 'dark' | 'primary'; // Tema seçenekleri
+}
+
+// 7. Kullanıcı Tipi (Login ve Users tablosu için)
+export interface IUser {
+  id?: string;
+  email: string;
+  role: 'customer' | 'admin';
+  createdAt: any; // Firebase Timestamp
+  lastLogin: any;
 }

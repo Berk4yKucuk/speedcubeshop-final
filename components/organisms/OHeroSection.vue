@@ -4,7 +4,7 @@
       
       <MBannerCard
         class="top-banner"
-        link="/products" 
+        link="/product/banner" 
         background-image="https://speedcubeshop.com/cdn/shop/files/2025-christmas-sale-banner-desktop-3_1024x.progressive.png.jpg?v=1765315204"
       />
 
@@ -22,9 +22,7 @@
 </template>
 
 <script setup lang="ts">
-// BURASI BOŞ KALMALI veya sadece importlar olmalı.
-// DİKKAT: Burada "defineProps" OLMAMALI. 
-// Eğer varsa, yanlışlıkla MBannerCard'ın kodları buraya karışmış demektir.
+  
 </script>
 
 <style scoped lang="scss">

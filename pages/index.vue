@@ -13,7 +13,9 @@
       <div class="trust-content">
         <ABaseRating :rating="5" style="justify-content: center; margin-bottom: 10px;" />
         <h3 class="trust-text">Trusted by <strong>1.1 Million</strong> Cubers worldwide 🏆</h3>
-        <button class="bestseller-btn">SHOP BEST SELLERS</button>
+        
+        <ABaseButton class="bestseller-btn">SHOP BEST SELLERS</ABaseButton>
+        
       </div>
     </section>
 
@@ -33,18 +35,21 @@
   color: #333;
   font-size: 1.2rem;
 }
+
+/* ABaseButton stillerini eziyoruz */
 .bestseller-btn {
-  background: #111; 
-  color: white; 
+  background: #111 !important; /* Atom rengini ezmek için important */
+  color: white !important; 
   padding: 12px 25px; 
-  border: none; 
+  border: none !important; 
   font-weight: 800; 
   margin-top: 15px;
   cursor: pointer;
   text-transform: uppercase;
   transition: 0.3s;
+  border-radius: 4px; /* Köşeleri hafif kırdık */
 }
 .bestseller-btn:hover {
-  background: #4CAF50; /* Trust butonuna da yeşil efekt ekledim */
+  background: #4CAF50 !important; /* Yeşil hover efekti */
 }
 </style>

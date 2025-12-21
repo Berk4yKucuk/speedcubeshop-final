@@ -2,14 +2,15 @@
   <div class="split-banner" :class="variant">
     
     <div class="content-side">
-      <h4 v-if="subtitle" class="subtitle">{{ subtitle }}</h4>
-      <h2 class="title" v-html="title"></h2>
-      <p v-if="description" class="description">{{ description }}</p>
-      <button class="action-btn">{{ buttonText }}</button>
+      <h3 v-if="subtitle" class="subtitle">{{ subtitle }}</h3>
+      <h2 class="title">{{ title }}</h2>
+      <p class="description">{{ description }}</p>
+      
+      <ABaseButton class="action-btn">{{ buttonText }}</ABaseButton>
     </div>
 
     <div class="image-side">
-      <img :src="image" :alt="title" class="product-image" />
+      <img :src="image" :alt="title" />
     </div>
 
   </div>
@@ -19,40 +20,48 @@
 defineProps<{
   title: string;
   subtitle?: string;
-  description?: string;
+  description: string;
   buttonText: string;
   image: string;
-  variant?: 'light' | 'dark'; // Açık veya Koyu tema seçeneği
+  variant?: 'light' | 'dark'; // Arka plan rengi seçeneği
 }>();
 </script>
 
 <style scoped lang="scss">
 .split-banner {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Alanı ikiye böl */
-  align-items: center; /* İçeriği dikeyde ortala */
-  border-radius: 0px;
-  min-height: 450px; /* Heybetli bir yükseklik */
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 450px;
+  
+  /* Varsayılan (Light) */
+  background-color: #f4f4f4;
+  color: #111;
 
-  /* Temalar */
-  &.light { background-color: #f4f4f4; color: #111; }
-  &.dark { background-color: #111; color: white; }
+  &.dark {
+    background-color: #111;
+    color: white;
+    .description { color: #ccc; }
+  }
+
 
   .content-side {
+    flex: 1;
     padding: 60px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start; /* Yazıları sola yasla */
+    align-items: flex-start; /* Mobilde center yapılabilir */
+    
 
     .subtitle {
       font-size: 0.9rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       margin-bottom: 15px;
       font-weight: 700;
       opacity: 0.8;
-      color: var(--scs-orange); /* Turuncu vurgu */
     }
 
     .title {
@@ -68,47 +77,46 @@ defineProps<{
       line-height: 1.6;
       margin-bottom: 30px;
       max-width: 90%;
-      opacity: 0.9;
+      color: #555;
     }
 
     .action-btn {
-      padding: 15px 35px;
+      /* ABaseButton override */
+      padding: 15px 40px;
+      background: rgb(255, 123, 0);
+      color: #111;
+      border: none;
       font-weight: 800;
       text-transform: uppercase;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
       font-size: 0.9rem;
-
-      /* Tema bazlı buton renkleri */
-      .light & { background: #111; color: white; &:hover { background: var(--scs-orange); } }
-      .dark & { background: white; color: #111; &:hover { background: var(--scs-orange); color: white; } }
+      border-radius: 0px;
+      cursor: pointer;
+      
+      &:hover {
+        background: #333; /* Hafif açılma */
+      }
     }
+  }
+
+  /* Dark modda buton rengini tersine çevirelim */
+  &.dark .action-btn {
+    background: white;
+    color: black;
+    &:hover { background: #eee; }
   }
 
   .image-side {
+    flex: 1;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 450px;
     position: relative;
-    padding: 30px;
-
-    .product-image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain; /* Resmi bozmadan sığdır */
-      /* Ürünü öne çıkaran hafif bir gölge */
-      filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));
-      transition: transform 0.3s;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
   }
-
-  /* Hover Efekti: Ürün hafifçe büyüsün */
-  &:hover .product-image {
-    transform: scale(1.05);
-  }
 }
-
 </style>

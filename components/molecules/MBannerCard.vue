@@ -8,21 +8,22 @@
     <div class="content" v-if="title || buttonText">
       <h3 v-if="subtitle" class="subtitle">{{ subtitle }}</h3>
       <h2 v-if="title" class="title" v-html="title"></h2> 
-      <button v-if="buttonText" class="action-btn">{{ buttonText }}</button>
+      
+      <ABaseButton v-if="buttonText" class="action-btn">
+        {{ buttonText }}
+      </ABaseButton>
+
     </div>
   </NuxtLink>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  backgroundImage: string; // Görsel artık en önemli parça, zorunlu olsun
-  link?: string;           // Tıklayınca gidilecek adres (Opsiyonel)
-  
-  // Yazı alanlarını opsiyonel (?) yaptık
+  backgroundImage: string; 
+  link?: string;           
   title?: string;
   subtitle?: string;
   buttonText?: string;
-  
   variant?: 'dark' | 'light' | 'primary';
 }>();
 </script>
@@ -32,23 +33,21 @@ defineProps<{
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  padding: 0; /* Yazı yoksa padding'e gerek yok, görsel tam kaplasın */
+  padding: 0; 
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  text-decoration: none; /* Link alt çizgisini kaldır */
+  text-decoration: none; 
   
-  /* Görsel Ayarları */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   
-  min-height: 400px; /* Görselin yüksekliği */
+  min-height: 400px; 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 
-  /* Hover Efekti: Üzerine gelince hafif yukarı kalksın */
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
@@ -64,11 +63,9 @@ defineProps<{
     backdrop-filter: blur(2px);
   }
 
-  /* Temalar (Eğer yazı kullanılırsa diye duruyor) */
   &.dark { color: white; }
   &.primary { color: white; }
   
-  /* ... Diğer yazı stilleri (title, btn vs.) aynı kalabilir ... */
   .title {
     font-size: 3rem;
     font-weight: 900;
@@ -78,11 +75,12 @@ defineProps<{
     color: white;
   }
   
+  /* ABaseButton için özel stil bindirmesi */
   .action-btn {
     padding: 15px 40px;
     font-weight: 800;
     text-transform: uppercase;
-    border: none;
+    border: none; /* Atom'dan gelen border'ı eziyoruz */
     border-radius: 4px;
     background: white;
     color: black;

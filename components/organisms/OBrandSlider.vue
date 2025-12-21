@@ -10,23 +10,39 @@
 
       <div class="slider-wrapper">
         
-        <button class="nav-btn prev" @click="scroll('left')">
+        <ABaseButton 
+            variant="outline" 
+            class="nav-btn prev" 
+            @click="scroll('left')"
+        >
           <ABaseIcon name="chevron-down" style="transform: rotate(90deg);" />
-        </button>
+        </ABaseButton>
 
         <div class="brands-track" ref="scrollContainer">
+          
+          <div v-if="isLoading" class="loading-state">
+            Loading...
+          </div>
+
           <div 
+            v-else
             v-for="(brand, index) in brands" 
             :key="index" 
             class="brand-item"
           >
-            <span class="brand-name">{{ brand.name }}</span>
+            <img v-if="brand.logo" :src="brand.logo" :alt="brand.name" class="brand-logo" />
+            <span v-else class="brand-name">{{ brand.name }}</span>
           </div>
+
         </div>
 
-        <button class="nav-btn next" @click="scroll('right')">
+        <ABaseButton 
+            variant="outline" 
+            class="nav-btn next" 
+            @click="scroll('right')"
+        >
           <ABaseIcon name="chevron-down" style="transform: rotate(-90deg);" />
-        </button>
+        </ABaseButton>
 
       </div>
 
@@ -35,28 +51,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useBrandStore } from '~/stores/brandStore';
 
-// 8 Adet Marka (İleride 'logo' alanlarını dolduracağız)
-const brands = [
-  { name: "Rubik's", logo: '//speedcubeshop.com/cdn/shop/files/Rubik_s-Tile_250x.png?v=1725307086' },
-  { name: 'GAN', logo: '//speedcubeshop.com/cdn/shop/files/GAN-Tile_250x.png?v=1636494250' },
-  { name: 'MoYu', logo: '' },
-  { name: 'DianSheng', logo: '' },
-  { name: 'QiYi', logo: '' },
-  { name: 'YJ', logo: '' },
-  { name: 'X-Man Design', logo: '' },
-  { name: 'YuXin', logo: '' },
-];
+// Store'u çağır
+const brandStore = useBrandStore();
 
 const scrollContainer = ref<HTMLElement | null>(null);
 
-// TEK TEK KAYDIRMA FONKSİYONU
+// State'i Store'dan computed olarak al (Reaktif olması için)
+const brands = computed(() => brandStore.brands);
+const isLoading = computed(() => brandStore.loading);
+
+// Sayfa yüklendiğinde Store action'ını tetikle
+onMounted(() => {
+  brandStore.fetchBrands();
+});
+
+// Kaydırma Fonksiyonu (Aynı kalıyor)
 const scroll = (direction: 'left' | 'right') => {
   if (scrollContainer.value) {
-    // Bir kartın genişliği (150px) + boşluk (20px) = 170px
     const itemWidth = 170; 
-    
     scrollContainer.value.scrollBy({
       left: direction === 'right' ? itemWidth : -itemWidth,
       behavior: 'smooth'
@@ -90,7 +105,7 @@ const scroll = (direction: 'left' | 'right') => {
     font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #888;
+    color: #111;
     white-space: nowrap;
     letter-spacing: 0.5px;
   }
@@ -105,25 +120,30 @@ const scroll = (direction: 'left' | 'right') => {
 
 .brands-track {
   display: flex;
-  gap: 20px; /* Markalar arası boşluk */
+  gap: 20px;
   overflow-x: auto;
   scroll-behavior: smooth;
   width: 100%;
   padding: 10px 5px;
-  
-  /* Scrollbar gizleme */
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
 
+.loading-state {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-size: 0.9rem;
+}
+
 .brand-item {
-  /* Sabit genişlik veriyoruz ki "tek tek" kaydırma düzgün çalışsın */
   min-width: 150px; 
   height: 80px;
-  background-color: #f9f9f9;
+  background-color: #fff;
   border: 1px solid #eee;
-  border-radius: 8px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,13 +152,20 @@ const scroll = (direction: 'left' | 'right') => {
   font-size: 0.9rem;
   text-align: center;
   transition: all 0.2s;
-  user-select: none; /* Yazı seçilmesin */
+  user-select: none; 
+  overflow: hidden; 
+  padding: 0; 
   
   &:hover {
     border-color: var(--scs-orange);
-    color: var(--scs-orange);
-    background-color: white;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .brand-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .brand-name {
@@ -147,25 +174,25 @@ const scroll = (direction: 'left' | 'right') => {
 }
 
 .nav-btn {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  /* ABaseButton override */
+  background-color: white !important; 
+  border: 1px solid #ddd !important;
+  color: #333 !important;
+
+  border-radius: 100%;
+  width: 30px;  
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  flex-shrink: 0; /* Butonlar ezilmesin */
-  color: #666;
+  flex-shrink: 0;
   transition: all 0.2s;
-  
+
   &:hover {
-    background: var(--scs-orange);
-    border-color: var(--scs-orange);
-    color: white;
+    background-color: black !important;
+    border-color: black !important;
+    color: white !important;
   }
 }
-
-
 </style>
