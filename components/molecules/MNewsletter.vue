@@ -71,7 +71,6 @@
   .input-group {
     display: flex;
     gap: 0;
-    /* Birleşik duruyorlar */
 
     input {
       flex: 1;
@@ -89,7 +88,6 @@
     .subscribe-btn {
       /* ABaseButton stillerini eziyoruz */
       background: #e67e22;
-      /* Görseldeki turuncu tonu */
       color: black;
       font-weight: 700;
       border: none;

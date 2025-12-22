@@ -1,11 +1,9 @@
-// types/index.ts
-
 // 1. Ürün Veri Tipi (Product Card ve Slider için)
 export interface IProduct {
-  id?: string;
+  id: string;
   title: string;
   price: number;
-  oldPrice?: number; // Soru işareti (?) bu alanın zorunlu olmadığını belirtir
+  oldPrice?: number; 
   rating: number;
   reviewCount: number;
   image: string;

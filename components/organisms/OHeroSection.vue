@@ -4,7 +4,7 @@
       
       <MBannerCard
         class="top-banner"
-        link="/product/banner" 
+        link="/shop" 
         background-image="https://speedcubeshop.com/cdn/shop/files/2025-christmas-sale-banner-desktop-3_1024x.progressive.png.jpg?v=1765315204"
       />
 

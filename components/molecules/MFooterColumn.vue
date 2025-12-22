@@ -51,7 +51,6 @@ defineProps<{
         padding-bottom: 2px; /* Çizgi ile yazı arası boşluk */
         transition: color 0.3s ease;
 
-        /* ANİMASYONLU ÇİZGİ (Sihir Burada) */
         &::after {
           content: '';
           position: absolute;

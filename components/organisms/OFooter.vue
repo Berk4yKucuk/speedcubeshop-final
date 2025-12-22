@@ -79,7 +79,6 @@ const infoLinks = [
 <style scoped lang="scss">
 .site-footer {
   background-color: #181818;
-  /* DÜZELTME 1: Padding azaltıldı, içerik yukarı çekildi */
   padding: 10px 0 40px 0; 
   color: white;
   margin-top: auto;
@@ -87,12 +86,11 @@ const infoLinks = [
   width: 100%;
 }
 
-/* DÜZELTME 2: Ortalama ve Kenar Boşlukları (Navbar ile aynı mantık) */
 .footer-container {
-  max-width: 1050px; /* İçerik çok yayılmasın */
+  max-width: 1050px; 
   width: 100%;
-  margin: 0 auto; /* Tam ortala */
-  padding: 0 60px; /* Yanlardan nefes payı bırak */
+  margin: 0 auto; 
+  padding: 0 60px; 
   box-sizing: border-box;
 }
 
@@ -103,21 +101,17 @@ const infoLinks = [
   padding-bottom: 20px; /* Alt kısımla mesafe */
 }
 
-/* Newsletter alanı için özel ayar (Sağa yaslı dursun) */
 .newsletter-column {
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* İçerikler sola yaslı */
 }
 
-/* ALT KISIM */
 .footer-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 2px;
-  /* İsteğe bağlı üst çizgi */
-  /* border-top: 1px solid #333; */ 
   
   .copyright {
     color: #666;

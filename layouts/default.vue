@@ -13,7 +13,6 @@
 </template>
 
 <style scoped>
-/* Mevcut stiller aynı kalsın */
 .layout-default { display: flex; flex-direction: column; min-height: 200vh; }
 .page-content { flex: 1; width: 100%; }
 </style>

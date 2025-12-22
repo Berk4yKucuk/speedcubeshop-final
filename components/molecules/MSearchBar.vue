@@ -21,7 +21,7 @@ const searchQuery = ref('');
 
 const handleSearch = () => {
   console.log("Searching for:", searchQuery.value);
-  // İleride buraya yönlendirme kodu eklenecek
+  //Eklenecekler: Arama işlevselliği burada uygulanacak
 };
 </script>
 

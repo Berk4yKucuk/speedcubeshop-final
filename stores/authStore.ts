@@ -11,11 +11,10 @@ export const useAuthStore = defineStore('auth', {
     isAuthenticated: false,
     loading: false,
     error: null as string | null,
-    // generatedCode'u kaldırdık, çünkü artık sabit.
   }),
 
   actions: {
-    // 1. ADIM: KOD GÖNDERME SİMÜLASYONU (Sadece Bekletir)
+    // 1. ADIM: KOD GÖNDERME SİMÜLASYONU 
     async sendVerificationCode(email: string) {
       this.loading = true;
       this.error = null;
@@ -24,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       this.loading = false;
-      // Konsola log atmaya gerek yok, kod zaten belli (123456)
+      // Kod (123456)
     },
 
     // 2. ADIM: SABİT KOD İLE DOĞRULAMA VE GİRİŞ
@@ -98,7 +97,6 @@ export const useAuthStore = defineStore('auth', {
         const savedEmail = localStorage.getItem('user_email');
         if (savedEmail) {
            this.isAuthenticated = true;
-           // İstenirse burada loginWithEmail benzeri bir fonksiyonla user verisi çekilebilir
         }
       }
     }

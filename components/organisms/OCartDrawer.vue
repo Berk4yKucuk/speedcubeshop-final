@@ -78,14 +78,14 @@ const goToCheckout = () => {
 </script>
 
 <style scoped lang="scss">
-/* --- ANIMASYONLAR --- */
+/*  ANIMASYONLAR  */
 .fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 
 .slide-enter-active, .slide-leave-active { transition: transform 0.3s ease-in-out; }
 .slide-enter-from, .slide-leave-to { transform: translateX(100%); }
 
-/* --- STİLLER --- */
+/*  STİLLER  */
 .cart-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.5); z-index: 998;
@@ -100,7 +100,6 @@ const goToCheckout = () => {
   color: #111; /* Yazı rengini siyah yaptık */
 }
 
-/* HEADER */
 .drawer-header {
   padding: 20px;
   display: flex; justify-content: space-between; align-items: center;
@@ -119,7 +118,6 @@ const goToCheckout = () => {
   }
 }
 
-/* EMPTY STATE */
 .empty-state {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: flex-start;
@@ -127,14 +125,13 @@ const goToCheckout = () => {
   p { margin-bottom: 20px; color: #666; }
   
   .continue-btn {
-    background: #388e3c; /* Yeşil */
+    background: #388e3c; 
     border-radius: 0px;
     width: 90%;
     &:hover { background: #2e7d32; }
   }
 }
 
-/* CART ITEMS */
 .cart-items-wrapper {
   flex: 1; overflow-y: auto; padding: 20px;
 }
@@ -186,7 +183,6 @@ const goToCheckout = () => {
   }
 }
 
-/* FOOTER */
 .drawer-footer {
   padding: 20px; border-top: 1px solid #eee; background: #f9f9f9;
   
@@ -199,7 +195,7 @@ const goToCheckout = () => {
   }
   
   .checkout-btn {
-    background: #388e3c; /* Yeşil */
+    background: #388e3c; 
     font-weight: 800;
     border-radius: 0px;
     &:hover { background: #2e7d32; }

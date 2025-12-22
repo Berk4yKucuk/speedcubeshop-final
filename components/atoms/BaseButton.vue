@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-// TypeScript ile Kuralları Belirliyoruz (Hocanın İsteği)
 interface Props {
   variant?: 'primary' | 'secondary' | 'outline' | 'danger'; // Sadece bu renkler olabilir
   size?: 'sm' | 'md' | 'lg';

@@ -26,7 +26,7 @@ defineProps<{
     line-height: 1;
     
     &.filled {
-      color: #ffcc00; /* Dolu yıldız rengi (Altın sarısı) */
+      color: #ffcc00; /* Dolu yıldız rengi*/
     }
   }
 

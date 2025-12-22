@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-// TypeScript Props Tanımları
 interface Props {
   modelValue: string | number; // v-model'den gelen değer
   label?: string;              // Üstteki yazı (örn: "E-posta")

@@ -23,7 +23,6 @@
 </template>
 
 <style scoped>
-/* Mevcut stiller kalabilir */
 .trust-section {
   text-align: center; 
   padding: 50px 0; 
@@ -36,7 +35,6 @@
   font-size: 1.2rem;
 }
 
-/* ABaseButton stillerini eziyoruz */
 .bestseller-btn {
   background: #111 !important; /* Atom rengini ezmek için important */
   color: white !important; 
@@ -47,7 +45,7 @@
   cursor: pointer;
   text-transform: uppercase;
   transition: 0.3s;
-  border-radius: 4px; /* Köşeleri hafif kırdık */
+  border-radius: 4px; 
 }
 .bestseller-btn:hover {
   background: #4CAF50 !important; /* Yeşil hover efekti */

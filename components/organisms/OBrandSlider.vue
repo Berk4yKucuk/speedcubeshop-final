@@ -68,7 +68,7 @@ onMounted(() => {
   brandStore.fetchBrands();
 });
 
-// Kaydırma Fonksiyonu (Aynı kalıyor)
+// Kaydırma Fonksiyonu 
 const scroll = (direction: 'left' | 'right') => {
   if (scrollContainer.value) {
     const itemWidth = 170; 

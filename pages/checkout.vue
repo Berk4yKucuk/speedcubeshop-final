@@ -232,7 +232,6 @@ const handlePlaceOrder = async () => {
 </script>
 
 <style scoped lang="scss">
-/* --- GENEL LAYOUT --- */
 .checkout-wrapper {
   background-color: white;
   min-height: 100vh;
@@ -257,7 +256,6 @@ const handlePlaceOrder = async () => {
   }
 }
 
-/* Konteyner: Sayfayı ortalar ve maksimum genişlik verir */
 .checkout-container {
   width: 100%;
   max-width: 1200px;
@@ -265,14 +263,14 @@ const handlePlaceOrder = async () => {
   padding: 0 1px;
 }
 
-/* Grid Yapısı: Sol %58, Sağ %42 */
+/* Grid Yapısı */
 .checkout-grid {
   display: grid;
   grid-template-columns: 58% 42%;
   min-height: calc(100vh - 100px);
 }
 
-/* --- SOL KOLON (FORM) --- */
+/* --- SOL KOLON --- */
 .left-column {
   padding: 40px 40px 40px 0;
   border-right: 1px solid #e6e6e6;
@@ -309,7 +307,7 @@ const handlePlaceOrder = async () => {
   &.gpay { background: #000; }
 }
 
-/* Divider (OR) */
+/* Divider */
 .divider {
   display: flex;
   align-items: center;
@@ -458,7 +456,7 @@ const handlePlaceOrder = async () => {
   }
 }
 
-/* --- SAĞ KOLON (ÖZET) --- */
+/* --- SAĞ KOLON  --- */
 .right-column {
   background-color: #fafafa;
   padding: 40px 0 40px 40px;

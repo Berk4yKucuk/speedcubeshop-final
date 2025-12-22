@@ -10,13 +10,13 @@
       <img :src="image" :alt="title" class="product-img" />
       
       <div class="hover-actions">
-        <ABaseButton class="action-btn" @click.prevent><ABaseIcon name="heart" size="16" /></ABaseButton>
-        <ABaseButton class="action-btn" @click.prevent><ABaseIcon name="search" size="16" /></ABaseButton>
+        <ABaseButton class="action-btn" @click.prevent><ABaseIcon name="heart" size="14" /></ABaseButton>
+        <ABaseButton class="action-btn" @click.prevent><ABaseIcon name="search" size="14" /></ABaseButton>
       </div>
     </NuxtLink>
 
     <div class="product-info">
-      <ABaseRating :rating="rating" :count="reviewCount" />
+      <ABaseRating :rating="rating" :count="reviewCount" size="12" />
       
       <h3 class="product-title">
         <NuxtLink :to="productUrl">{{ title }}</NuxtLink>
@@ -39,10 +39,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'; // Computed import edildi
+import { computed } from 'vue';
 import { useCartStore } from '~/stores/cartStore';
 
 const props = defineProps<{
+  id?: string;
   title: string;
   price: number;
   oldPrice?: number;
@@ -56,18 +57,8 @@ const props = defineProps<{
 
 const cartStore = useCartStore();
 
-// DEĞİŞİKLİK 3: Başlığı URL formatına (Slug) çeviren kod
-// Örnek: "Gan 12 Maglev" -> "/product/gan-12-maglev"
 const productUrl = computed(() => {
-  if (!props.title) return '/';
-  
-  const slug = props.title
-    .toLowerCase()
-    .trim()
-    .replace(/ /g, '-')       // Boşlukları tire yap
-    .replace(/[^\w-]+/g, ''); // Özel karakterleri sil (sadece harf, rakam, tire kalsın)
-  
-  return `/product/${slug}`;
+  return props.id ? `/product/${props.id}` : '#';
 });
 
 const addToCart = () => {
@@ -84,17 +75,19 @@ const addToCart = () => {
 <style scoped lang="scss">
 .product-card {
   background: white;
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
   position: relative;
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
   height: 100%;
+  border: 1px solid transparent; 
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-color: #eee;
     
     .hover-actions { opacity: 1; }
   }
@@ -102,89 +95,104 @@ const addToCart = () => {
 
 .badges {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 8px;
+  left: 8px;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 
   .badge-hot {
     background-color: white;
     color: #ff5722;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 800;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 3px 6px;
+    border-radius: 3px;
     text-transform: uppercase;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
   .badge-sale {
-    background-color: #ff0000;
+    background-color: #d32f2f;
     color: white;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 2px 5px;
+    border-radius: 3px;
     width: fit-content;
   }
 }
 
-/* NuxtLink (<a> etiketi) olduğu için display block gibi davranmalı.
-   Mevcut flex yapısını koruyoruz.
-*/
 .image-wrapper {
   position: relative; 
-  padding: 0px;
-  border: 1px solid #eee;
-  background: #f9f9f9;
+  padding: 0;
+  border-bottom: 1px solid #f5f5f5;
+  background: #fff;
   text-align: center;
-  height: 250px;
-  display: flex; /* Link olsa bile flex özelliği çalışır */
+  
+  width: 100%;
+  height: auto; 
+  aspect-ratio: 1 / 1; /* Tam Kare */
+  
+  display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden; 
-  text-decoration: none; /* Link alt çizgisini kaldır */
+  text-decoration: none;
   color: inherit;
 
   .product-img {
     display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover .product-img {
+    transform: scale(1.05);
   }
 
   .hover-actions {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     opacity: 0;
     transition: opacity 0.2s;
 
     .action-btn {
-      width: 30px; height: 30px;
+      width: 28px; height: 28px;
       padding: 0;
       border-radius: 50%;
-      border: none; background: white;
+      border: 1px solid #eee; background: white;
       color: #333; 
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      &:hover { color: var(--scs-orange); }
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      &:hover { color: var(--scs-orange); border-color: var(--scs-orange); }
     }
   }
 }
 
 .product-info {
-  padding: 15px;
+  padding: 10px; 
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 
   .product-title {
-    font-size: 0.95rem;
-    margin: 10px 0;
-    line-height: 1.4;
+    font-size: 0.85rem;
+    margin: 5px 0;
+    line-height: 1.3;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
     a {
       color: #333; text-decoration: none; font-weight: 600;
       &:hover { color: var(--scs-orange); }
@@ -194,24 +202,34 @@ const addToCart = () => {
   .price-box {
     display: flex;
     align-items: center;
-    gap: 8px;
-    .current-price { font-weight: 800; color: #111; font-size: 1.1rem; }
-    .old-price { text-decoration: line-through; color: #999; font-size: 0.9rem; }
+    gap: 6px;
+    margin-top: auto; 
+    .current-price { font-weight: 800; color: #111; font-size: 1rem; }
+    .old-price { text-decoration: line-through; color: #999; font-size: 0.8rem; }
   }
 }
 
 .add-to-cart-btn {
-  width: calc(100% - 20px);
-  margin: 0 10px 15px 10px;
-  padding: 12px;
+  width: calc(100% - 16px);
+  margin: 0 8px 10px 8px;
+  
+  height: 32px !important; /* Sabit ince yükseklik */
+  padding: 0 !important;   /* Padding sıfırla, flex ile ortala */
+  
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  
   background-color: #4CAF50;
   color: white;
   border: none;
-  font-weight: 800;
+  font-weight: 800; 
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: 0.7rem; 
   border-radius: 4px;
   cursor: pointer;
+  white-space: nowrap; /* ASLA ALT SATIRA GEÇMEZ */
+  letter-spacing: 0.5px;
   transition: background 0.2s;
 
   &:hover {

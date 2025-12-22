@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
 import { collection, getDocs } from 'firebase/firestore';
-// Eğer types/index.ts içinde IBrand tanımlı değilse 'any' kullanabilirsin veya types dosyana ekleyebilirsin.
-// Şimdilik types dosyanda IBrand olduğunu varsayıyorum (hatırladığım kadarıyla vardı).
 import type { IBrand } from '~/types'; 
 
 export const useBrandStore = defineStore('brand', {
@@ -13,7 +11,7 @@ export const useBrandStore = defineStore('brand', {
 
   actions: {
     async fetchBrands() {
-      // Eğer veriler zaten çekildiyse tekrar çekme (Performans)
+      // Eğer veriler zaten çekildiyse tekrar çekme 
       if (this.brands.length > 0) return;
 
       this.loading = true;
@@ -23,7 +21,6 @@ export const useBrandStore = defineStore('brand', {
         
         const brandsData: IBrand[] = [];
         querySnapshot.forEach((doc) => {
-          // doc.data() verisini IBrand tipine zorluyoruz
           brandsData.push(doc.data() as IBrand);
         });
 

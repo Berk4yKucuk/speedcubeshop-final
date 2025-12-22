@@ -1,51 +1,91 @@
 import { defineStore } from 'pinia';
-import { collection, getDocs } from 'firebase/firestore'; 
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import type { IProduct } from '~/types';
 
 export const useProductStore = defineStore('product', {
-  // 1. STATE: Verilerin tutulduğu yer
   state: () => ({
-    products: [] as IProduct[], // Ürünleri burada saklayacağız
-    loading: false,             // Yükleniyor mu? (Spinner için)
-    error: null as string | null, // Hata var mı?
+    products: [] as IProduct[],         
+    filteredProducts: [] as IProduct[], 
+    selectedProduct: null as IProduct | null,
+    loading: false,
+    error: null as string | null,
   }),
 
-  // 2. GETTERS: Veriyi işleyip sunan fonksiyonlar (Computed gibi)
   getters: {
-    // Kategori listesini ürünlerden otomatik çıkarır (Tekrar edenleri siler)
+    // Kategorileri benzersiz olarak alır
     getCategoryTabs: (state) => {
       const categories = state.products.map(p => p.category).filter(Boolean);
-      return [...new Set(categories)] as string[]; // Unique yapar ['2x2', '3x3'...]
+      return ['All', ...new Set(categories)] as string[];
     }
   },
 
-  // 3. ACTIONS: İş zekası ve API çağrıları
   actions: {
+    // 1. TÜM ÜRÜNLERİ ÇEK (Shop ve Home sayfası için)
     async fetchProducts() {
-      // Eğer veriler zaten çekildiyse tekrar yorma (Performans)
-      if (this.products.length > 0) return;
-
+      // Zaten veri varsa tekrar çekme 
+      if (this.products.length > 0) return; 
+      
       this.loading = true;
-      this.error = null;
-
       try {
-        const { $db } = useNuxtApp(); // Plugin'den veritabanını al
-        
-        // 'products' koleksiyonundaki tüm belgeleri çek
+        const { $db } = useNuxtApp();
         const querySnapshot = await getDocs(collection($db as any, 'products'));
+        const productsData: IProduct[] = [];
         
-        // Gelen veriyi formatla ve state'e kaydet
-        this.products = querySnapshot.docs.map(doc => {
-          return { id: doc.id, ...doc.data() } as unknown as IProduct;
+        querySnapshot.forEach((doc) => {
+          productsData.push({ id: doc.id, ...doc.data() } as IProduct);
         });
         
-        console.log("🔥 Ürünler Firebase'den çekildi:", this.products.length, "adet");
-
+        this.products = productsData;
+        this.filteredProducts = productsData; // Başlangıçta hepsi görünsün
       } catch (err: any) {
         this.error = err.message;
-        console.error("Firebase Hatası:", err);
       } finally {
         this.loading = false;
+      }
+    },
+
+    // 2. TEK ÜRÜN ÇEK (Detay sayfası için)
+    async fetchProductById(id: string) {
+      this.loading = true;
+      this.error = null;
+      this.selectedProduct = null; 
+
+      try {
+        const { $db } = useNuxtApp();
+        const docRef = doc($db as any, 'products', id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          this.selectedProduct = { id: docSnap.id, ...docSnap.data() } as IProduct;
+        } else {
+          this.error = "Product not found";
+        }
+      } catch (err: any) {
+        this.error = err.message;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    // 3. İSİM İLE FİLTRELEME (Shop sayfası için)
+    filterBySearch(text: string) {
+      if (!text) {
+        // Arama boşsa hepsini göster
+        this.filteredProducts = this.products;
+      } else {
+        const lower = text.toLowerCase();
+        this.filteredProducts = this.products.filter(p => 
+          p.title.toLowerCase().includes(lower)
+        );
+      }
+    },
+
+    // 4. KATEGORİ İLE FİLTRELEME 
+    filterByCategory(category: string) {
+      if (!category || category === 'All') {
+        this.filteredProducts = this.products;
+      } else {
+        this.filteredProducts = this.products.filter(p => p.category === category);
       }
     }
   }

@@ -51,7 +51,7 @@
               class="card-wrapper"
             >
               <MProductCard 
-                :title="product.title"
+                :id="product.id"  :title="product.title"
                 :price="product.price"
                 :old-price="product.oldPrice"
                 :rating="product.rating"
@@ -97,7 +97,6 @@ onMounted(() => {
   productStore.fetchProducts();
 });
 
-// --- STATE ---
 const tabs = computed(() => {
     return productStore.getCategoryTabs.length > 0 ? productStore.getCategoryTabs : ['2x2'];
 });
@@ -106,14 +105,12 @@ const activeTab = ref('2x2');
 const currentIndex = ref(0);
 const itemsPerSlide = 4;
 
-// --- COMPUTED ---
 const filteredProducts = computed(() => {
   return productStore.products.filter(product => product.category === activeTab.value);
 });
 
 const totalSlides = computed(() => Math.ceil(filteredProducts.value.length / itemsPerSlide));
 
-// --- WATCH ---
 watch(activeTab, () => {
   currentIndex.value = 0;
 });
@@ -124,7 +121,6 @@ watch(tabs, (newTabs) => {
     }
 });
 
-// --- METODLAR ---
 const nextSlide = () => {
   if (currentIndex.value >= totalSlides.value - 1) {
     currentIndex.value = 0;

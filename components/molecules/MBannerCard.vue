@@ -75,12 +75,11 @@ defineProps<{
     color: white;
   }
   
-  /* ABaseButton için özel stil bindirmesi */
   .action-btn {
     padding: 15px 40px;
     font-weight: 800;
     text-transform: uppercase;
-    border: none; /* Atom'dan gelen border'ı eziyoruz */
+    border: none; 
     border-radius: 4px;
     background: white;
     color: black;

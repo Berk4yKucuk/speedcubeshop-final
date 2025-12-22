@@ -52,7 +52,7 @@ defineProps<{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start; /* Mobilde center yapılabilir */
+    align-items: flex-start; 
     
 
     .subtitle {

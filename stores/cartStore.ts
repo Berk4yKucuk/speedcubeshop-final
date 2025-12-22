@@ -47,7 +47,7 @@ export const useCartStore = defineStore('cart', {
         this.items.push({ ...product, quantity: 1 });
       }
       
-      this.openCart(); // Ekleme yapınca sepeti otomatik aç (Güzel UX)
+      this.openCart(); // Ekleme yapınca sepeti otomatik aç 
     },
 
     // Ürün Çıkar

@@ -4,7 +4,6 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  // BURADAKİ BİLGİLERİ KENDİ PROJENLE DEĞİŞTİR
   const firebaseConfig = {
     apiKey: "AIzaSyDBzilgJXsktEO3_U34gF6YljnwG4VMjEI",
     authDomain: "speedcubeshop-final.firebaseapp.com",
@@ -20,12 +19,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   // 2. Veritabanı (Firestore) Servisini Başlat
   const db = getFirestore(app);
   
-  // 3. Kimlik Doğrulama (Auth) Servisini Başlat (İleride lazım olacak)
+  // 3. Kimlik Doğrulama (Auth) Servisini Başlat 
   const auth = getAuth(app);
 
   console.log("🔥 Firebase Başarıyla Yüklendi!");
 
-  // Nuxt uygulamasına bu servisleri sunuyoruz ($db ve $auth olarak erişeceğiz)
   return {
     provide: {
       db,

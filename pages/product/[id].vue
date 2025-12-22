@@ -1,7 +1,15 @@
 <template>
   <div class="product-detail-page">
     
-    <div class="container main-layout">
+    <div v-if="productStore.loading" class="state-msg">
+      <div class="spinner"></div> Loading product details...
+    </div>
+
+    <div v-else-if="!product" class="state-msg error">
+      Product not found or removed.
+    </div>
+
+    <div v-else class="container main-layout">
       
       <div class="gallery-column">
         <div class="main-image-wrapper">
@@ -13,13 +21,13 @@
         
         <div class="thumbnails-track">
           <ABaseButton 
-            v-for="(img, idx) in product.images" 
-            :key="idx"
+            v-for="i in 4" 
+            :key="i"
             class="thumb-btn"
-            :class="{ active: activeImage === img }"
-            @click="activeImage = img"
+            :class="{ active: activeImage === product.image }"
+            @click="activeImage = product.image"
           >
-            <img :src="img" alt="thumbnail" />
+            <img :src="product.image" alt="thumbnail" />
           </ABaseButton>
         </div>
       </div>
@@ -56,7 +64,7 @@
           </h3>
           <div class="version-list">
             <ABaseButton 
-              v-for="ver in product.versions" 
+              v-for="ver in versions" 
               :key="ver.name"
               class="tile-btn version-btn"
               :class="{ active: selectedVersion === ver.name }"
@@ -86,7 +94,7 @@
               <label class="sub-label">Lubrication Service</label>
               <div class="vertical-list">
                 <ABaseButton 
-                  v-for="lube in product.lubeOptions" 
+                  v-for="lube in lubeOptions" 
                   :key="lube.name"
                   class="tile-btn service-tile"
                   :class="{ active: selectedLube === lube }"
@@ -104,7 +112,7 @@
               <label class="sub-label">Exterior Coating</label>
               <div class="vertical-list">
                 <ABaseButton 
-                  v-for="coat in product.coatingOptions" 
+                  v-for="coat in coatingOptions" 
                   :key="coat.name"
                   class="tile-btn service-tile"
                   :class="{ active: selectedCoating === coat }"
@@ -124,13 +132,13 @@
               </label>
               <div class="logo-options">
                 <ABaseButton 
-                  v-for="logo in product.logoOptions" 
+                  v-for="logo in logoOptions" 
                   :key="logo.name"
                   class="logo-item"
                   :class="{ active: selectedLogo === logo.name }"
                   @click="selectedLogo = logo.name"
                 >
-                  <img :src="logo.img" :alt="logo.name" />
+                  <img src="https://speedcubeshop.com/cdn/shop/t/273/assets/default-sticker.svg?v=45256956421314340881763171105" :alt="logo.name" />
                 </ABaseButton>
               </div>
             </div>
@@ -146,7 +154,7 @@
           <label class="addon-box" :class="{ active: isAddonSelected }">
              <div class="addon-left">
                <input type="checkbox" v-model="isAddonSelected" class="addon-checkbox" />
-               <img src="https://speedcubeshop.com/cdn/shop/files/Cosmic_Lube_Sampler_1080x.png?v=1653335272" alt="Lube" width="40" />
+               <img src="https://speedcubeshop.com/cdn/shop/files/martian-lubricant-5ml_x100.jpg?v=1765325882" alt="Lube" width="40" />
              </div>
              
              <div class="addon-right">
@@ -165,38 +173,14 @@
 
     </div>
 
-    <div class="container bottom-section">
+    <div v-if="product" class="container bottom-section">
       
       <div class="product-tabs">
         <div class="tab-headers">
-          <span 
-            class="tab-link" 
-            :class="{ active: activeTab === 'desc' }" 
-            @click="activeTab = 'desc'"
-          >
-            DESCRIPTION
-          </span>
-          <span 
-            class="tab-link" 
-            :class="{ active: activeTab === 'reviews' }" 
-            @click="activeTab = 'reviews'"
-          >
-            REVIEWS ({{ product.reviewCount }})
-          </span>
-          <span 
-            class="tab-link" 
-            :class="{ active: activeTab === 'details' }" 
-            @click="activeTab = 'details'"
-          >
-            DETAILS
-          </span>
-          <span 
-            class="tab-link" 
-            :class="{ active: activeTab === 'returns' }" 
-            @click="activeTab = 'returns'"
-          >
-            90 DAY RETURNS
-          </span>
+          <span class="tab-link" :class="{ active: activeTab === 'desc' }" @click="activeTab = 'desc'">DESCRIPTION</span>
+          <span class="tab-link" :class="{ active: activeTab === 'reviews' }" @click="activeTab = 'reviews'">REVIEWS ({{ product.reviewCount }})</span>
+          <span class="tab-link" :class="{ active: activeTab === 'details' }" @click="activeTab = 'details'">DETAILS</span>
+          <span class="tab-link" :class="{ active: activeTab === 'returns' }" @click="activeTab = 'returns'">90 DAY RETURNS</span>
         </div>
         
         <div class="tab-content">
@@ -205,21 +189,11 @@
              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida.</p>
           </div>
           <div v-else-if="activeTab === 'reviews'" class="reviews-tab">
-             <div class="review-item">
-               <ABaseRating :rating="5" />
-               <p><strong>Great cube!</strong> - Turn speed is amazing.</p>
-             </div>
-             <div class="review-item">
-               <ABaseRating :rating="5" />
-               <p><strong>Highly recommended.</strong> - The magnets are perfect strength.</p>
-             </div>
+             <div class="review-item"><ABaseRating :rating="5" /><p><strong>Great cube!</strong> - Turn speed is amazing.</p></div>
+             <div class="review-item"><ABaseRating :rating="5" /><p><strong>Highly recommended.</strong> - The magnets are perfect strength.</p></div>
           </div>
           <div v-else-if="activeTab === 'details'">
-             <ul>
-               <li>Weight: 55g</li>
-               <li>Size: 51mm</li>
-               <li>Release Date: 2025</li>
-             </ul>
+             <ul><li>Weight: 55g</li><li>Size: 51mm</li><li>Release Date: 2025</li></ul>
           </div>
           <div v-else-if="activeTab === 'returns'">
              <p>We offer a <strong>90-day return policy</strong> for any unused items. Customer satisfaction is our #1 priority!</p>
@@ -235,9 +209,9 @@
         </div>
 
         <div class="freq-wrapper">
-           <img :src="product.images[0]" class="freq-img" />
+           <img :src="product.image" class="freq-img" />
            <span class="plus">+</span>
-           <img src="https://speedcubeshop.com/cdn/shop/files/Cosmic_Lube_Sampler_1080x.png?v=1653335272" class="freq-img" />
+           <img src="https://speedcubeshop.com/cdn/shop/files/gan-251-2x2-pro-magnetic-core-magnets-stickerless_540x.jpg?v=1765326140" class="freq-img" />
            
            <div class="freq-total">
              <span>Total: <strong>${{ (totalPrice + 15).toFixed(2) }}</strong></span>
@@ -252,69 +226,85 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useCartStore } from '~/stores/cartStore';
+import { useProductStore } from '~/stores/productStore';
 
+const route = useRoute();
 const cartStore = useCartStore();
+const productStore = useProductStore();
+
+// --- STATİK SEÇENEK VERİLERİ (Veritabanında olmadığı için manuel eklendi) ---
+const versions = [
+  { name: 'Special Edition, Leap, UV' }, { name: 'Leap, UV' }, { name: 'Leap' },
+  { name: 'Pro' }, { name: 'Special Edition, Air' }, { name: 'Air' }
+];
+const lubeOptions = [
+  { name: 'No lubrication', price: 0 }, 
+  { name: 'Piece Lube (Quick)', price: 5.99 },
+  { name: 'Supernova (Fast)', price: 9.99 }, 
+  { name: 'Cosmic (Controllable)', price: 9.99 }
+];
+const coatingOptions = [
+  { name: 'No Coating', price: 0 }, 
+  { name: 'PVC Coating', price: 24.99 }, 
+  { name: 'PVC + Exotheill', price: 29.99 }
+];
+const logoOptions = [
+  { name: 'Factory', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/Gan_Logo_Sticker_small.png?v=1614378923' },
+  { name: 'SCS Silver', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Silver_small.png?v=1614378923' },
+  { name: 'SCS Gold', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Gold_small.png?v=1614378923' },
+  { name: 'SCS Blue', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Blue_small.png?v=1614378923' },
+  { name: 'None', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/No_Logo_small.png?v=1614378923' }
+];
+
+// --- SAYFA YÜKLENDİĞİNDE VERİYİ ÇEK ---
+onMounted(() => {
+  const productId = route.params.id as string;
+  if (productId) {
+    productStore.fetchProductById(productId);
+  }
+});
+
+// Veriyi Store'dan Al
+const product = computed(() => productStore.selectedProduct);
+
+// --- STATE ---
 const activeTab = ref('desc');
 const isCustomizeOpen = ref(true);
 const isAddonSelected = ref(false);
+const activeImage = ref('');
 
-const product = reactive({
-  title: 'GAN 251 M Pro 2x2',
-  basePrice: 32.95,
-  rating: 5,
-  reviewCount: 120,
-  badge: 'BEST',
-  images: [
-    'https://speedcubeshop.com/cdn/shop/products/GAN251MProUV2x2_Magnetic_CoreMagnets_1080x.png?v=1658348937',
-    'https://speedcubeshop.com/cdn/shop/products/GAN251MPro2x2_Magnetic_CoreMagnets_1080x.png?v=1658348937',
-    'https://speedcubeshop.com/cdn/shop/products/GAN251MLeap2x2_Magnetic_CoreMagnets_1080x.png?v=1658348937',
-    'https://speedcubeshop.com/cdn/shop/products/GAN251MAir2x2_Magnetic_1080x.png?v=1658348937'
-  ],
-  versions: [
-    { name: 'Special Edition, Leap, UV' }, { name: 'Leap, UV' }, { name: 'Leap' },
-    { name: 'Pro' }, { name: 'Special Edition, Air' }, { name: 'Air' }
-  ],
-  lubeOptions: [
-    { name: 'No lubrication', price: 0 }, 
-    { name: 'Piece Lube (Quick)', price: 5.99 },
-    { name: 'Supernova (Fast)', price: 9.99 }, 
-    { name: 'Cosmic (Controllable)', price: 9.99 }
-  ],
-  coatingOptions: [
-    { name: 'No Coating', price: 0 }, 
-    { name: 'PVC Coating', price: 24.99 }, 
-    { name: 'PVC + Exotheill', price: 29.99 }
-  ],
-  logoOptions: [
-    { name: 'Factory', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/Gan_Logo_Sticker_small.png?v=1614378923' },
-    { name: 'SCS Silver', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Silver_small.png?v=1614378923' },
-    { name: 'SCS Gold', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Gold_small.png?v=1614378923' },
-    { name: 'SCS Blue', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/SCS_Logo_Sticker_Blue_small.png?v=1614378923' },
-    { name: 'None', img: 'https://cdn.shopify.com/s/files/1/0950/9330/files/No_Logo_small.png?v=1614378923' }
-  ]
-});
-
-const activeImage = ref(product.images[0]);
+// Varsayılan Seçenekler
 const selectedVersion = ref('Leap, UV');
-const selectedLube = ref(product.lubeOptions[0]);
-const selectedCoating = ref(product.coatingOptions[0]);
+const selectedLube = ref(lubeOptions[0]);
+const selectedCoating = ref(coatingOptions[0]);
 const selectedLogo = ref('Factory');
 
+// Ürün verisi gelince ana resmi ayarla
+watch(product, (newVal) => {
+  if (newVal && newVal.image) {
+    activeImage.value = newVal.image;
+  }
+}, { immediate: true });
+
+// --- HESAPLAMALAR ---
 const totalPrice = computed(() => {
-  let total = product.basePrice + selectedLube.value.price + selectedCoating.value.price;
+  if (!product.value) return 0;
+  let total = product.value.price + selectedLube.value.price + selectedCoating.value.price;
   if (isAddonSelected.value) total += 5.95; 
   return total;
 });
 
 const handleAddToCart = () => {
+  if (!product.value) return;
   cartStore.addToCart({
-    title: `${product.title} (${selectedVersion.value})`,
+    title: `${product.value.title} (${selectedVersion.value})`,
     price: totalPrice.value,
-    image: activeImage.value,
-    rating: product.rating,
-    reviewCount: product.reviewCount,
+    image: product.value.image,
+    rating: product.value.rating,
+    reviewCount: product.value.reviewCount,
     category: `Lube: ${selectedLube.value.name}`
   } as any);
   alert('Added to cart!');
@@ -322,9 +312,35 @@ const handleAddToCart = () => {
 </script>
 
 <style scoped lang="scss">
+/* Yükleme ve Hata Mesajı Stilleri */
+.state-msg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 100px;
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  
+  &.error { color: #dc2626; }
+}
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--scs-orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* --- AŞAĞIDAKİ STİLLER ORİJİNAL DOSYADAN KORUNDU --- */
 .product-detail-page {
   background-color: white;
   padding-bottom: 60px;
+  min-height: 80vh;
 }
 
 .main-layout {
@@ -347,10 +363,11 @@ const handleAddToCart = () => {
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 20px;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 500px;
+    height: 300px;
 
     .badge-overlay {
       position: absolute;
@@ -365,9 +382,9 @@ const handleAddToCart = () => {
     }
 
     .main-img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
     }
   }
 
@@ -377,7 +394,6 @@ const handleAddToCart = () => {
     overflow-x: auto;
 
     .thumb-btn {
-      /* ABaseButton Override */
       width: 80px;
       height: 80px;
       padding: 5px;
@@ -445,7 +461,6 @@ const handleAddToCart = () => {
     }
   }
 
-  /* ADD TO CART BUTONU */
   .actions-wrapper-top {
     margin-bottom: 30px;
 
@@ -457,7 +472,7 @@ const handleAddToCart = () => {
       font-size: 1rem;
       font-weight: 800;
       text-transform: uppercase;
-      border-radius: 2px !important; /* Keskin köşe */
+      border-radius: 2px !important; 
 
       &:hover {
         background-color: #2e7d32 !important;
@@ -465,7 +480,6 @@ const handleAddToCart = () => {
     }
   }
 
-  /* SEÇENEK BAŞLIKLARI */
   .option-group {
     margin-bottom: 25px;
 
@@ -491,7 +505,6 @@ const handleAddToCart = () => {
     }
   }
 
-  /* COLLAPSIBLE (AÇILIR KAPANIR) */
   .collapsible-group {
     .option-title.clickable {
       cursor: pointer;
@@ -515,24 +528,22 @@ const handleAddToCart = () => {
     }
   }
 
-  /* DÜZELTME: VERSİYON BUTONLARI (FLEX) */
   .version-list {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 
     .version-btn {
-      /* ABaseButton Override */
       padding: 8px 15px !important;
       border: 1px solid #ccc !important;
       background: white !important;
-      border-radius: 8px !important; /* Yumuşak köşe */
+      border-radius: 8px !important;
       color: #333 !important;
       font-weight: 600;
       font-size: 0.85rem;
       height: auto !important;
       min-height: 40px;
-      flex: 0 0 auto; /* İçerik kadar genişle */
+      flex: 0 0 auto;
 
       &:hover {
         border-color: #666 !important;
@@ -547,7 +558,6 @@ const handleAddToCart = () => {
     }
   }
 
-  /* DÜZELTME: HİZMET BUTONLARI (DİKEY VE GENİŞ) */
   .sub-option {
     margin-top: 20px;
 
@@ -567,21 +577,20 @@ const handleAddToCart = () => {
     }
 
     .service-tile {
-      /* ABaseButton Override */
-      width: 100% !important; /* Tam genişlik */
+      width: 100% !important;
       padding: 12px 15px !important;
       border: 1px solid #ccc !important;
       background: white !important;
-      border-radius: 8px !important; /* Yumuşak köşe */
+      border-radius: 8px !important; 
       color: #333 !important;
       font-weight: 600;
       font-size: 0.85rem;
       height: auto !important;
-      display: block !important; /* İçeriği yaymak için */
+      display: block !important; 
       text-align: left !important;
 
       &:hover {
-        border-color: #666 !important;
+        border-color: #666666 !important;
       }
 
       &.active {
@@ -606,7 +615,6 @@ const handleAddToCart = () => {
     }
   }
 
-  /* DÜZELTME: LOGO STICKER (KARE) */
   .logo-options {
     display: flex;
     gap: 10px;
@@ -614,11 +622,10 @@ const handleAddToCart = () => {
     flex-wrap: wrap;
 
     .logo-item {
-      /* ABaseButton Override */
       width: 45px !important;
       height: 45px !important;
       border: 1px solid #ddd !important;
-      border-radius: 6px !important; /* KARE (Hafif köşeli) */
+      border-radius: 6px !important;
       padding: 2px !important;
       background: white !important;
       min-width: 0 !important;
@@ -637,7 +644,6 @@ const handleAddToCart = () => {
     }
   }
 
-  /* ADD ON KUTUSU */
   .addon-box {
     border: 1px solid #ddd;
     padding: 10px;
@@ -698,7 +704,6 @@ const handleAddToCart = () => {
   }
 }
 
-/* ALT BÖLÜM (SEKMELER & ÖNERİLER) */
 .bottom-section {
   margin-top: 60px;
   padding-top: 40px;

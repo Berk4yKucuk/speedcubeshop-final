@@ -36,15 +36,12 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 // 2. Tüm ikon dosyalarını otomatik tanı (Vite Glob Import)
-// Bu yöntem SSR hatalarını önler.
 const icons = import.meta.glob('~/components/icons/*.vue');
 
 const iconComponent = computed(() => {
-  // 'cart' -> 'IconCart' formatına çevir
   const pascalName = 'Icon' + props.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
   
   // Dosya yolunu bul
-  // Not: Nuxt alias'ı (~) bazen /components/... olarak çözümlenir, bu yüzden dinamik eşleştiriyoruz.
   const filePath = Object.keys(icons).find(path => path.includes(`/${pascalName}.vue`));
 
   if (filePath && icons[filePath]) {

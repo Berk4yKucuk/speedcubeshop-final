@@ -50,7 +50,6 @@ defineProps<{
 
     .block-title {
       color: #ff9f00;
-      /* İSTENEN: Turuncu Başlık */
       font-size: 1.4rem;
       text-transform: uppercase;
       font-weight: 800;
@@ -77,7 +76,6 @@ defineProps<{
     .block-btn {
       /* ABaseButton stillerini eziyoruz */
       background: #111;
-      /* İSTENEN: Siyah Buton */
       color: white;
       padding: 14px 30px;
       border: none;
@@ -91,7 +89,6 @@ defineProps<{
 
       &:hover {
         background: #4CAF50;
-        /* İSTENEN: Yeşil Hover */
         transform: translateY(-2px);
         /* Ufak bir zıplama efekti */
       }

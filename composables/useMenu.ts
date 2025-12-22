@@ -1,4 +1,3 @@
-// composables/useMenu.ts
 import type { IMenuSection, ICurrency } from '~/types';
 
 export const useMenu = () => {
